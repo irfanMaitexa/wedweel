@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:wedweel/user/screen/lok.dart';
-//import 'package:wed_wheel/user/screen/loginscreen.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-
-
-
-
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

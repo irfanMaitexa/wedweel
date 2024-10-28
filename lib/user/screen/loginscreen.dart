@@ -13,14 +13,14 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 100,
                 ),
-                CircleAvatar(
+                const CircleAvatar(
                   backgroundColor: Colors.lightBlue,
                   radius: 45,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 50,
                 ),
                 TextFormField(
@@ -29,19 +29,19 @@ class LoginScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(18),
                         borderSide: BorderSide.none),
                     labelText: 'Enter your email ',
-                    prefixIcon: Icon(Icons.email),
+                    prefixIcon: const Icon(Icons.email),
                     filled: true,
                     fillColor: Colors.purple.withOpacity(0.1),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 TextFormField(
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Enter your password',
-                    labelStyle: TextStyle(color: Colors.grey),
+                    labelStyle: const TextStyle(color: Colors.grey),
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(18),
                         borderSide: BorderSide.none),
@@ -54,24 +54,24 @@ class LoginScreen extends StatelessWidget {
                 Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                        onPressed: () {}, child: Text('forget password ?'))),
+                        onPressed: () {}, child: const Text('forget password ?'))),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.purple,
-                        fixedSize: Size(double.maxFinite, 50)),
+                        fixedSize: const Size(double.maxFinite, 50)),
                     onPressed: () {
                       print('clicked');
                     },
-                    child: Text(
+                    child: const Text(
                       'Login',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.white,
                       ),
                     )),
-                Spacer(),
-                TextButton(onPressed: () {}, child: Text('create account')),
-                SizedBox(
+                const Spacer(),
+                TextButton(onPressed: () {}, child: const Text('create account')),
+                const SizedBox(
                   height: 15,
                 ),
               ],
