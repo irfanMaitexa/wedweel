@@ -42,9 +42,9 @@ class Lok extends StatelessWidget {
                   child: const Text(
                     "Nice to See you again",
                     style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500,
+                        fontStyle: FontStyle.italic),
                   ),
                 ),
                 const SizedBox(
