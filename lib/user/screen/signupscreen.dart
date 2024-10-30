@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Lok extends StatelessWidget {
-  const Lok({super.key});
+class Signupscreen extends StatefulWidget {
+  const Signupscreen({super.key});
 
+  @override
+  State<Signupscreen> createState() => _SignupscreenState();
+}
+
+class _SignupscreenState extends State<Signupscreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,17 +21,15 @@ class Lok extends StatelessWidget {
                 const SizedBox(
                   height: 25,
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: const Text(
-                    "Nice to See you again",
+                    "Plan Your Dream Day",
                     style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.italic),
+                        fontSize: 22,
+                        fontWeight: FontWeight.w800,
+                        fontStyle: FontStyle.normal,
+                        color: Color.fromARGB(255, 0, 0, 0)),
                   ),
                 ),
                 const SizedBox(
@@ -35,12 +38,56 @@ class Lok extends StatelessWidget {
                 TextFormField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(7),
-                        borderSide: BorderSide(color: Colors.grey)),
-                    labelText: 'Enter your email ',
-                    prefixIcon: const Icon(Icons.email),
-                    filled: true,
+                      borderRadius: BorderRadius.circular(7),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    labelText: 'Full Name',
+                    labelStyle: const TextStyle(
+                      color: Color.fromARGB(255, 83, 81, 81),
+                    ),
+                    prefixIcon: const Icon(Icons.person),
+                    prefixIconColor: const Color.fromARGB(255, 0, 0, 0),
                     fillColor: const Color.fromARGB(255, 255, 255, 255),
+                    filled: true,
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(7),
+                        borderSide: BorderSide(
+                          color: Colors.grey,
+                        )),
+                    labelText: 'Email',
+                    labelStyle: const TextStyle(
+                      color: Color.fromARGB(255, 83, 81, 81),
+                    ),
+                    prefixIcon: const Icon(Icons.email),
+                    prefixIconColor: const Color.fromARGB(255, 0, 0, 0),
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                    filled: true,
+                  ),
+                ),
+                SizedBox(
+                  height: 25,
+                ),
+                TextFormField(
+                  decoration: InputDecoration(
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(7),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
+                    labelText: 'Phone Number',
+                    labelStyle: const TextStyle(
+                      color: Color.fromARGB(255, 83, 81, 81),
+                    ),
+                    prefixIcon: const Icon(Icons.phone),
+                    prefixIconColor: const Color.fromARGB(255, 0, 0, 0),
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
+                    filled: true,
                   ),
                 ),
                 const SizedBox(
@@ -50,44 +97,28 @@ class Lok extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Enter your password',
-                    labelStyle: const TextStyle(color: Colors.grey),
+                    labelStyle: const TextStyle(
+                      color: Color.fromARGB(255, 83, 81, 81),
+                    ),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(7),
-                        borderSide: BorderSide(color: Colors.grey),),
+                      borderRadius: BorderRadius.circular(7),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
                     prefixIcon: const Icon(Icons.password),
-                    prefixIconColor:const Color.fromARGB(255, 255, 255, 255),
+                    prefixIconColor: const Color.fromARGB(255, 6, 5, 5),
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
                     filled: true,
-                    fillColor: Colors.,
                   ),
-                ),
-                Row(
-                  children: [
-                    Transform.scale(
-                      scale: 0.6, // Change to desired scale factor
-                      child: Switch(
-                        value: true,
-                        onChanged: (bool value) {},
-                      ),
-                    ),
-                    const Text(
-                      'Remember me ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    const Spacer(),
-                    TextButton(
-                      onPressed: () {},
-                      child: const Text('forgot password ?'),
-                    ),
-                  ],
                 ),
                 const SizedBox(
                   height: 30,
                 ),
                 ElevatedButton(
+                 
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black,
+                    backgroundColor: const Color.fromARGB(255, 0, 0, 0),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(7),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                     fixedSize: const Size(double.maxFinite, 50),
                   ),
@@ -95,7 +126,7 @@ class Lok extends StatelessWidget {
                     print('clicked');
                   },
                   child: const Text(
-                    'Login',
+                    'SIGN UP',
                     style: TextStyle(
                       fontSize: 20,
                       color: Colors.white,
@@ -117,7 +148,6 @@ class Lok extends StatelessWidget {
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
-
                     ),
                     fixedSize: const Size(double.maxFinite, 50),
                   ),
@@ -156,18 +186,18 @@ class Lok extends StatelessWidget {
                   children: [
                     Container(
                       child: Text(
-                        "Don't have an account?",
+                        "Already have an account? ",
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 18,
                         ),
                       ),
                     ),
                     TextButton(
                       onPressed: () {},
                       child: const Text(
-                        'create account',
+                        'LOG IN',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 17,
                         ),
                       ),
                     ),
