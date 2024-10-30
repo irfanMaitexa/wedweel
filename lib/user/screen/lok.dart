@@ -16,17 +16,15 @@ class Lok extends StatelessWidget {
                 const SizedBox(
                   height: 25,
                 ),
-                const SizedBox(
-                  height: 25,
-                ),
                 Container(
                   alignment: Alignment.centerLeft,
                   child: const Text(
                     "Nice to See you again",
                     style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w500,
-                        fontStyle: FontStyle.italic),
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      fontStyle: FontStyle.italic,
+                    ),
                   ),
                 ),
                 const SizedBox(
@@ -38,7 +36,11 @@ class Lok extends StatelessWidget {
                         borderRadius: BorderRadius.circular(7),
                         borderSide: BorderSide(color: Colors.grey)),
                     labelText: 'Enter your email ',
+                    labelStyle: const TextStyle(
+                      color: Color.fromARGB(255, 83, 81, 81),
+                    ),
                     prefixIcon: const Icon(Icons.email),
+                    prefixIconColor: const Color.fromARGB(255, 0, 0, 0),
                     filled: true,
                     fillColor: const Color.fromARGB(255, 255, 255, 255),
                   ),
@@ -50,14 +52,17 @@ class Lok extends StatelessWidget {
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Enter your password',
-                    labelStyle: const TextStyle(color: Colors.grey),
+                    labelStyle: const TextStyle(
+                      color: Color.fromARGB(255, 83, 81, 81),
+                    ),
                     border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(7),
-                        borderSide: BorderSide(color: Colors.grey),),
+                      borderRadius: BorderRadius.circular(7),
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
                     prefixIcon: const Icon(Icons.password),
-                    prefixIconColor:const Color.fromARGB(255, 255, 255, 255),
+                    prefixIconColor: const Color.fromARGB(255, 0, 0, 0),
                     filled: true,
-                    fillColor: Colors.,
+                    fillColor: const Color.fromARGB(255, 255, 255, 255),
                   ),
                 ),
                 Row(
@@ -117,7 +122,6 @@ class Lok extends StatelessWidget {
                     backgroundColor: Colors.white,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.0),
-
                     ),
                     fixedSize: const Size(double.maxFinite, 50),
                   ),

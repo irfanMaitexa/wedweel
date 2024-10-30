@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:wedweel/firebase_options.dart';
-//import 'package:wedweel/user/screen/lok.dart';
-import 'package:wedweel/user/screen/signupscreen.dart';
+import 'package:wedweel/user/screen/lok.dart';
+//import 'package:wedweel/user/screen/signupscreen.dart';
 
 void main()  async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,7 +25,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 255, 255)),
         useMaterial3: true,
       ),
-      home: Signupscreen(),
+      home:// Signupscreen(),
+      Lok(),  
+
     );
   }
 }
