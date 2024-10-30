@@ -14,7 +14,7 @@ class Lok extends StatelessWidget {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 30,
+                  height: 25,
                 ),
                 Row(
                   children: [
@@ -35,7 +35,7 @@ class Lok extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 25,
                 ),
                 Container(
                   alignment: Alignment.centerLeft,
@@ -48,7 +48,7 @@ class Lok extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 35,
                 ),
                 TextFormField(
                   decoration: InputDecoration(
@@ -62,7 +62,7 @@ class Lok extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 25,
                 ),
                 TextFormField(
                   obscureText: true,
@@ -99,7 +99,7 @@ class Lok extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -118,7 +118,14 @@ class Lok extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 20,
+                ),
+                const Text(
+                  'OR',
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(
+                  height: 10,
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -153,17 +160,29 @@ class Lok extends StatelessWidget {
                 ),
                 Spacer(),
                 SizedBox(
-                  height: 1,
-                ),
-                TextButton(
-                  onPressed: () {},
-                  child: const Text(
-                    'create account',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                ),
-                const SizedBox(
                   height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      child: Text(
+                        "Don't have an account?",
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'create account',
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
