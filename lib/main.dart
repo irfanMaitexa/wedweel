@@ -1,14 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:wedweel/firebase_options.dart';
-import 'package:wedweel/user/screen/lok.dart';
-//import 'package:wedweel/user/screen/signupscreen.dart';
+//import 'package:wedweel/user/screen/loginscreen.dart';
+//import 'package:wedweel/user/screen/lok.dart';
+import 'package:wedweel/user/screen/signupscreen.dart';
+import 'admin/screen/loginadmin.dart';
 
-void main()  async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
-);
+  );
   runApp(const MyApp());
 }
 
@@ -21,13 +23,16 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        scaffoldBackgroundColor:  Colors.white,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 255, 255, 255)),
+        fontFamily: 'Poppins',
+        scaffoldBackgroundColor: Colors.white,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 255, 255, 255),
+        ),
         useMaterial3: true,
       ),
-      home:// Signupscreen(),
-      Lok(),  
-
+      home: LoginAdmin(),
+      //  Lok(),
+      //Loginscreen(),
     );
   }
 }
