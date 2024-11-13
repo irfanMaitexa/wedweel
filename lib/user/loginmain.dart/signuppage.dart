@@ -30,8 +30,7 @@ class SignUpPage extends StatelessWidget {
                   ),
                 )),
             Positioned(top: 200, right: 0, bottom: 0, child: LayerOne()),
-            Positioned(
-                top: 225, right: 0, bottom: 0, left: 20, child: LayerTwo()),
+            Positioned(top: 225, right: 0, bottom: 0, left: 20, child: LayerTwo()),
             Positioned(top: 120, right: 0, bottom: 0, child: LayerThree()),
           ],
         ),

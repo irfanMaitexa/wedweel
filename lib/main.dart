@@ -125,9 +125,9 @@
 //   }
 // }
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/screen/adminHome.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
-
 
 void main() {
   runApp(MaterialApp(
@@ -136,8 +136,8 @@ void main() {
       fontFamily: 'Poppins',
     ),
     debugShowCheckedModeBanner: false,
-    home:// LoginPage(),
+    home: // LoginPage(),
         SignUpPage(),
+    //AdminHome(),
   ));
 }
-
