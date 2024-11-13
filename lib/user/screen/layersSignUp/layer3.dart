@@ -18,7 +18,7 @@ class LayerThree extends StatelessWidget {
             left: 59,
             top: 119,
             child: Text(
-              'Username',
+              'Fullname',
               style: TextStyle(
                   fontFamily: 'Poppins-Medium',
                   fontSize: 24,
@@ -33,7 +33,7 @@ class LayerThree extends StatelessWidget {
                 child: TextField(
                   decoration: InputDecoration(
                     border: UnderlineInputBorder(),
-                    hintText: 'Enter User ID or Email',
+                    hintText: 'Enter Fullname',
                     hintStyle: TextStyle(color: hintText),
                   ),
                 ),
@@ -42,7 +42,7 @@ class LayerThree extends StatelessWidget {
             left: 59,
             top: 219,
             child: Text(
-              'Password',
+              'Email',
               style: TextStyle(
                   fontFamily: 'Poppins-Medium',
                   fontSize: 24,
@@ -57,77 +57,61 @@ class LayerThree extends StatelessWidget {
                 child: TextField(
                   decoration: InputDecoration(
                     border: UnderlineInputBorder(),
+                    hintText: 'Enter Email',
+                    hintStyle: TextStyle(color: hintText),
+                  ),
+                ),
+              )),
+          Positioned(
+            left: 59,
+            top: 319,
+            child: Text(
+              'Password',
+              style: TextStyle(
+                  fontFamily: 'Poppins-Medium',
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
+          Positioned(
+              left: 59,
+              top: 349,
+              child: Container(
+                width: 310,
+                child: TextField(
+                  decoration: InputDecoration(
+                    border: UnderlineInputBorder(),
                     hintText: 'Enter Password',
                     hintStyle: TextStyle(color: hintText),
                   ),
                 ),
               )),
           Positioned(
-              right: 60,
-              top: 316,
-              child: Text(
-                'Forgot Password',
-                style: TextStyle(
-                    color: forgotPasswordText,
-                    fontSize: 16,
-                    fontFamily: 'Poppins-Medium',
-                    fontWeight: FontWeight.w600),
-              )),
-          Positioned(
-              left: 46,
-              top: 371,
-              child: Checkbox(
-                checkColor: Colors.black,
-                activeColor: checkbox,
-                value: isChecked,
-                onChanged: (bool? value) {
-                  isChecked = value!;
-                },
-              )),
-          Positioned(
-              left: 87,
-              top: 385,
-              child: Text(
-                'Remember Me',
-                style: TextStyle(
-                    color: forgotPasswordText,
-                    fontSize: 16,
-                    fontFamily: 'Poppins-Medium',
-                    fontWeight: FontWeight.w500),
-              )),
-          Positioned(
-              top: 375,
-              right: 60,
-              child: Container(
-                width: 99,
-                height: 35,
-                decoration: BoxDecoration(
-                  color: signInButton,
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20)),
+            top: 420,
+            right: 60,
+            child: Container(
+              width: 99,
+              height: 35,
+              decoration: BoxDecoration(
+                color: signInButton,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20)),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: 6.0),
+                child: Text(
+                  'Sign Up',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontFamily: 'Poppins-Medium',
+                      fontWeight: FontWeight.w400),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 6.0),
-                  child: Text(
-                    'Sign In',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 18,
-                        fontFamily: 'Poppins-Medium',
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-              )),
-          Positioned(
-              top: 442,
-              left: 59,
-              child: Container(
-                height: 0.5,
-                width: 310,
-                color: inputBorder,
-              )),
+              ),
+            ),
+          ),
           Positioned(
             top: 478,
             left: 120,
@@ -181,14 +165,14 @@ class LayerThree extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Don\'t have an account? ',
+                  'Already have an account? ',
                   style: TextStyle(
                       fontSize: 17,
                       fontFamily: 'Poppins-Regular',
                       color: forgotPasswordText),
                 ),
                 Text(
-                  'Sign Up',
+                  'Sign In',
                   style: TextStyle(
                       fontSize: 17,
                       fontFamily: 'Poppins-Regular',
