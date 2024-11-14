@@ -3,7 +3,7 @@ import 'package:wedweel/user/screen/layers/layer1.dart';
 import 'package:wedweel/user/screen/layers/layer2.dart';
 import 'package:wedweel/user/screen/layers/layer3.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +20,7 @@ class LoginPage extends StatelessWidget {
                 left: 59,
                 child: Container(
                   child: Text(
-                    'HAAM',
+                    'Login',
                     style: TextStyle(
                         fontSize: 48,
                         fontFamily: 'Poppins-Medium',

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:wedweel/user/screen/layersSignUp/layer1.dart';
-import 'package:wedweel/user/screen/layersSignUp/layer2.dart';
-import 'package:wedweel/user/screen/layersSignUp/layer3.dart';
+import 'package:wedweel/user/screen/layers/layer1.dart';
+import 'package:wedweel/user/screen/layers/layer2.dart';
+import 'package:wedweel/user/screen/layers/layer3.dart';
 
-class SignUpUserPage extends StatelessWidget {
+class Loginvendor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -21,9 +20,9 @@ class SignUpUserPage extends StatelessWidget {
                 left: 59,
                 child: Container(
                   child: Text(
-                    'Register',
+                    'Login',
                     style: TextStyle(
-                        fontSize: 40,
+                        fontSize: 48,
                         fontFamily: 'Poppins-Medium',
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
