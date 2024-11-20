@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+
 import 'package:wedweel/admin/screen/adminHome.dart';
+import 'package:wedweel/admin/screen/manageVendor.dart';
 import 'package:wedweel/firebase_options.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
@@ -17,11 +19,13 @@ void main() async {
     theme: ThemeData(
       fontFamily: 'Poppins',
     ),
-    debugShowCheckedModeBanner: false,
-    home: LoginUserPage(),
+   // debugShowCheckedModeBanner: false,
+    home: //LoginUserPage(),
      //SignUpUserPage(),
     //AdminHome(),
     // Loginvendor(),
     // Signupvendor(),
+   Managevendor()
+    
   ));
 }

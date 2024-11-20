@@ -10,9 +10,9 @@ class LayerTwo extends StatelessWidget {
       decoration: BoxDecoration(
         color: layerTwoBg,
         borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(60.0),
-            bottomRight: Radius.circular(60.0),
-            bottomLeft: Radius.circular(60.0),
+          topLeft: Radius.circular(60.0),
+          bottomRight: Radius.circular(60.0),
+          bottomLeft: Radius.circular(60.0),
         ),
       ),
     );
