@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class Managevendor extends StatelessWidget {
@@ -11,12 +12,12 @@ class Managevendor extends StatelessWidget {
             child: Text(
               "manage vendor",
               style: TextStyle(
-                  fontFamily: 'Poppins-Medium',
-                  fontSize: 20,
+                  fontFamily: 'Poppins-Regular',
+                  fontSize: 23,
+                  color: Color.fromARGB(255, 21, 101, 93),
                   fontWeight: FontWeight.w500),
             ),
           ),
-          leading: IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
         ),
         body: Column(
           children: [
@@ -38,6 +39,7 @@ class Managevendor extends StatelessWidget {
                   itemCount: 10,
                   itemBuilder: (context, index) {
                     return Card(
+                      color: Color.fromARGB(255, 238, 255, 247),
                       margin: EdgeInsets.all(15),
                       child: Padding(
                         padding: const EdgeInsets.all(20),
@@ -48,7 +50,7 @@ class Managevendor extends StatelessWidget {
                                 child: Container(
                                   height: 100,
                                   decoration: BoxDecoration(
-                                      color: Colors.grey,
+                                      color: Color.fromARGB(255, 73, 74, 73),
                                       borderRadius: BorderRadius.circular(10)),
                                 ),
                               ),
@@ -125,7 +127,68 @@ class Managevendor extends StatelessWidget {
                     );
                   },
                 ),
-                Text('accepted')
+                ListView.builder(
+                  itemCount: 10,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      color: Color.fromARGB(255, 238, 255, 247),
+                      margin: EdgeInsets.all(15),
+                      child: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                    color: Color.fromARGB(255, 73, 74, 73),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Expanded(
+                                flex: 2,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Vendor 1"),
+                                    Text("address 876521"),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          Divider(
+                            height: 30,
+                            color: Colors.grey[350],
+                          ),
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.picture_as_pdf,
+                                color: Colors.red,
+                              ),
+                              TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  "View document",
+                                  style: TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ]),
+                      ),
+                    );
+                  },
+                )
               ]),
             )
           ],

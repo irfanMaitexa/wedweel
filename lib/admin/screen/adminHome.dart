@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/screen/manageVendor.dart';
 import 'package:wedweel/config.dart';
 
 class AdminHome extends StatelessWidget {
@@ -20,14 +21,18 @@ class AdminHome extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
       ),
       body: Container(
+        alignment: Alignment.center,
+        height: MediaQuery.of(context).size.height,
         decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage('asset/primaryBg.png'), fit: BoxFit.cover),
         ),
         child: GridView.count(
           crossAxisCount: 2,
+          shrinkWrap: true,
           mainAxisSpacing: 13,
           crossAxisSpacing: 14,
+          childAspectRatio: .8,
           padding: const EdgeInsets.all(12),
           children: [
             ElevatedButton(
@@ -69,7 +74,13 @@ class AdminHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Managevendor(),
+                      ));
+                },
                 child: const Text(
                   'Manage Vendor',
                   style: TextStyle(
