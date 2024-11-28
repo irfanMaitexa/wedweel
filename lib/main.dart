@@ -1,5 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/screen/ManageReview.dart';
+import 'package:wedweel/admin/screen/ManageUser.dart';
 import 'package:wedweel/admin/screen/ManageVendorDetails.dart';
 
 import 'package:wedweel/admin/screen/adminHome.dart';
@@ -23,11 +25,13 @@ void main() async {
    // debugShowCheckedModeBanner: false,
     home: //LoginUserPage(),
      //SignUpUserPage(),
-    //AdminHome(),
+    AdminHome(),
     // Loginvendor(),
     // Signupvendor(),
    //Managevendor()
-   Managevendordetails()
+   //Managevendordetails(),
+   //Manageuser()
+   //Managereview(),
     
   ));
 }
