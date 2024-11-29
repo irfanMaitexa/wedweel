@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/screen/ManageCompliant.dart';
 import 'package:wedweel/admin/screen/ManageReview.dart';
 import 'package:wedweel/admin/screen/ManageUser.dart';
 import 'package:wedweel/admin/screen/ManageVendorDetails.dart';
@@ -32,6 +33,7 @@ void main() async {
    //Managevendordetails(),
    //Manageuser()
    //Managereview(),
+   //Managecompliant()
     
   ));
 }

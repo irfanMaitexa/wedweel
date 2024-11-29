@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/screen/ManageCompliant.dart';
+import 'package:wedweel/admin/screen/ManageReview.dart';
 import 'package:wedweel/admin/screen/ManageUser.dart';
 import 'package:wedweel/admin/screen/manageVendor.dart';
 import 'package:wedweel/config.dart';
@@ -100,7 +102,10 @@ class AdminHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Managereview()));
+                },
                 child: const Text(
                   'View Review',
                   style: TextStyle(
@@ -133,7 +138,14 @@ class AdminHome extends StatelessWidget {
                   borderRadius: BorderRadius.circular(30),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Managecompliant(),
+                  ),
+                );
+              },
               child: Text(
                 'Manage\n Complaint',
                 style: TextStyle(
