@@ -1,11 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/LoginScreen/LoginAdmin.dart';
 import 'package:wedweel/admin/screen/ManageCompliant.dart';
 import 'package:wedweel/admin/screen/ManageReview.dart';
 import 'package:wedweel/admin/screen/ManageUser.dart';
 import 'package:wedweel/admin/screen/ManageVendorDetails.dart';
 
 import 'package:wedweel/admin/screen/adminHome.dart';
+
 import 'package:wedweel/admin/screen/manageVendor.dart';
 import 'package:wedweel/firebase_options.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
@@ -26,7 +28,7 @@ void main() async {
    // debugShowCheckedModeBanner: false,
     home: //LoginUserPage(),
      //SignUpUserPage(),
-    AdminHome(),
+    //AdminHome(),
     // Loginvendor(),
     // Signupvendor(),
    //Managevendor()
@@ -34,6 +36,7 @@ void main() async {
    //Manageuser()
    //Managereview(),
    //Managecompliant()
+   //LoginAdminPage()
     
   ));
 }
