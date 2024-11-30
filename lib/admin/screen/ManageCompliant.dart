@@ -54,7 +54,40 @@ class Managecompliant extends StatelessWidget {
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       ElevatedButton(
                         onPressed: () {
-                          
+                          showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                      title: Text(
+                                        "Replay",
+                                        style: TextStyle(
+                                            fontFamily: 'Poppins-medium',
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w500,
+                                            color: Color.fromARGB(
+                                                255, 21, 101, 93)),
+                                      ),
+                                      content: TextField(),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {},
+                                            child: Text("Cancel",
+                                                style: TextStyle(
+                                                  fontFamily: 'Poppins-medium',
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
+                                                ))),
+                                        TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                            child: Text(
+                                              "Ok",
+                                              style: TextStyle(
+                                                  fontFamily: 'Poppins-medium',
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500),
+                                            )),
+                                      ]));
                         },
                         child: Text(
                           "Replay ",

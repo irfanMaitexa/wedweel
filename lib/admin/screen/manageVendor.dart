@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/screen/ManageVendorDetails.dart';
 
 class Managevendor extends StatelessWidget {
   @override
@@ -80,7 +81,13 @@ class Managevendor extends StatelessWidget {
                                 color: Colors.red,
                               ),
                               TextButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                Managevendordetails()));
+                                  },
                                   child: Text(
                                     'view document',
                                     style: TextStyle(
