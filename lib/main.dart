@@ -26,7 +26,7 @@ void main() async {
       fontFamily: 'Poppins',
     ),
    // debugShowCheckedModeBanner: false,
-    home:// LoginUserPage(),
+    home: LoginUserPage(),
      //SignUpUserPage(),
     //AdminHome(),
     // Loginvendor(),
@@ -35,7 +35,7 @@ void main() async {
    //Managevendordetails(),
    //Manageuser()
    //Managereview(),
-   Managecompliant()
+   //Managecompliant()
    //LoginAdminPage()
     
   ));

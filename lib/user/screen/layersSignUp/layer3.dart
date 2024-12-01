@@ -167,7 +167,7 @@ class _LayerThree extends State<LayerThree> {
                 ),
               ),
               Positioned(
-                top: 470,
+                top: 527,
                 left: 120,
                 right: 120,
                 child: Row(
@@ -221,8 +221,8 @@ class _LayerThree extends State<LayerThree> {
                     Text(
                       'Already have an account? ',
                       style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'Poppins-Regular',
+                          fontSize: 17,
+                          fontFamily: 'Poppins-Medium',
                           color: forgotPasswordText),
                     ),
                     GestureDetector(
