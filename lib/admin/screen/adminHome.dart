@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/screen/ManageBlogs.dart';
 import 'package:wedweel/admin/screen/ManageCompliant.dart';
 import 'package:wedweel/admin/screen/ManageProfile.dart';
 import 'package:wedweel/admin/screen/ManageReview.dart';
@@ -129,7 +130,13 @@ class AdminHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Manageblogs(),
+                      ));
+                },
                 child: const Text(
                   'Manage blogs',
                   style: TextStyle(

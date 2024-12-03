@@ -31,7 +31,7 @@ void main() async {
    // debugShowCheckedModeBanner: false,
     home: //LoginUserPage(),
      //SignUpUserPage(),
-    //AdminHome(),
+    AdminHome(),
     // Loginvendor(),
     // Signupvendor(),
    //Managevendor()
@@ -42,7 +42,7 @@ void main() async {
    //LoginAdminPage()
    //Manageprofile()
    //Manageblogs()
-   Blogdetails()
+  // Blogdetails()
     
   ));
 }
