@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wedweel/admin/screen/ManageCompliant.dart';
+import 'package:wedweel/admin/screen/ManageProfile.dart';
 import 'package:wedweel/admin/screen/ManageReview.dart';
 import 'package:wedweel/admin/screen/ManageUser.dart';
 import 'package:wedweel/admin/screen/manageVendor.dart';
@@ -45,7 +46,13 @@ class AdminHome extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                   ),
                 ),
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Manageprofile(),
+                      ));
+                },
                 child: const Text(
                   'Manage Profile',
                   style: TextStyle(

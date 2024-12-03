@@ -1,7 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:wedweel/admin/LoginScreen/LoginAdmin.dart';
+import 'package:wedweel/admin/screen/BlogDetails.dart';
+import 'package:wedweel/admin/screen/ManageBlogs.dart';
 import 'package:wedweel/admin/screen/ManageCompliant.dart';
+import 'package:wedweel/admin/screen/ManageProfile.dart';
 import 'package:wedweel/admin/screen/ManageReview.dart';
 import 'package:wedweel/admin/screen/ManageUser.dart';
 import 'package:wedweel/admin/screen/ManageVendorDetails.dart';
@@ -26,7 +29,7 @@ void main() async {
       fontFamily: 'Poppins',
     ),
    // debugShowCheckedModeBanner: false,
-    home: LoginUserPage(),
+    home: //LoginUserPage(),
      //SignUpUserPage(),
     //AdminHome(),
     // Loginvendor(),
@@ -37,6 +40,9 @@ void main() async {
    //Managereview(),
    //Managecompliant()
    //LoginAdminPage()
+   //Manageprofile()
+   //Manageblogs()
+   Blogdetails()
     
   ));
 }
