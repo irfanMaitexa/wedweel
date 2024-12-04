@@ -48,8 +48,7 @@ class Blogdetails extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.all(20),
-            child: Image.network(
-                "https://image.wedmegood.com/resized-nw/1300X/wp-content/uploads/2024/11/VKR622111-1.jpg"),
+            child:Image.asset('asset/blogDetail.jpeg'),
           ),
           SizedBox(
             height: 7,

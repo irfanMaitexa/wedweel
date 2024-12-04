@@ -46,9 +46,9 @@ class Manageblogs extends StatelessWidget {
                         child: Container(
                           width: 300,
                           height: 170,
-                          child: Image.network(
-                              'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDP_zwjYTTQs8CmQN_Zh8EgBt9fzZb4aHZwA&s'),
+                          child: Image.asset('asset/images.jpeg'),
                         ),
+                              
                       ),
                       SizedBox(
                         height: 30,
