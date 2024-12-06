@@ -15,6 +15,7 @@ import 'package:wedweel/admin/screen/manageVendor.dart';
 import 'package:wedweel/firebase_options.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
+import 'package:wedweel/venders/VendorScreen/UploadGallery.dart';
 import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
 import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/venders/screen/SignUpVendor.dart';
@@ -29,22 +30,22 @@ void main() async {
     theme: ThemeData(
       fontFamily: 'Poppins',
     ),
-   // debugShowCheckedModeBanner: false,
-    home:// LoginUserPage(),
-     //SignUpUserPage(),
-   //AdminHome(),
+    // debugShowCheckedModeBanner: false,
+    home: // LoginUserPage(),
+        //SignUpUserPage(),
+       // AdminHome(),
     // Loginvendor(),
     // Signupvendor(),
-   //Managevendor()
-   //Managevendordetails(),
-   //Manageuser()
-   //Managereview(),
-   //Managecompliant()
-   //LoginAdminPage()
-   //Manageprofile()
-   //Manageblogs()
-  // Blogdetails()
-  VendorHome()
-    
+    //Managevendor()
+    //Managevendordetails(),
+    //Manageuser()
+    //Managereview(),
+    //Managecompliant()
+    //LoginAdminPage()
+    //Manageprofile()
+    //Manageblogs()
+    // Blogdetails()
+   // VendorHome()
+   UploadGallery()
   ));
 }

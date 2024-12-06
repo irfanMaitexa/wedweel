@@ -76,7 +76,7 @@ class VendorHome extends StatelessWidget {
                     child: Column(
                       children: [
                         Image.asset('asset/service.jpg'),
-                        Text("Manage service")
+                        Text(" service")
                       ],
                     ),
                   ),
@@ -95,7 +95,7 @@ class VendorHome extends StatelessWidget {
                     child: Column(
                       children: [
                         Image.asset('asset/payment.jpg'),
-                        Text("Manage Payment")
+                        Text(" Payment")
                       ],
                     ),
                   ),
@@ -120,7 +120,7 @@ class VendorHome extends StatelessWidget {
                         SizedBox(
                           height: 41,
                         ),
-                        Text("Manage Review"),
+                        Text(" Review"),
                       ],
                     ),
                   ),
@@ -142,7 +142,7 @@ class VendorHome extends StatelessWidget {
                         SizedBox(
                           height: 17,
                         ),
-                        Text("Manage Blog")
+                        Text(" Blog")
                       ],
                     ),
                   ),
@@ -161,7 +161,7 @@ class VendorHome extends StatelessWidget {
                     child: Column(
                       children: [
                         Image.asset('asset/profile.jpg'),
-                        Text("Manage Profile")
+                        Text(" Profile")
                       ],
                     ),
                   ),
