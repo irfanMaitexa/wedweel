@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedweel/venders/VendorScreen/ScreenServiceVendor.dart';
 
 class VendorHome extends StatelessWidget {
   @override
@@ -66,18 +67,26 @@ class VendorHome extends StatelessWidget {
               Container(
                 height: 90,
                 width: 50,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Image.asset('asset/service.jpg'),
-                        Text(" service")
-                      ],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Screenservicevendor()));
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Image.asset('asset/service.jpg'),
+                          Text(" service")
+                        ],
+                      ),
                     ),
                   ),
                 ),
