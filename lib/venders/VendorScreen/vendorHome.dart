@@ -7,6 +7,7 @@ class VendorHome extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         title: Text(
           "Vendor Home",

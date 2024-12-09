@@ -33,8 +33,8 @@ class Screenservicevendor extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20),
                     child: Image.asset(
-                      'asset/UploadPhoto.jpeg',
-                      fit: BoxFit.fitHeight,
+                      'asset/upload.jpeg',
+                      fit: BoxFit.cover,
                       height: 175,
                       width: 400,
                     ),
@@ -51,7 +51,6 @@ class Screenservicevendor extends StatelessWidget {
                 ],
               ),
             ),
-            
             Container(
               margin: EdgeInsets.all(20),
               decoration: BoxDecoration(

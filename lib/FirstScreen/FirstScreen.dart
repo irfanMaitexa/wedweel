@@ -12,11 +12,10 @@ class Firstscreen extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 
-                  image: AssetImage(
-                    'asset/logo2.jpg',
-                  ),
-                  fit: BoxFit.cover,
-                
+                  image: DecorationImage(
+                    image: AssetImage('asset/primaryBg.png'),
+                    fit: BoxFit.cover,
+                  )
               ),
             ),
           ],
