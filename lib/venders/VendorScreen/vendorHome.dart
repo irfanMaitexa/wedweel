@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:wedweel/venders/VendorScreen/ScreenServiceVendor.dart';
+
+import 'package:wedweel/venders/VendorScreen/ServiceFirstScreenVendor.dart';
+import 'package:wedweel/venders/VendorScreen/VendorProfile.dart';
 
 class VendorHome extends StatelessWidget {
   @override
@@ -73,7 +75,7 @@ class VendorHome extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Screenservicevendor()));
+                            builder: (context) =>  ServiceFirstScreen()));
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -158,21 +160,30 @@ class VendorHome extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                height: 90,
-                width: 50,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Image.asset('asset/profile.jpg'),
-                        Text(" Profile")
-                      ],
+              InkWell(
+                onTap: (){
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>  Vendorprofile()));
+                },
+                splashColor: Colors.transparent,
+                child: Container(
+                  height: 90,
+                  width: 50,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Image.asset('asset/profile.jpg'),
+                          Text(" Profile")
+                        ],
+                      ),
                     ),
                   ),
                 ),

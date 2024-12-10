@@ -16,7 +16,9 @@ import 'package:wedweel/firebase_options.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
 import 'package:wedweel/venders/VendorScreen/ScreenServiceVendor.dart';
-import 'package:wedweel/venders/VendorScreen/ServiceVendor.dart';
+import 'package:wedweel/venders/VendorScreen/ServiceFirstScreenVendor.dart';
+import 'package:wedweel/venders/VendorScreen/AddServiceVendor.dart';
+import 'package:wedweel/venders/VendorScreen/VendorProfile.dart';
 
 import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
 import 'package:wedweel/venders/screen/LoginVendor.dart';
@@ -48,8 +50,10 @@ void main() async {
           //Manageblogs()
           // Blogdetails()
           VendorHome()
-        //  ServiceVendor()
-
+      //  ServiceVendor()
+      //  ServiceFirstScreen()
+      // Addservicevendor()
       //Screenservicevendor()
+      // Vendorprofile()
       ));
 }

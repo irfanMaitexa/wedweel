@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ServiceVendor extends StatelessWidget {
-  ServiceVendor({super.key});
+class Addservicevendor extends StatelessWidget {
+  
 
   File? image;
 
