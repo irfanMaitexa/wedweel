@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 
 class Addservicevendor extends StatelessWidget {
   
+ 
 
   File? image;
 

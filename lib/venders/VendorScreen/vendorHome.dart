@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:wedweel/venders/VendorScreen/ServiceFirstScreenVendor.dart';
-import 'package:wedweel/venders/VendorScreen/VendorProfile.dart';
+import 'package:wedweel/venders/VendorScreen/ServiceScreen/ServiceFirstScreenVendor.dart';
+import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfile.dart';
 
 class VendorHome extends StatelessWidget {
   @override

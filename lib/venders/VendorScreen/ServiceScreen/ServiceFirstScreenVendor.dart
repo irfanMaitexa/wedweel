@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:wedweel/venders/VendorScreen/AddServiceVendor.dart';
-import 'package:wedweel/venders/VendorScreen/EditServiceVendor.dart';
+import 'package:wedweel/venders/VendorScreen/ServiceScreen/AddServiceVendor.dart';
+import 'package:wedweel/venders/VendorScreen/ServiceScreen/EditServiceVendor.dart';
 
 class ServiceFirstScreen extends StatelessWidget {
   @override
