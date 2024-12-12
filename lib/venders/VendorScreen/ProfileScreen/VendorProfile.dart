@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/EditProfileVendor.dart';
+import 'package:wedweel/venders/VendorScreen/ProfileScreen/PolicyProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfileInfo.dart';
 
 class Vendorprofile extends StatelessWidget {
@@ -106,9 +107,18 @@ class Vendorprofile extends StatelessWidget {
             listprofile(
                 listicon: Icons.support_agent_outlined,
                 listtitle: "Help & Support"),
-            listprofile(
-                listtitle: "Privacy Policy",
-                listicon: Icons.privacy_tip_outlined),
+           
+            GestureDetector(
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => PolicyProfileVendor()));
+              },
+              child: listprofile(
+                  listtitle: "Privacy Policy",
+                  listicon: Icons.privacy_tip_outlined),
+            ),
             listprofile(
                 listtitle: "Logout",
                 listicon: Icons.logout_outlined,
