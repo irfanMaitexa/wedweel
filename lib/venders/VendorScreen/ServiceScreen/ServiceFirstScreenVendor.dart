@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/AddServiceVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/EditServiceVendor.dart';
 
@@ -115,7 +116,7 @@ class ServiceFirstScreen extends StatelessWidget {
               ),
               InkWell(
                 onTap: () {
-                   Navigator.push(
+                  Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) => Editservicevendor()));

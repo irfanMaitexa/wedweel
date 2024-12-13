@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedweel/venders/VendorScreen/ReviewScreen/VendorReviewScreen.dart';
 
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/ServiceFirstScreenVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfile.dart';
@@ -75,7 +76,7 @@ class VendorHome extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>  ServiceFirstScreen()));
+                            builder: (context) => ServiceFirstScreen()));
                   },
                   child: Card(
                     shape: RoundedRectangleBorder(
@@ -113,27 +114,35 @@ class VendorHome extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                height: 90,
-                width: 50,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Image.asset(
-                          'asset/review.jpg',
-                          fit: BoxFit.cover,
-                        ),
-                        SizedBox(
-                          height: 41,
-                        ),
-                        Text(" Review"),
-                      ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VendorReviewScreen()));
+                },
+                child: Container(
+                  height: 90,
+                  width: 50,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Image.asset(
+                            'asset/review.jpg',
+                            fit: BoxFit.cover,
+                          ),
+                          SizedBox(
+                            height: 41,
+                          ),
+                          Text(" Review"),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -161,11 +170,9 @@ class VendorHome extends StatelessWidget {
                 ),
               ),
               InkWell(
-                onTap: (){
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>  Vendorprofile()));
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Vendorprofile()));
                 },
                 splashColor: Colors.transparent,
                 child: Container(
