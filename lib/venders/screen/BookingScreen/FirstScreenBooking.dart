@@ -37,12 +37,15 @@ class FirstScreenBooking extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 237, 250, 244),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: ListView(
           children: [
             SizedBox(
-              height: 80,
+              height: 50,
             ),
             GestureDetector(
               onTap: () {
@@ -55,11 +58,11 @@ class FirstScreenBooking extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Paymentvendor()));
-              },
-              child: screen(name: "Payment", image: "asset/payment.jpg"))
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Paymentvendor()));
+                },
+                child: screen(name: "Payment", image: "asset/payment.jpg"))
           ],
         ),
       ),

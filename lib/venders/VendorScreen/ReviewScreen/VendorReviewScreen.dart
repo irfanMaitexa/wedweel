@@ -51,6 +51,7 @@ class VendorReviewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(backgroundColor: Color.fromARGB(255, 237, 250, 244)),
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
       body: ListView(
         children: [

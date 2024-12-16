@@ -57,7 +57,7 @@ void main() async {
           //Manageprofile()
           //Manageblogs()
           // Blogdetails()
-          // VendorHome()
+           VendorHome()
           //  ServiceVendor()
           //  ServiceFirstScreen()
           // Addservicevendor()
@@ -67,7 +67,7 @@ void main() async {
           // Editprofilevendor()
           //PolicyProfileVendor()
           //VendorReviewScreen()
-        FirstScreenBooking()
+        //FirstScreenBooking()
         //Bookingvendor()
        // Paymentvendor()
          ));

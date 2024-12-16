@@ -4,6 +4,7 @@ import 'package:wedweel/venders/VendorScreen/ReviewScreen/VendorReviewScreen.dar
 
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/ServiceFirstScreenVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfile.dart';
+import 'package:wedweel/venders/screen/BookingScreen/FirstScreenBooking.dart';
 
 class VendorHome extends StatelessWidget {
   @override
@@ -38,7 +39,7 @@ class VendorHome extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: 20,
+                width: 18,
               ),
               Column(
                 children: [
@@ -67,7 +68,7 @@ class VendorHome extends StatelessWidget {
             mainAxisSpacing: 7,
             crossAxisSpacing: 7,
             childAspectRatio: .9,
-            padding: const EdgeInsets.all(10),
+            padding: EdgeInsets.all(8),
             children: [
               Container(
                 height: 90,
@@ -85,7 +86,7 @@ class VendorHome extends StatelessWidget {
                     ),
                     color: Colors.white,
                     child: Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(19),
                       child: Column(
                         children: [
                           Image.asset('asset/service.jpg'),
@@ -99,18 +100,26 @@ class VendorHome extends StatelessWidget {
               Container(
                 height: 90,
                 width: 50,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Image.asset('asset/payment.jpg'),
-                        Text(" Payment")
-                      ],
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => FirstScreenBooking()));
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(19),
+                      child: Column(
+                        children: [
+                          Image.asset('asset/Booking.jpeg'),
+                          Text(" Bookings")
+                        ],
+                      ),
                     ),
                   ),
                 ),
