@@ -25,6 +25,10 @@ import 'package:wedweel/venders/VendorScreen/ServiceScreen/AddServiceVendor.dart
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfile.dart';
 
 import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
+import 'package:wedweel/venders/screen/BookingScreen/BookingVendor.dart';
+import 'package:wedweel/venders/screen/BookingScreen/FirstScreenBooking.dart';
+import 'package:wedweel/venders/screen/BookingScreen/PaymentVendor.dart';
+
 import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/venders/screen/SignUpVendor.dart';
 
@@ -53,15 +57,18 @@ void main() async {
           //Manageprofile()
           //Manageblogs()
           // Blogdetails()
-          VendorHome()
-      //  ServiceVendor()
-      //  ServiceFirstScreen()
-      // Addservicevendor()
+          // VendorHome()
+          //  ServiceVendor()
+          //  ServiceFirstScreen()
+          // Addservicevendor()
 
-      // Vendorprofile()
-      //Vendorprofileinfo()
-      // Editprofilevendor()
-      //PolicyProfileVendor()
-      //VendorReviewScreen()
-      ));
+          // Vendorprofile()
+          //Vendorprofileinfo()
+          // Editprofilevendor()
+          //PolicyProfileVendor()
+          //VendorReviewScreen()
+        FirstScreenBooking()
+        //Bookingvendor()
+       // Paymentvendor()
+         ));
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/screen/ManageBlogs.dart';
 import 'package:wedweel/venders/VendorScreen/ReviewScreen/VendorReviewScreen.dart';
 
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/ServiceFirstScreenVendor.dart';
@@ -147,24 +148,30 @@ class VendorHome extends StatelessWidget {
                   ),
                 ),
               ),
-              Container(
-                height: 90,
-                width: 50,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  color: Colors.white,
-                  child: Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: [
-                        Image.asset('asset/blog.jpg'),
-                        SizedBox(
-                          height: 17,
-                        ),
-                        Text(" Blog")
-                      ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Manageblogs()));
+                },
+                child: Container(
+                  height: 90,
+                  width: 50,
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    color: Colors.white,
+                    child: Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Column(
+                        children: [
+                          Image.asset('asset/blog.jpg'),
+                          SizedBox(
+                            height: 17,
+                          ),
+                          Text(" Blog")
+                        ],
+                      ),
                     ),
                   ),
                 ),
