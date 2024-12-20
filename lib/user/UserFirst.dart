@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 
 class Userfirst extends StatelessWidget {
   Widget cardItems({
@@ -197,13 +198,19 @@ class Userfirst extends StatelessWidget {
                                   SizedBox(
                                     height: 11,
                                   ),
-                                  Text(
-                                    "Read More",
-                                    style: TextStyle(
-                                        fontFamily: 'Poppins-Medium',
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.blue),
+                                  GestureDetector(
+                                    onTap: (){
+                                      Navigator.push(context,
+                                          MaterialPageRoute(builder: (context) => Userblogs()));
+                                    },
+                                    child: Text(
+                                      "Read More",
+                                      style: TextStyle(
+                                          fontFamily: 'Poppins-Medium',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.blue),
+                                    ),
                                   ),
                                 ],
                               ),
