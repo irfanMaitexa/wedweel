@@ -45,10 +45,9 @@ class ServiceFirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("My  Service "),
-      //   backgroundColor: Color.fromARGB(255, 237, 250, 244),
-      // ),
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 237, 250, 244),
+      ),
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

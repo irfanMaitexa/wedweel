@@ -57,7 +57,7 @@ class Addservicevendor extends StatelessWidget {
                               ),
                               hintText: "Service Name",
                               border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20))),
+                                  borderRadius: BorderRadius.circular(20),),),
                         )
                       ],
                     ),
