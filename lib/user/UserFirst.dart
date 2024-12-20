@@ -130,84 +130,89 @@ class Userfirst extends StatelessWidget {
                 leading: Text("Recent Events"),
                 trailing: Text("See All "),
               ),
-              Container(
-                height: 270,
-                child: ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      height: 200,
-                      margin: EdgeInsets.only(
-                        left: 10,
-                        top: 10,
-                        bottom: 10,
-                      ),
-                      padding: EdgeInsets.only(right: 5),
-                      color: Colors.white,
-                      child: Column(children: [
-                        Row(
+              Expanded(
+                child: Container(
+                  child: ListView.builder(
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        height: 150,
+                        margin: EdgeInsets.only(bottom: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          // color: Colors.white,
+                        ),
+                        child: Row(
+                          // textBaseline: TextBaseline.ideographic,
+
                           children: [
                             Expanded(
-                                child: Container(
-                              padding: EdgeInsets.only(left: 10, top: 10),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: Container(
-                                  height: 130,
-                                  child: Image.asset(
-                                    "asset/freepik__upload__334.jpeg",
-                                    fit: BoxFit.cover,
-                                    // height: 100,
-                                  ),
+                                child: Image.asset(
+                                  "asset/freepik__upload__334.jpeg",
+                                  height: 140,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                            )),
+                            ),
                             SizedBox(
-                              width: 5,
+                              width: 20,
                             ),
                             Expanded(
                               child: Column(
-                                // crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                    height: 10,
+                                    height: 7,
                                   ),
-                                  ListTile(
-                                    title: Text("muhammed & fathima",
-                                        style: TextStyle(fontSize: 13)),
-                                    subtitle: Text("05 may 2023",
-                                        style: TextStyle(fontSize: 10)),
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                      'Wedding Party At The Grand Venue',
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins-Medium',
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color:
-                                              Color.fromARGB(255, 21, 101, 93)),
+                                  Text(
+                                    "muhammed & fathima",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontFamily: 'Poppins-Medium',
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
-                                  ListTile(
-                                    title: Text(
-                                      "Read More",
-                                      style: TextStyle(
-                                          fontFamily: 'Poppins-Medium',
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w500,
-                                          color:
-                                              Color.fromARGB(255, 31, 86, 81)),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "05 may 2023",
+                                    style: TextStyle(
+                                        fontSize: 11, color: Colors.grey[700]),
+                                  ),
+                                  SizedBox(
+                                    height: 13,
+                                  ),
+                                  Text(
+                                    "Wedding Party At The Grand Venue",
+                                    style: TextStyle(
+                                      fontFamily: 'Poppins-Medium',
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color.fromARGB(255, 21, 101, 93),
                                     ),
-                                  )
+                                  ),
+                                  SizedBox(
+                                    height: 11,
+                                  ),
+                                  Text(
+                                    "Read More",
+                                    style: TextStyle(
+                                        fontFamily: 'Poppins-Medium',
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.blue),
+                                  ),
                                 ],
                               ),
                             )
                           ],
                         ),
-                      ]),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
               )
             ],

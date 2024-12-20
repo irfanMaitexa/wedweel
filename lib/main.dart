@@ -13,8 +13,9 @@ import 'package:wedweel/admin/screen/adminHome.dart';
 
 import 'package:wedweel/admin/screen/manageVendor.dart';
 import 'package:wedweel/firebase_options.dart';
+import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 import 'package:wedweel/user/UserFirst.dart';
-import 'package:wedweel/user/UserHome.dart';
+
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/EditProfileVendor.dart';
@@ -73,6 +74,7 @@ void main() async {
         //Bookingvendor()
        // Paymentvendor(),
        //Userhome()
-      Userfirst()
+      //Userfirst()
+      Userblogs()
          ));
 }
