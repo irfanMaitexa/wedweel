@@ -50,7 +50,7 @@ class _LayerThree extends State<LayerThree> {
             children: <Widget>[
               Positioned(
                 left: 59,
-                top: 119,
+                top: 149,
                 child: Text(
                   'Fullname',
                   style: TextStyle(
@@ -61,7 +61,7 @@ class _LayerThree extends State<LayerThree> {
               ),
               Positioned(
                   left: 59,
-                  top: 150,
+                  top: 179,
                   child: Container(
                     width: 310,
                     child: TextField(
@@ -75,7 +75,7 @@ class _LayerThree extends State<LayerThree> {
                   )),
               Positioned(
                 left: 59,
-                top: 219,
+                top: 252,
                 child: Text(
                   'Email',
                   style: TextStyle(
@@ -86,7 +86,7 @@ class _LayerThree extends State<LayerThree> {
               ),
               Positioned(
                   left: 59,
-                  top: 249,
+                  top: 285,
                   child: Container(
                     width: 310,
                     child: TextFormField(
@@ -103,7 +103,7 @@ class _LayerThree extends State<LayerThree> {
                   )),
               Positioned(
                 left: 59,
-                top: 319,
+                bottom: 265,
                 child: Text(
                   'Password',
                   style: TextStyle(
@@ -114,7 +114,7 @@ class _LayerThree extends State<LayerThree> {
               ),
               Positioned(
                   left: 59,
-                  top: 349,
+                  bottom: 220,
                   child: Container(
                     width: 310,
                     child: TextFormField(
@@ -130,8 +130,8 @@ class _LayerThree extends State<LayerThree> {
                     ),
                   )),
               Positioned(
-                top: 420,
-                right: 60,
+                bottom: 160,
+                right: 33,
                 child: GestureDetector(
                   onTap: () {
                     if (_formKey.currentState!.validate()) {
@@ -167,7 +167,15 @@ class _LayerThree extends State<LayerThree> {
                 ),
               ),
               Positioned(
-                top: 527,
+                  bottom: 140,
+                  left: 59,
+                  child: Container(
+                    height: 0.5,
+                    width: 310,
+                    color: inputBorder,
+                  )),
+              Positioned(
+                bottom: 50,
                 left: 120,
                 right: 120,
                 child: Row(
@@ -221,7 +229,7 @@ class _LayerThree extends State<LayerThree> {
                     Text(
                       'Already have an account? ',
                       style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 15,
                           fontFamily: 'Poppins-Medium',
                           color: forgotPasswordText),
                     ),

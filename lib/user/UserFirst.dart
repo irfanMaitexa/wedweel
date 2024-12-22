@@ -94,7 +94,7 @@ class Userfirst extends StatelessWidget {
                       crossAxisCount: 4,
                       shrinkWrap: true,
                       mainAxisSpacing: 20,
-                      crossAxisSpacing: 10,
+                      crossAxisSpacing: 8,
                       childAspectRatio: .8,
                       // padding: const EdgeInsets.all(12),
 
@@ -133,6 +133,7 @@ class Userfirst extends StatelessWidget {
               ),
               Expanded(
                 child: Container(
+                  padding: EdgeInsets.only(left: 10),
                   child: ListView.builder(
                     itemCount: 10,
                     itemBuilder: (context, index) {
@@ -199,9 +200,12 @@ class Userfirst extends StatelessWidget {
                                     height: 11,
                                   ),
                                   GestureDetector(
-                                    onTap: (){
-                                      Navigator.push(context,
-                                          MaterialPageRoute(builder: (context) => Userblogs()));
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Userblogs()));
                                     },
                                     child: Text(
                                       "Read More",

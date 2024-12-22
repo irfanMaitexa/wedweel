@@ -7,7 +7,7 @@ class LoginUserPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-       resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -17,7 +17,7 @@ class LoginUserPage extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Positioned(
-                top: 80,
+                top: 150,
                 left: 59,
                 child: Container(
                   child: Text(
@@ -29,10 +29,10 @@ class LoginUserPage extends StatelessWidget {
                         color: Colors.white),
                   ),
                 )),
-            Positioned(top: 200, right: 0, bottom: 0, child: LayerOne()),
+            Positioned(top: 290, right: 0, bottom: 0, child: LayerOne()),
             Positioned(
-                top: 225, right: 0, bottom: 0, left: 20, child: LayerTwo()),
-            Positioned(top: 120, right: 0, bottom: 0, child: LayerThree()),
+                top: 320, right: 0, bottom: 0, left: 20, child: LayerTwo()),
+            Positioned(top: 160, right: 0, bottom: 0, child: LayerThree()),
           ],
         ),
       ),

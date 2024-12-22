@@ -17,7 +17,7 @@ class SignUpUserPage extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Positioned(
-                top: 80,
+                top: 140,
                 left: 59,
                 child: Container(
                   child: Text(
@@ -29,9 +29,9 @@ class SignUpUserPage extends StatelessWidget {
                         color: Colors.white),
                   ),
                 )),
-            Positioned(top: 200, right: 0, bottom: 0, child: LayerOne()),
+            Positioned(top: 255, right: 0, bottom: 0, child: LayerOne()),
             Positioned(
-                top: 225, right: 0, bottom: 0, left: 20, child: LayerTwo()),
+                top: 280, right: 0, bottom: 0, left: 20, child: LayerTwo()),
             Positioned(top: 120, right: 0, bottom: 0, child: LayerThree()),
           ],
         ),

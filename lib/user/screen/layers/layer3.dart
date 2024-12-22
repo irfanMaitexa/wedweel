@@ -49,7 +49,7 @@ class _LayerThree extends State<LayerThree> {
             children: <Widget>[
               Positioned(
                 left: 59,
-                top: 119,
+                top: 169,
                 child: Text(
                   'Username',
                   style: TextStyle(
@@ -60,7 +60,7 @@ class _LayerThree extends State<LayerThree> {
               ),
               Positioned(
                   left: 59,
-                  top: 150,
+                  top: 200,
                   child: Container(
                     width: 310,
                     child: TextFormField(
@@ -77,7 +77,7 @@ class _LayerThree extends State<LayerThree> {
                   )),
               Positioned(
                 left: 59,
-                top: 219,
+                top: 265,
                 child: Text(
                   'Password',
                   style: TextStyle(
@@ -88,7 +88,7 @@ class _LayerThree extends State<LayerThree> {
               ),
               Positioned(
                   left: 59,
-                  top: 249,
+                  top: 300,
                   child: Container(
                     width: 310,
                     child: TextFormField(
@@ -104,8 +104,8 @@ class _LayerThree extends State<LayerThree> {
                     ),
                   )),
               Positioned(
-                  right: 60,
-                  top: 316,
+                  right: 30,
+                  bottom: 220,
                   child: Text(
                     'Forgot Password',
                     style: TextStyle(
@@ -116,7 +116,7 @@ class _LayerThree extends State<LayerThree> {
                   )),
               Positioned(
                   left: 46,
-                  top: 371,
+                  bottom: 146,
                   child: Checkbox(
                     checkColor: Colors.black,
                     activeColor: checkbox,
@@ -127,7 +127,7 @@ class _LayerThree extends State<LayerThree> {
                   )),
               Positioned(
                   left: 87,
-                  top: 385,
+                  bottom: 160,
                   child: Text(
                     'Remember Me',
                     style: TextStyle(
@@ -137,7 +137,7 @@ class _LayerThree extends State<LayerThree> {
                         fontWeight: FontWeight.w500),
                   )),
               Positioned(
-                  top: 375,
+                  bottom: 160,
                   right: 60,
                   child: GestureDetector(
                     onTap: () {
@@ -172,7 +172,7 @@ class _LayerThree extends State<LayerThree> {
                     ),
                   )),
               Positioned(
-                  top: 442,
+                  bottom: 140,
                   left: 59,
                   child: Container(
                     height: 0.5,
@@ -180,7 +180,7 @@ class _LayerThree extends State<LayerThree> {
                     color: inputBorder,
                   )),
               Positioned(
-                top: 495,
+                bottom: 50,
                 left: 120,
                 right: 120,
                 child: Row(

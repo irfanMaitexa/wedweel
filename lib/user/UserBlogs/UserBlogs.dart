@@ -7,6 +7,7 @@ class Userblogs extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        backgroundColor:Color.fromARGB(255, 237, 250, 244),
         body: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
           child: Column(
