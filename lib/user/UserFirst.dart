@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
+import 'package:wedweel/user/UserHome/VendorList.dart';
 
 class Userfirst extends StatelessWidget {
   Widget cardItems({
@@ -99,11 +100,19 @@ class Userfirst extends StatelessWidget {
                       // padding: const EdgeInsets.all(12),
 
                       children: [
-                        cardItems(
-                          name: "Vendor",
-                          photo: "asset/person.png",
-                          imageheight: 30,
-                          imagewidth: 30,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Vendorlist()));
+                          },
+                          child: cardItems(
+                            name: "Vendor",
+                            photo: "asset/person.png",
+                            imageheight: 30,
+                            imagewidth: 30,
+                          ),
                         ),
                         cardItems(name: "Venue", photo: "asset/venue2.png"),
                         cardItems(
