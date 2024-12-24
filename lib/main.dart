@@ -42,12 +42,13 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Login Demo',
       theme: ThemeData(
         fontFamily: 'Poppins',
       ),
       // debugShowCheckedModeBanner: false,
-      home:  //LoginUserPage(),
+      home: //LoginUserPage(),
           //SignUpUserPage(),
           // AdminHome(),
           // Loginvendor(),
@@ -61,7 +62,7 @@ void main() async {
           //Manageprofile()
           //Manageblogs()
           // Blogdetails()
-        //   VendorHome()
+          //   VendorHome()
           //  ServiceVendor()
           //  ServiceFirstScreen()
           // Addservicevendor()
@@ -71,12 +72,12 @@ void main() async {
           // Editprofilevendor()
           //PolicyProfileVendor()
           //VendorReviewScreen()
-        //FirstScreenBooking()
-        //Bookingvendor()
-       // Paymentvendor(),
-       
-      Userfirst()
-    //  Userblogs()
-    //Vendorlist()
-         ));
+          //FirstScreenBooking()
+          //Bookingvendor()
+          // Paymentvendor(),
+
+           Userfirst()
+          //  Userblogs()
+          //Vendorlist()
+          ));
 }
