@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:wedweel/imageVendor.dart';
 import 'package:wedweel/user/UserHome/ViewAllVendors.dart';
 
 class Vendorlist extends StatelessWidget {
@@ -14,8 +15,8 @@ class Vendorlist extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: 20, right: 20),
       child: Container(
-        height: 200,
-        width: 300,
+        height: 210,
+        width: 290,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(20), color: Colors.white),
         child: Stack(
@@ -29,7 +30,7 @@ class Vendorlist extends StatelessWidget {
                 child: Image.asset(
                   topvendorimage,
                   fit: BoxFit.cover,
-                  height: 160,
+                  height: 170,
                 ),
               ),
             ),
@@ -48,18 +49,21 @@ class Vendorlist extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          topvendorname,
-                          style: TextStyle(
-                            fontSize: 19,
-                            fontFamily: 'Poppins-Medium',
-                            height: 4,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(
-                              255,
-                              21,
-                              101,
-                              93,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            topvendorname,
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontFamily: 'Poppins-Medium',
+                              height: 3,
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(
+                                255,
+                                21,
+                                101,
+                                93,
+                              ),
                             ),
                           ),
                         ),
@@ -123,7 +127,7 @@ class Vendorlist extends StatelessWidget {
                 child: Image.asset(
                   vendorimage,
                   fit: BoxFit.cover,
-                  height: 160,
+                  height: 170,
                 ),
               ),
             ),
@@ -142,18 +146,20 @@ class Vendorlist extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          vendorname,
-                          style: TextStyle(
-                            fontSize: 19,
-                            fontFamily: 'Poppins-Medium',
-                            height: 4,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(
-                              255,
-                              21,
-                              101,
-                              93,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            vendorname,
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontFamily: 'Poppins-Medium',
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(
+                                255,
+                                21,
+                                101,
+                                93,
+                              ),
                             ),
                           ),
                         ),
@@ -198,14 +204,14 @@ class Vendorlist extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+        ),
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: Padding(
           padding: EdgeInsets.only(left: 17, right: 17, top: 17),
           child: Column(
             children: [
-              SizedBox(
-                height: 20,
-              ),
               Align(
                 alignment: Alignment.topLeft,
                 child: Text(
@@ -227,29 +233,29 @@ class Vendorlist extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   children: [
                     toplistVendor(
-                      topvendorimage: "asset/grand_auditorium.webp",
+                      topvendorimage: hall1,
                       topvendorname: "Grand Auditorium",
                     ),
                     toplistVendor(
-                      topvendorimage: "asset/wavesaloon.jpeg",
-                      topvendorname: "Wavesaloon",
+                      topvendorimage: makeup1,
+                      topvendorname: "Wave Saloon",
                     ),
                     toplistVendor(
-                      topvendorimage: "asset/m.jpeg",
+                      topvendorimage: photography1,
                       topvendorname: "Photoland",
                     ),
                     toplistVendor(
                         topvendorname: "Cake Studio",
-                        topvendorimage: "asset/cakestudio.webp"),
+                        topvendorimage: cakeshop1),
                     toplistVendor(
                         topvendorname: "City Blooms",
-                        topvendorimage: "asset/flowershop.jpeg"),
+                        topvendorimage: flowershop1),
                     toplistVendor(
                         topvendorname: "Royal Catering",
-                        topvendorimage: "asset/rc.png"),
+                        topvendorimage: catering1),
                     toplistVendor(
                         topvendorname: "Dk decoration",
-                        topvendorimage: "asset/dk.jpeg")
+                        topvendorimage: decoration1)
                   ],
                 ),
               ),
@@ -284,53 +290,46 @@ class Vendorlist extends StatelessWidget {
                   child: ListView(
                     children: [
                       listVendor(
-                        vendorimage: "asset/biscoticake.jpg",
+                        vendorimage: cakeshop2,
                         vendorname: "Biscotte",
                       ),
                       listVendor(
-                        vendorimage: "asset/selimakeup.jpg",
+                        vendorimage: makeup2,
                         vendorname: "Seli beauty Lounge",
                       ),
                       listVendor(
-                        vendorimage: "asset/lifemomentphoto.jpg",
+                        vendorimage: photography2,
                         vendorname: "Life Style Photography",
                       ),
                       listVendor(
-                          vendorname: "Honey Cakes",
-                          vendorimage: "asset/honeyspecialcake.jpg"),
+                          vendorname: "Honey Cakes", vendorimage: cakeshop2),
                       listVendor(
-                          vendorname: "flower shop",
-                          vendorimage: "asset/cityflower.jpg"),
+                          vendorname: "flower shop", vendorimage: flowershop2),
                       listVendor(
                           vendorname: "Eva Mose Catering",
-                          vendorimage: "asset/evamosevent.webp"),
+                          vendorimage: catering2),
                       listVendor(
-                          vendorname: "Splash Event",
-                          vendorimage: "asset/SPLASHEVENT.jpg"),
+                          vendorname: "Splash Event", vendorimage: decoration2),
                       listVendor(
-                        vendorimage: "asset/grand_auditorium.webp",
+                        vendorimage: hall1,
                         vendorname: "Grand Auditorium",
                       ),
                       listVendor(
-                        vendorimage: "asset/wavesaloon.jpeg",
+                        vendorimage: makeup1,
                         vendorname: "Wavesaloon",
                       ),
                       listVendor(
-                        vendorimage: "asset/m.jpeg",
+                        vendorimage: photography1,
                         vendorname: "Photoland",
                       ),
                       listVendor(
-                          vendorname: "Cake Studio",
-                          vendorimage: "asset/cakestudio.webp"),
+                          vendorname: "Cake Studio", vendorimage: cakeshop1),
                       listVendor(
-                          vendorname: "City Blooms",
-                          vendorimage: "asset/flowershop.jpeg"),
+                          vendorname: "City Blooms", vendorimage: flowershop1),
                       listVendor(
-                          vendorname: "Royal Catering",
-                          vendorimage: "asset/rc.png"),
+                          vendorname: "Royal Catering", vendorimage: catering1),
                       listVendor(
-                          vendorname: "Dk decoration",
-                          vendorimage: "asset/dk.jpeg")
+                          vendorname: "Dk decoration", vendorimage: decoration1)
                     ],
                   ),
                 ),

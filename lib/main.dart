@@ -16,9 +16,12 @@ import 'package:wedweel/firebase_options.dart';
 import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 import 'package:wedweel/user/UserFirst.dart';
 import 'package:wedweel/user/UserHome/VendorList.dart';
+import 'package:wedweel/user/UserHome/VendoritemsUser.dart';
+import 'package:wedweel/user/bootomNavBar.dart';
 
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
+import 'package:wedweel/user/userphotography/photographyVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/EditProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/PolicyProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfileInfo.dart';
@@ -62,7 +65,7 @@ void main() async {
           //Manageprofile()
           //Manageblogs()
           // Blogdetails()
-          //   VendorHome()
+            // VendorHome()
           //  ServiceVendor()
           //  ServiceFirstScreen()
           // Addservicevendor()
@@ -76,8 +79,11 @@ void main() async {
           //Bookingvendor()
           // Paymentvendor(),
 
-           Userfirst()
+          // Userfirst()
           //  Userblogs()
           //Vendorlist()
+           BottomNavBar()
+          //Vendoritemsuser()
+          //Photographyvendor()
           ));
 }

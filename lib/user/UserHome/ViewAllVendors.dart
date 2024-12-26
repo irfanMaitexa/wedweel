@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedweel/imageVendor.dart';
 
 class ViewAllVendors extends StatelessWidget {
   const ViewAllVendors({super.key});
@@ -25,7 +26,7 @@ class ViewAllVendors extends StatelessWidget {
                 child: Image.asset(
                   vendorimage,
                   fit: BoxFit.cover,
-                  height: 160,
+                  height: 170,
                 ),
               ),
             ),
@@ -44,18 +45,20 @@ class ViewAllVendors extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          vendorname,
-                          style: TextStyle(
-                            fontSize: 19,
-                            fontFamily: 'Poppins-Medium',
-                            height: 4,
-                            fontWeight: FontWeight.w500,
-                            color: Color.fromARGB(
-                              255,
-                              21,
-                              101,
-                              93,
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            vendorname,
+                            style: TextStyle(
+                              fontSize: 19,
+                              fontFamily: 'Poppins-Medium',
+                              fontWeight: FontWeight.w500,
+                              color: Color.fromARGB(
+                                255,
+                                21,
+                                101,
+                                93,
+                              ),
                             ),
                           ),
                         ),
@@ -102,13 +105,7 @@ class ViewAllVendors extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pop(context);
-          },
-          child: Image.asset("asset/previous 1.png",
-              height: 40, width: 40, fit: BoxFit.cover),
-        ),
+        elevation: 0.0,
       ),
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
       body: Padding(
@@ -118,9 +115,6 @@ class ViewAllVendors extends StatelessWidget {
         ),
         child: ListView(
           children: [
-            SizedBox(
-              height: 20,
-            ),
             Text(
               "All Vendors",
               style: TextStyle(
@@ -134,50 +128,37 @@ class ViewAllVendors extends StatelessWidget {
               height: 30,
             ),
             listVendor(
-              vendorimage: "asset/biscoticake.jpg",
+              vendorimage: cakeshop2,
               vendorname: "Biscotte",
             ),
             listVendor(
-              vendorimage: "asset/selimakeup.jpg",
+              vendorimage: makeup2,
               vendorname: "Seli beauty Lounge",
             ),
             listVendor(
-              vendorimage: "asset/lifemomentphoto.jpg",
+              vendorimage: photography2,
               vendorname: "Life Style Photography",
             ),
+            listVendor(vendorname: "Honey Cakes", vendorimage: cakeshop2),
+            listVendor(vendorname: "flower shop", vendorimage: flowershop2),
+            listVendor(vendorname: "Eva Mose Catering", vendorimage: catering2),
+            listVendor(vendorname: "Splash Event", vendorimage: decoration2),
             listVendor(
-                vendorname: "Honey Cakes",
-                vendorimage: "asset/honeyspecialcake.jpg"),
-            listVendor(
-                vendorname: "flower shop", vendorimage: "asset/cityflower.jpg"),
-            listVendor(
-                vendorname: "Eva Mose Catering",
-                vendorimage: "asset/evamosevent.webp"),
-            listVendor(
-                vendorname: "Splash Event",
-                vendorimage: "asset/SPLASHEVENT.jpg"),
-            listVendor(
-              vendorimage: "asset/grand_auditorium.webp",
+              vendorimage: hall1,
               vendorname: "Grand Auditorium",
             ),
             listVendor(
-              vendorimage: "asset/wavesaloon.jpeg",
+              vendorimage: makeup1,
               vendorname: "Wavesaloon",
             ),
             listVendor(
-              vendorimage: "asset/m.jpeg",
+              vendorimage: photography1,
               vendorname: "Photoland",
             ),
-            listVendor(
-                vendorname: "Cake Studio",
-                vendorimage: "asset/cakestudio.webp"),
-            listVendor(
-                vendorname: "City Blooms",
-                vendorimage: "asset/flowershop.jpeg"),
-            listVendor(
-                vendorname: "Royal Catering", vendorimage: "asset/rc.png"),
-            listVendor(
-                vendorname: "Dk decoration", vendorimage: "asset/dk.jpeg")
+            listVendor(vendorname: "Cake Studio", vendorimage: cakeshop1),
+            listVendor(vendorname: "City Blooms", vendorimage: flowershop1),
+            listVendor(vendorname: "Royal Catering", vendorimage: catering1),
+            listVendor(vendorname: "Dk decoration", vendorimage: decoration1),
           ],
         ),
       ),
