@@ -1,50 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wedweel/imageVendor.dart';
-import 'package:wedweel/user/UserHome/VendorList.dart';
-import 'package:wedweel/user/userphotography/photographyVendor.dart';
+import 'package:wedweel/user/UserHome/CardSectionGrid.dart';
+
 
 class Vendoritemsuser extends StatelessWidget {
-  Widget cardItems({
-    required String name,
-    required String photo,
-    double imageheight = 35,
-    double imagewidth = 35,
-  }) {
-    return Container(
-      height: 200,
-      child: Column(
-        children: [
-          Container(
-            height: 100,
-            width: 200,
-            child: Card(
-              elevation: 10,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              color: Colors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Image.asset(
-                    photo,
-                    fit: BoxFit.cover,
-                    height: imageheight,
-                    width: imagewidth,
-                  ),
-                  Text(
-                    name,
-                    style: TextStyle(fontSize: 12),
-                  )
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
+  
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -92,61 +52,7 @@ class Vendoritemsuser extends StatelessWidget {
                       color: Color.fromARGB(255, 21, 101, 93),
                     )),
               ),
-              Container(
-                  height: 250,
-                  child: GridView.count(
-                      crossAxisCount: 4,
-                      shrinkWrap: true,
-                      mainAxisSpacing: 20,
-                      crossAxisSpacing: 8,
-                      childAspectRatio: .8,
-                      // padding: const EdgeInsets.all(12),
-
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Vendorlist()));
-                          },
-                          child: cardItems(
-                            name: "Vendor",
-                            photo: "asset/person.png",
-                            imageheight: 30,
-                            imagewidth: 30,
-                          ),
-                        ),
-                        cardItems(name: "Venue", photo: "asset/venue2.png"),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Photographyvendor()));
-                          },
-                          child: cardItems(
-                              name: "Photo",
-                              photo: "asset/photo-camera_5472910.png"),
-                        ),
-                        cardItems(
-                            name: "Make up", photo: "asset/cream_8337970.png"),
-                        cardItems(
-                            name: "Flower",
-                            photo: "asset/flower.png",
-                            imageheight: 45,
-                            imagewidth: 45),
-                        cardItems(
-                            name: "Food ",
-                            photo: "asset/catering.png",
-                            imageheight: 45,
-                            imagewidth: 45),
-                        cardItems(
-                            name: "Decoration ", photo: "asset/decoration.png"),
-                        cardItems(
-                            name: "cake ",
-                            photo: "asset/wedding-cake_5168732.png"),
-                      ])),
+             CardSectionGrid(),
               SizedBox(
                 height: 10,
               ),

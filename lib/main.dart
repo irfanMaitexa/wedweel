@@ -17,6 +17,7 @@ import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 import 'package:wedweel/user/UserFirst.dart';
 import 'package:wedweel/user/UserHome/VendorList.dart';
 import 'package:wedweel/user/UserHome/VendoritemsUser.dart';
+import 'package:wedweel/user/Venue/Venue.dart';
 import 'package:wedweel/user/bootomNavBar.dart';
 
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
@@ -82,8 +83,9 @@ void main() async {
           // Userfirst()
           //  Userblogs()
           //Vendorlist()
-           BottomNavBar()
+         BottomNavBar()
           //Vendoritemsuser()
           //Photographyvendor()
+          //Venue()
           ));
 }
