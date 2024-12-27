@@ -2,10 +2,68 @@ import 'package:flutter/material.dart';
 import 'package:wedweel/imageVendor.dart';
 import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 import 'package:intl/intl.dart';
+import 'package:wedweel/user/UserHome/VendorList.dart';
+import 'package:wedweel/user/userphotography/photographyVendor.dart';
 
 class Userfirst extends StatelessWidget {
+  final bool check;
+  Userfirst({required this.check});
+  Widget cardItems({
+    required String name,
+    required String photo,
+    double imageheight = 35,
+    double imagewidth = 35,
+  }) {
+    return Container(
+      height: 200,
+      child: Column(
+        children: [
+          Container(
+            height: 100,
+            width: 200,
+            child: Card(
+              elevation: 10,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              color: Colors.white,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Image.asset(
+                    photo,
+                    fit: BoxFit.cover,
+                    height: imageheight,
+                    width: imagewidth,
+                  ),
+                  Text(
+                    name,
+                    style: TextStyle(fontSize: 12),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String remainingDays(DateTime targetDate) {
+    final now = DateTime.now();
+    final difference = targetDate.difference(now).inDays.abs();
+    return '$difference days to go';
+  }
+
+  String formatDate(DateTime date) {
+    final DateFormat formatter = DateFormat('dd - MM - yyyy');
+    return formatter.format(date);
+  }
+
   @override
   Widget build(BuildContext context) {
+    DateTime fixedDate = DateTime(2025, 12, 18);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
@@ -14,8 +72,16 @@ class Userfirst extends StatelessWidget {
           child: ListView(
             children: [
               ListTile(
-                leading: Image.asset("asset/menu.png",
-                    height: 25, width: 25, fit: BoxFit.cover),
+                // leading: Image.asset("asset/menu.png",
+                //     height: 25, width: 25, fit: BoxFit.cover),
+                title: Text(
+                  remainingDays(fixedDate),
+                  style: TextStyle(fontSize: 18, color: Colors.red),
+                ),
+                subtitle: Text(
+                  'Wedding Date: ${formatDate(fixedDate)}',
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
                 trailing: Image.asset("asset/interface.png",
                     height: 40, width: 40, fit: BoxFit.cover),
               ),
@@ -93,117 +159,148 @@ class Userfirst extends StatelessWidget {
               SizedBox(
                 height: 30,
               ),
-              Container(
-                height: 170,
-                margin: EdgeInsets.only(left: 20, right: 20),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 207, 237, 223),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  children: [
-                    ListTile(
-                      leading: Text("Wedding"),
-                      trailing: Icon(Icons.arrow_right),
-                    ),
-                    Text(
-                      "163 days to go",
-                      style: TextStyle(
-                        fontSize: 23,
-                        height: 2.3,
-                        fontFamily: 'Poppins-Medium',
-                        fontWeight: FontWeight.w500,
-                        color: Color.fromARGB(255, 21, 101, 93),
-                      ),
-                    ),
-                    // SizedBox(
-                    //   height: 27,
-                    // ),
-                    ListTile(
-                      leading: Text(DateFormat('yyyy-MM-dd').format(DateTime.now()),),
-                      trailing: Icon(Icons.calendar_today),
-                    )
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 12.0),
-                child: Text(
-                  "Tasks",
-                  style: TextStyle(
-                    fontSize: 21,
-                    height: 3,
-                    fontFamily: 'Poppins-Medium',
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromARGB(255, 21, 101, 93),
-                  ),
-                ),
-              ),
-              Container(
-                height: 200,
-                padding: EdgeInsets.only(left: 10),
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: 5,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 15),
-                      child: Container(
-                        padding: EdgeInsets.only(left: 7, right: 7),
-                        height: 150,
-                        width: 170,
-                        margin: EdgeInsets.only(bottom: 20),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          // color: Colors.white,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          // textBaseline: TextBaseline.ideographic,
-
+              check
+                  ? Container(
+                      height: 250,
+                      child: GridView.count(
+                          crossAxisCount: 4,
+                          shrinkWrap: true,
+                          mainAxisSpacing: 20,
+                          crossAxisSpacing: 8,
+                          childAspectRatio: .8,
                           children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.asset(
-                                hall1,
-                                height: 105,
-                                fit: BoxFit.cover,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Vendorlist()));
+                              },
+                              child: cardItems(
+                                name: "Vendor",
+                                photo: "asset/person.png",
+                                imageheight: 30,
+                                imagewidth: 30,
                               ),
                             ),
-                            SizedBox(
-                              height: 10,
+                            cardItems(name: "Venue", photo: "asset/venue2.png"),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Photographyvendor()));
+                              },
+                              child: cardItems(
+                                  name: "Photo",
+                                  photo: "asset/photo-camera_5472910.png"),
                             ),
-                            Text(
-                              "make up",
+                            cardItems(
+                                name: "Make up",
+                                photo: "asset/cream_8337970.png"),
+                            cardItems(
+                                name: "Flower",
+                                photo: "asset/flower.png",
+                                imageheight: 45,
+                                imagewidth: 45),
+                            cardItems(
+                                name: "Food ",
+                                photo: "asset/catering.png",
+                                imageheight: 45,
+                                imagewidth: 45),
+                            cardItems(
+                                name: "Decoration ",
+                                photo: "asset/decoration.png"),
+                            cardItems(
+                                name: "cake ",
+                                photo: "asset/wedding-cake_5168732.png"),
+                          ]),
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                            child: Text(
+                              "Tasks",
                               style: TextStyle(
-                                fontSize: 17,
+                                fontSize: 21,
+                                height: 3,
                                 fontFamily: 'Poppins-Medium',
                                 fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(
-                                  255,
-                                  21,
-                                  101,
-                                  93,
-                                ),
+                                color: Color.fromARGB(255, 21, 101, 93),
                               ),
                             ),
-                            SizedBox(
-                              height: 5,
+                          ),
+                          Container(
+                            height: 200,
+                            padding: EdgeInsets.only(left: 10),
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 5,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: const EdgeInsets.only(right: 15),
+                                  child: Container(
+                                    padding: EdgeInsets.only(left: 7, right: 7),
+                                    height: 150,
+                                    width: 170,
+                                    margin: EdgeInsets.only(bottom: 20),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      // color: Colors.white,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      // textBaseline: TextBaseline.ideographic,
+
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.asset(
+                                            hall1,
+                                            height: 105,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                        Text(
+                                          "make up",
+                                          style: TextStyle(
+                                            fontSize: 17,
+                                            fontFamily: 'Poppins-Medium',
+                                            fontWeight: FontWeight.w500,
+                                            color: Color.fromARGB(
+                                              255,
+                                              21,
+                                              101,
+                                              93,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          "Pending",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: Colors.grey[700],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                            Text(
-                              "Pending",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey[700],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
+                          ),
+                        ]),
               ListTile(
                 leading: Text("Recent Events"),
                 trailing: Text("See All "),

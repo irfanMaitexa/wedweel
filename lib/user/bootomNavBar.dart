@@ -12,7 +12,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
   int _selectedIndex = 0;
 
   static List<Widget> _widgetOptions = <Widget>[
-    Userfirst(),
+    Userfirst(
+      check: false,
+    ),
     Vendoritemsuser(),
     Text('Profile Page'),
   ];
@@ -54,7 +56,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
             inactiveColorPrimary: Colors.black,
           ),
         ],
-        navBarStyle: NavBarStyle.style1, 
+        navBarStyle: NavBarStyle.style1,
       ),
     );
   }
