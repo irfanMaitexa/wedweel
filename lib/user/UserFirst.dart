@@ -4,11 +4,9 @@ import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 import 'package:intl/intl.dart';
 import 'package:wedweel/user/UserHome/CardSectionGrid.dart';
 
-
 class Userfirst extends StatelessWidget {
   final bool check;
   Userfirst({required this.check});
-  
 
   String remainingDays(DateTime targetDate) {
     final now = DateTime.now();
@@ -37,14 +35,18 @@ class Userfirst extends StatelessWidget {
                 //     height: 25, width: 25, fit: BoxFit.cover),
                 title: Text(
                   remainingDays(fixedDate),
-                  style: TextStyle(fontSize: 18, color: Colors.red),
+                  style: TextStyle(fontSize: 18, color: Colors.teal),
                 ),
                 subtitle: Text(
                   'Wedding Date: ${formatDate(fixedDate)}',
                   style: TextStyle(fontSize: 14, color: Colors.grey),
                 ),
-                trailing: Image.asset("asset/interface.png",
-                    height: 40, width: 40, fit: BoxFit.cover),
+                // trailing:
+                trailing: Icon(
+                  Icons.search,
+                  color: Colors.teal,
+                  size: 35,
+                ),
               ),
               SizedBox(
                 height: 40,

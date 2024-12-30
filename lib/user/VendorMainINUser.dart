@@ -70,7 +70,7 @@ class Vendormaininuser extends StatelessWidget {
                   ),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      color: Colors.grey[300]),
+                      color: Color.fromARGB(255, 178, 215, 181)),
                   child: Column(
                     children: [
                       Container(

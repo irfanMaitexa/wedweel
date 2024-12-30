@@ -13,7 +13,8 @@ class VendorHome extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
-        backgroundColor: Colors.white,
+      
+       
         title: Text(
           "Vendor Home",
           style: TextStyle(

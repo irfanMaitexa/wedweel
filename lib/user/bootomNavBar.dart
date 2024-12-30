@@ -13,7 +13,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   static List<Widget> _widgetOptions = <Widget>[
     Userfirst(
-      check: true,
+      check: false,
     ),
     Vendoritemsuser(),
     Text('Profile Page'),
