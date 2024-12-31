@@ -24,6 +24,8 @@ import 'package:wedweel/user/bootomNavBar.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
 import 'package:wedweel/user/profile/UserProfile.dart';
+import 'package:wedweel/user/profile/Wishlist/Wishlist.dart';
+import 'package:wedweel/user/profile/editProfile/EditUserProfile.dart';
 import 'package:wedweel/user/userphotography/photographyVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/EditProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/PolicyProfileVendor.dart';
@@ -68,7 +70,7 @@ void main() async {
           //Manageprofile()
           //Manageblogs()
           // Blogdetails()
-            // VendorHome()
+          // VendorHome()
           //  ServiceVendor()
           //  ServiceFirstScreen()
           // Addservicevendor()
@@ -85,11 +87,12 @@ void main() async {
           // Userfirst()
           //  Userblogs()
           //Vendorlist()
-         BottomNavBar()
-          //Vendoritemsuser()
-          //Photographyvendor()
-          //Venue()
-         
-          
-          ));
+          BottomNavBar()
+      //Vendoritemsuser()
+      //Photographyvendor()
+      //Venue()
+      //EditUserProfile()
+      //Wishlist()
+
+      ));
 }
