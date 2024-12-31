@@ -28,7 +28,7 @@ class Decorationdeatils extends StatelessWidget {
             vendorimage: decoration2,
             price: '17000',
             vendordescription:
-                'Welcome to DK Decoration, your premier choice for transforming any event into a breathtaking experience. Based in Kochi, our talented team specializes in creating stunning and unique decorations for weddings, corporate events, and personal celebrations. We use a blend of creativity and attention to detail to craft beautiful settings that reflect your style and vision. From elegant floral arrangements to intricate lighting designs, DK Decoration ensures that every aspect of your event is picture-perfect. Let us bring your dream event to life with our exceptional decoration services.'),
+                'Transform your event with DK Decoration. Our expert team in Kochi creates stunning, personalized decorations for weddings, corporate events, and celebrations. From elegant floral arrangements to intricate lighting, we ensure every detail is perfect. Make your event unforgettable with DK Decoration.',),
       ),
     );
   }

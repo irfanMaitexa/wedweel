@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 import 'package:wedweel/user/UserFirst.dart';
 import 'package:wedweel/user/UserHome/VendoritemsUser.dart';
+import 'package:wedweel/user/profile/UserProfile.dart';
 
 class BottomNavBar extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       check: false,
     ),
     Vendoritemsuser(),
-    Text('Profile Page'),
+    UserProfile(),
   ];
 
   // Function to switch pages based on the selected index

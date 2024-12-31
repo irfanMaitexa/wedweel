@@ -23,6 +23,7 @@ import 'package:wedweel/user/bootomNavBar.dart';
 
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
+import 'package:wedweel/user/profile/UserProfile.dart';
 import 'package:wedweel/user/userphotography/photographyVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/EditProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/PolicyProfileVendor.dart';
@@ -88,6 +89,7 @@ void main() async {
           //Vendoritemsuser()
           //Photographyvendor()
           //Venue()
+         
           
           ));
 }
