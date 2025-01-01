@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:wedweel/user/profile/Wishlist/Wishlist.dart';
+import 'package:wedweel/user/profile/bookings/UserBooking.dart';
 import 'package:wedweel/user/profile/editProfile/EditUserProfile.dart';
+import 'package:wedweel/user/profile/privacyPolicy/PrivacyPolicyUser.dart';
 
 class UserProfile extends StatelessWidget {
   Widget listContainer({required IconData iconleading, required String name}) {
@@ -103,15 +105,24 @@ class UserProfile extends StatelessWidget {
                         iconleading: Icons.person, name: "Edit Profile"),
                   ),
                   GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Wishlist()),
+                        );
+                      },
+                      child: listContainer(
+                          iconleading: Icons.favorite, name: 'Wishlist')),
+                  GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Wishlist()),
+                        MaterialPageRoute(builder: (context) => Userbooking()),
                       );
                     },
-                    child: listContainer(iconleading: Icons.favorite, name: 'Wishlist')),
-                  listContainer(
-                      iconleading: Icons.view_kanban, name: 'my Bookings'),
+                    child: listContainer(
+                        iconleading: Icons.view_kanban, name: 'my Bookings'),
+                  ),
                 ],
               ),
             ),
@@ -138,12 +149,21 @@ class UserProfile extends StatelessWidget {
                   right: 20,
                 ),
                 decoration: BoxDecoration(
-                    color: Color.fromARGB(255, 249, 255, 251) ,
+                    color: Color.fromARGB(255, 249, 255, 251),
                     borderRadius: BorderRadius.circular(20)),
                 child: Column(
                   children: [
-                    listContainer(
-                        iconleading: Icons.security, name: 'Privacy Policy'),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Privacypolicyuser()),
+                        );
+                      },
+                      child: listContainer(
+                          iconleading: Icons.security, name: 'Privacy Policy'),
+                    ),
                     listContainer(iconleading: Icons.logout, name: 'Logout'),
                   ],
                 ),
