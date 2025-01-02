@@ -14,7 +14,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
   static List<Widget> _widgetOptions = <Widget>[
     Userfirst(
-      check: false,
+      check: true,
     ),
     Vendoritemsuser(),
     UserProfile(),

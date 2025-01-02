@@ -53,12 +53,11 @@ void main() async {
   );
   runApp(MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Login Demo',
       theme: ThemeData(
         fontFamily: 'Poppins',
       ),
       // debugShowCheckedModeBanner: false,
-      home: //LoginUserPage(),
+      home:   LoginUserPage(),
           //SignUpUserPage(),
           // AdminHome(),
           // Loginvendor(),
@@ -89,14 +88,14 @@ void main() async {
           // Userfirst()
           //  Userblogs()
           //Vendorlist()
-          BottomNavBar()
+          //BottomNavBar()
       //Vendoritemsuser()
       //Photographyvendor()
       //Venue()
       //EditUserProfile()
       //Wishlist()
-     // Userbooking()
-     //Privacypolicyuser()
+      // Userbooking()
+      //Privacypolicyuser()
 
       ));
 }

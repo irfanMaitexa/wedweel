@@ -37,6 +37,7 @@ class _LayerThree extends State<LayerThree> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController fullname = TextEditingController();
+  bool isload = false;
   Widget build(BuildContext context) {
     bool isChecked = false;
 
@@ -133,13 +134,20 @@ class _LayerThree extends State<LayerThree> {
                 bottom: 160,
                 right: 33,
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      UserAuthServices().SignUp(
+                      setState(() {
+                        isload = true;
+                      });
+                      await UserAuthServices().SignUp(
                           email: email.text,
                           password: password.text,
                           fullname: fullname.text,
                           context: context);
+
+                      setState(() {
+                        isload = false;
+                      });
                     }
                   },
                   child: Container(
@@ -151,18 +159,22 @@ class _LayerThree extends State<LayerThree> {
                           topLeft: Radius.circular(20),
                           bottomRight: Radius.circular(20)),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 6.0),
-                      child: Text(
-                        'Sign Up',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
+                    child: isload
+                        ? CircularProgressIndicator(
                             color: Colors.white,
-                            fontSize: 18,
-                            fontFamily: 'Poppins-Medium',
-                            fontWeight: FontWeight.w400),
-                      ),
-                    ),
+                          )
+                        : Padding(
+                            padding: const EdgeInsets.only(top: 6.0),
+                            child: Text(
+                              'Sign Up',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontFamily: 'Poppins-Medium',
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ),
                   ),
                 ),
               ),

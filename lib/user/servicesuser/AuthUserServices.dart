@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wedweel/user/UserFirst.dart';
+import 'package:wedweel/user/bootomNavBar.dart';
 
 class UserAuthServices {
   final firebaseauth = FirebaseAuth.instance;
   final firebasestore = FirebaseFirestore.instance;
-  void Signin(
+  Future<void> Signin(
       {required String email,
       required String password,
       required BuildContext context}) async {
@@ -15,6 +17,11 @@ class UserAuthServices {
       await firebaseauth.signInWithEmailAndPassword(
           email: email, password: password);
 
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomNavBar()),
+      );
+
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Login Successfull')));
     } on FirebaseAuthException catch (e) {
@@ -23,7 +30,7 @@ class UserAuthServices {
     }
   }
 
-  void SignUp(
+  Future<void> SignUp(
       {required String email,
       required String password,
       required String fullname,
@@ -37,7 +44,10 @@ class UserAuthServices {
           .doc(user.user!.uid)
           .set({'email': email, 'password': password, 'fullname': fullname});
 
-      print(user.user!.uid);
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomNavBar()),
+      );
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('Sign Up Successfull')));
     } on FirebaseAuthException catch (e) {
