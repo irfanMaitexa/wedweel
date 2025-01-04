@@ -189,56 +189,54 @@ class _UserProfileState extends State<UserProfile> {
                               ],
                             ),
                           ),
-                          Expanded(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                                right: 20,
-                              ),
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 249, 255, 251),
-                                  borderRadius: BorderRadius.circular(20)),
-                              child: Column(
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Privacypolicyuser()),
-                                      );
-                                    },
-                                    child: listContainer(
-                                        iconleading: Icons.security,
-                                        name: 'Privacy Policy'),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () async {
-                                      setState(() {
-                                        isLoading = true;
-                                      });
+                          Container(
+                            margin: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                            ),
+                            decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 249, 255, 251),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Privacypolicyuser()),
+                                    );
+                                  },
+                                  child: listContainer(
+                                      iconleading: Icons.security,
+                                      name: 'Privacy Policy'),
+                                ),
+                                GestureDetector(
+                                  onTap: () async {
+                                    setState(() {
+                                      isLoading = true;
+                                    });
 
-                                      await FirebaseAuth.instance.signOut();
-                                      if (context.mounted) {
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    LoginUserPage()),
-                                            (route) => false);
-                                      }
+                                    await FirebaseAuth.instance.signOut();
+                                    if (context.mounted) {
+                                      Navigator.pushAndRemoveUntil(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LoginUserPage()),
+                                          (route) => false);
+                                    }
 
-                                      setState(() {
-                                        isLoading = false;
-                                      });
-                                    },
-                                    child: listContainer(
-                                        iconleading: Icons.logout,
-                                        name: 'Logout'),
-                                  ),
-                                ],
-                              ),
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                  },
+                                  child: listContainer(
+                                      iconleading: Icons.logout,
+                                      name: 'Logout'),
+                                ),
+                              ],
                             ),
                           ),
                         ],

@@ -45,6 +45,7 @@ import 'package:wedweel/venders/screen/BookingScreen/PaymentVendor.dart';
 
 import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/venders/screen/SignUpVendor.dart';
+import 'package:wedweel/venders/screen/SignUpsecondPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,12 +57,12 @@ void main() async {
       theme: ThemeData(
         fontFamily: 'Poppins',
       ),
-      // debugShowCheckedModeBanner: false,
-      home:   LoginUserPage(),
+      // debugShowCheckedModeBanner: false, 
+      home:  // LoginUserPage(),
           //SignUpUserPage(),
           // AdminHome(),
           // Loginvendor(),
-          // Signupvendor(),
+           Signupvendor(),
           //Managevendor()
           //Managevendordetails(),
           //Manageuser()
@@ -71,7 +72,7 @@ void main() async {
           //Manageprofile()
           //Manageblogs()
           // Blogdetails()
-          // VendorHome()
+           //VendorHome()
           //  ServiceVendor()
           //  ServiceFirstScreen()
           // Addservicevendor()
@@ -96,6 +97,7 @@ void main() async {
       //Wishlist()
       // Userbooking()
       //Privacypolicyuser()
+    //  Signupsecondpage()
 
       ));
 }

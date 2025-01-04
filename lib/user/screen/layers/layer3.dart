@@ -146,10 +146,7 @@ class _LayerThree extends State<LayerThree> {
                         setState(() {
                           isload = true;
                         });
-                     await   UserAuthServices().Signin(
-                            email: email.text,
-                            password: password.text,
-                            context: context);
+                     
                         setState(() {
                           isload = false;
                         });

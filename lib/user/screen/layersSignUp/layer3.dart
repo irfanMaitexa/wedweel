@@ -5,6 +5,7 @@ import 'package:flutter/rendering.dart';
 import 'package:wedweel/config.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/servicesuser/AuthUserServices.dart';
+import 'package:wedweel/venders/screen/SignUpsecondPage.dart';
 
 class LayerThree extends StatefulWidget {
   @override
@@ -136,18 +137,11 @@ class _LayerThree extends State<LayerThree> {
                 child: GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
-                      setState(() {
-                        isload = true;
-                      });
-                      await UserAuthServices().SignUp(
-                          email: email.text,
-                          password: password.text,
-                          fullname: fullname.text,
-                          context: context);
-
-                      setState(() {
-                        isload = false;
-                      });
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Signupsecondpage()),
+                      );
                     }
                   },
                   child: Container(
@@ -176,59 +170,6 @@ class _LayerThree extends State<LayerThree> {
                             ),
                           ),
                   ),
-                ),
-              ),
-              Positioned(
-                  bottom: 140,
-                  left: 59,
-                  child: Container(
-                    height: 0.5,
-                    width: 310,
-                    color: inputBorder,
-                  )),
-              Positioned(
-                bottom: 50,
-                left: 120,
-                right: 120,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: 59,
-                      height: 58,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: signInBox),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20))),
-                      child: Image.asset(
-                        'asset/icon_google.png',
-                        width: 20,
-                        height: 21,
-                      ),
-                    ),
-                    Text(
-                      'or',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontFamily: 'Poppins-Regular',
-                          color: hintText),
-                    ),
-                    Container(
-                      width: 59,
-                      height: 58,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: signInBox),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20))),
-                      child: Image.asset(
-                        'asset/icon_apple.png',
-                        width: 20,
-                        height: 21,
-                      ),
-                    ),
-                  ],
                 ),
               ),
               Positioned(

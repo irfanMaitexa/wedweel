@@ -3,11 +3,11 @@ import 'package:wedweel/user/screen/layersSignUp/layer1.dart';
 import 'package:wedweel/user/screen/layersSignUp/layer2.dart';
 import 'package:wedweel/user/screen/layersSignUp/layer3.dart';
 
-
 class Signupvendor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: BoxDecoration(
             image: DecorationImage(
@@ -30,7 +30,8 @@ class Signupvendor extends StatelessWidget {
                   ),
                 )),
             Positioned(top: 200, right: 0, bottom: 0, child: LayerOne()),
-            Positioned(top: 225, right: 0, bottom: 0, left: 20, child: LayerTwo()),
+            Positioned(
+                top: 225, right: 0, bottom: 0, left: 20, child: LayerTwo()),
             Positioned(top: 120, right: 0, bottom: 0, child: LayerThree()),
           ],
         ),
