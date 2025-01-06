@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:wedweel/AddCloudinaryImage.dart';
 import 'package:wedweel/user/UserFirst.dart';
 import 'package:wedweel/user/bootomNavBar.dart';
 import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
@@ -41,17 +42,20 @@ class Vendorservics {
       required String phone,
       required String address,
       required File document,
-      required File logo ,
-
+      required File logo,
       required BuildContext context}) async {
     try {
-      var user = await firebaseauth.createUserWithEmailAndPassword(
+      var vendor = await firebaseauth.createUserWithEmailAndPassword(
           email: email, password: password);
 
+      String? logoUrl = await uploadImageToCloudinary(logo);
+      print(logoUrl);
+      String ? documenturl = await uploadImageToCloudinary(document);
+      print(documenturl);
       await firebasestore
           .collection('vendor')
-          .doc(user.user!.uid)
-          .set({'email': email, 'password': password, 'fullname': fullname});
+          .doc(vendor.user!.uid)
+          .set({'email': email, 'password': password, 'fullname': fullname,"address":address,"phone":phone,"logo":logoUrl,"document":documenturl,"IsAdminApproved":false}); 
 
       Navigator.pushAndRemoveUntil(
         context,

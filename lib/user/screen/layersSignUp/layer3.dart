@@ -140,7 +140,7 @@ class _LayerThree extends State<LayerThree> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Signupsecondpage()),
+                            builder: (context) => Signupsecondpage(email: email.text,fullname: fullname.text,password: password.text,)),
                       );
                     }
                   },

@@ -2,12 +2,25 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wedweel/venders/vendorServics/VendorServics.dart';
 
 class Signupsecondpage extends StatelessWidget {
-  File? image;
-  Widget editProfile(
-      {String? labelname, String? hintname, IconData? iconprofile}) {
+  File? document, logo;
+
+  final String fullname;
+  final String email;
+  final String password;
+
+  Signupsecondpage(
+      {required this.fullname, required this.email, required this.password});
+
+      final TextEditingController address = TextEditingController();
+      final TextEditingController phone =TextEditingController();
+
+Widget editProfile(
+      {String? labelname, String? hintname, IconData? iconprofile,required TextEditingController? controller}) {
     return TextFormField(
+      controller:controller ,
       decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(27),
@@ -58,7 +71,7 @@ class Signupsecondpage extends StatelessWidget {
                               side: BorderSide(color: Colors.white),
                             )),
                         onPressed: () async {
-                          image = await uploadImage();
+                          logo = await uploadImage();
                         },
                         label: Icon(
                           Icons.camera_alt_outlined,
@@ -71,14 +84,14 @@ class Signupsecondpage extends StatelessWidget {
               height: 50,
             ),
             editProfile(
-                labelname: "Phone",
+                controller:phone,
                 hintname: "1234567890",
                 iconprofile: Icons.phone_android_outlined),
             SizedBox(
               height: 14,
             ),
             editProfile(
-                labelname: "Address",
+                controller: address,
                 hintname: "Calicut",
                 iconprofile: Icons.location_on_outlined),
             SizedBox(
@@ -86,7 +99,7 @@ class Signupsecondpage extends StatelessWidget {
             ),
             ElevatedButton.icon(
               onPressed: () async {
-                image = await uploadImage();
+                document = await uploadImage();
               },
               label: Text(
                 "Add Document",
@@ -109,7 +122,9 @@ class Signupsecondpage extends StatelessWidget {
               height: 30,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+              Vendorservics().SignUp(email: email, password: password, context: context, fullname: fullname, phone: phone.text, address: address.text, document: document!, logo: logo!,);
+              },
               child: Text(
                 "Sign Up",
                 style: TextStyle(
