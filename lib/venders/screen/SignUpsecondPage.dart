@@ -14,13 +14,16 @@ class Signupsecondpage extends StatelessWidget {
   Signupsecondpage(
       {required this.fullname, required this.email, required this.password});
 
-      final TextEditingController address = TextEditingController();
-      final TextEditingController phone =TextEditingController();
+  final TextEditingController address = TextEditingController();
+  final TextEditingController phone = TextEditingController();
 
-Widget editProfile(
-      {String? labelname, String? hintname, IconData? iconprofile,required TextEditingController? controller}) {
+  Widget editProfile(
+      {String? labelname,
+      String? hintname,
+      IconData? iconprofile,
+      required TextEditingController? controller}) {
     return TextFormField(
-      controller:controller ,
+      controller: controller,
       decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(27),
@@ -84,7 +87,7 @@ Widget editProfile(
               height: 50,
             ),
             editProfile(
-                controller:phone,
+                controller: phone,
                 hintname: "1234567890",
                 iconprofile: Icons.phone_android_outlined),
             SizedBox(
@@ -123,7 +126,33 @@ Widget editProfile(
             ),
             ElevatedButton(
               onPressed: () {
-              Vendorservics().SignUp(email: email, password: password, context: context, fullname: fullname, phone: phone.text, address: address.text, document: document!, logo: logo!,);
+                Vendorservics().SignUp(
+                  email: email,
+                  password: password,
+                  context: context,
+                  fullname: fullname,
+                  phone: phone.text,
+                  address: address.text,
+                  document: document!,
+                  logo: logo!,
+                );
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text('Success'),
+                      content: Text('You have registered successfully!'),
+                      actions: [
+                        TextButton(
+                          child: Text('OK'),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               child: Text(
                 "Sign Up",

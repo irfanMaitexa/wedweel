@@ -60,9 +60,9 @@ void main() async {
       // debugShowCheckedModeBanner: false, 
       home:  // LoginUserPage(),
           //SignUpUserPage(),
-          // AdminHome(),
+           AdminHome(),
           // Loginvendor(),
-           Signupvendor(),
+          // Signupvendor(),
           //Managevendor()
           //Managevendordetails(),
           //Manageuser()
@@ -71,7 +71,7 @@ void main() async {
           //LoginAdminPage()
           //Manageprofile()
           //Manageblogs()
-          // Blogdetails()
+          // Blogdetails() 
            //VendorHome()
           //  ServiceVendor()
           //  ServiceFirstScreen()

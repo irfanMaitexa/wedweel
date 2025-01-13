@@ -70,3 +70,4 @@ class Vendorservics {
     }
   }
 }
+Stream<QuerySnapshot> getvendor() => FirebaseFirestore.instance.collection('vendor').snapshots();
