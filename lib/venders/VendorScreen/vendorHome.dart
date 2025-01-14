@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/admin/screen/ManageBlogs.dart';
+import 'package:wedweel/main.dart';
 import 'package:wedweel/venders/VendorScreen/ReviewScreen/VendorReviewScreen.dart';
 
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/ServiceFirstScreenVendor.dart';
@@ -13,6 +15,7 @@ class VendorHome extends StatelessWidget {
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
       appBar: AppBar(
         surfaceTintColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
       
        
         title: Text(
@@ -40,7 +43,7 @@ class VendorHome extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                width: 18,
+                width: 18.w,
               ),
               Column(
                 children: [

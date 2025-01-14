@@ -2,9 +2,12 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/config.dart';
+import 'package:wedweel/main.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/servicesuser/AuthUserServices.dart';
+import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/venders/screen/SignUpsecondPage.dart';
 
 class LayerThree extends StatefulWidget {
@@ -140,13 +143,17 @@ class _LayerThree extends State<LayerThree> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => Signupsecondpage(email: email.text,fullname: fullname.text,password: password.text,)),
+                            builder: (context) => Signupsecondpage(
+                                  email: email.text,
+                                  fullname: fullname.text,
+                                  password: password.text,
+                                )),
                       );
                     }
                   },
                   child: Container(
-                    width: 99,
-                    height: 35,
+                    width: 99.w,
+                    height: 35.h,
                     decoration: BoxDecoration(
                       color: signInButton,
                       borderRadius: BorderRadius.only(
@@ -174,8 +181,8 @@ class _LayerThree extends State<LayerThree> {
               ),
               Positioned(
                 bottom: 0,
-                left: 59,
-                right: 59,
+                left: 59.w,
+                right: 59.w,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -188,7 +195,11 @@ class _LayerThree extends State<LayerThree> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => Loginvendor()),
+                        );
                       },
                       child: Text(
                         'Sign In',

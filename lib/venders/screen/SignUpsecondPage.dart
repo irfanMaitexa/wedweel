@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/venders/vendorServics/VendorServics.dart';
 
 class Signupsecondpage extends StatelessWidget {
@@ -146,7 +147,12 @@ class Signupsecondpage extends StatelessWidget {
                         TextButton(
                           child: Text('OK'),
                           onPressed: () {
-                            Navigator.of(context).pop();
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Loginvendor()),
+                              (route) => false,
+                            );
                           },
                         ),
                       ],

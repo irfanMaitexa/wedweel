@@ -1,10 +1,13 @@
 import 'dart:ffi';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:wedweel/config.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
 import 'package:wedweel/user/servicesuser/AuthUserServices.dart';
+import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
 
 class LayerThree extends StatefulWidget {
   LayerThree({super.key});
@@ -106,7 +109,7 @@ class _LayerThree extends State<LayerThree> {
                   )),
               Positioned(
                   right: 30,
-                  bottom: 220,
+                  top: 360,
                   child: Text(
                     'Forgot Password',
                     style: TextStyle(
@@ -141,12 +144,14 @@ class _LayerThree extends State<LayerThree> {
                   bottom: 160,
                   right: 60,
                   child: GestureDetector(
-                    onTap: () async{
+                    onTap: () async {
                       if (_formKey.currentState!.validate()) {
                         setState(() {
                           isload = true;
                         });
-                     
+                        await _checkVerificationStatus(
+                            context, email.text.trim(), password.text.trim());
+
                         setState(() {
                           isload = false;
                         });
@@ -266,5 +271,52 @@ class _LayerThree extends State<LayerThree> {
         ),
       ),
     );
+  }
+}
+
+Future<void> _checkVerificationStatus(
+    context, String email, String password) async {
+  final userCreaditional = await FirebaseAuth.instance
+      .signInWithEmailAndPassword(email: email, password: password);
+  final vendorData = await FirebaseFirestore.instance
+      .collection('vendor')
+      .doc(userCreaditional.user?.uid)
+      .get();
+
+  print(userCreaditional.user?.uid);
+  print('9999999999999999999999999999999999');
+
+  if (vendorData.exists && userCreaditional.user != null) {
+    final verificationStatus = vendorData.get('IsAdminApproved');
+    if (verificationStatus == false) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Verification Pending'),
+            content: Text(
+                'Your verification is pending. Please wait for the admin to approve your account.'),
+            actions: [
+              ElevatedButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+
+      
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => VendorHome()),(route) => false,
+      );
+    }
+  } else {
+   
+    // Handle the case where the vendor data does not exist
   }
 }

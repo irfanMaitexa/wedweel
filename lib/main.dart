@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/admin/LoginScreen/LoginAdmin.dart';
 import 'package:wedweel/admin/screen/BlogDetails.dart';
 import 'package:wedweel/admin/screen/ManageBlogs.dart';
@@ -52,52 +53,59 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Poppins',
-      ),
-      // debugShowCheckedModeBanner: false, 
-      home:  // LoginUserPage(),
-          //SignUpUserPage(),
-           AdminHome(),
-          // Loginvendor(),
-          // Signupvendor(),
-          //Managevendor()
-          //Managevendordetails(),
-          //Manageuser()
-          //Managereview(),
-          //Managecompliant()
-          //LoginAdminPage()
-          //Manageprofile()
-          //Manageblogs()
-          // Blogdetails() 
-           //VendorHome()
-          //  ServiceVendor()
-          //  ServiceFirstScreen()
-          // Addservicevendor()
+  runApp(ScreenUtilInit(
+    designSize: Size(384, 805),
+    minTextAdapt: true,
+    builder: (context, child) {
+    
 
-          // Vendorprofile()
-          //Vendorprofileinfo()
-          // Editprofilevendor()
-          //PolicyProfileVendor()
-          //VendorReviewScreen()
-          //FirstScreenBooking()
-          //Bookingvendor()
-          // Paymentvendor(),
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Poppins',
+        ),
+        // debugShowCheckedModeBanner: false,
+        home: // LoginUserPage(),
+            //SignUpUserPage(),
+            // AdminHome(),
+            // Loginvendor(),
+            Signupvendor(),
+        //Managevendor()
+        //Managevendordetails(),
+        //Manageuser()
+        //Managereview(),
+        //Managecompliant()
+        //LoginAdminPage()
+        //Manageprofile()
+        //Manageblogs()
+        // Blogdetails()
+        //VendorHome()
+        //  ServiceVendor()
+        //  ServiceFirstScreen()
+        // Addservicevendor()
 
-          // Userfirst()
-          //  Userblogs()
-          //Vendorlist()
-         // BottomNavBar()
-      //Vendoritemsuser()
-      //Photographyvendor()
-      //Venue()
-      //EditUserProfile()
-      //Wishlist()
-      // Userbooking()
-      //Privacypolicyuser()
-    //  Signupsecondpage()
+        // Vendorprofile()
+        //Vendorprofileinfo()
+        // Editprofilevendor()
+        //PolicyProfileVendor()
+        //VendorReviewScreen()
+        //FirstScreenBooking()
+        //Bookingvendor()
+        // Paymentvendor(),
 
-      ));
+        // Userfirst()
+        //  Userblogs()
+        //Vendorlist()
+        // BottomNavBar()
+        //Vendoritemsuser()
+        //Photographyvendor()
+        //Venue()
+        //EditUserProfile()
+        //Wishlist()
+        // Userbooking()
+        //Privacypolicyuser()
+        //  Signupsecondpage()
+      );
+    },
+  ));
 }
