@@ -1,47 +1,45 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:wedweel/venders/VendorScreen/ServiceScreen/AddServiceVendor.dart';
-import 'package:wedweel/venders/VendorScreen/ServiceScreen/DetailPageVendor.dart';
-import 'package:wedweel/venders/VendorScreen/ServiceScreen/EditServiceVendor.dart';
+import 'AddServiceVendor.dart';
+import 'DetailPageVendor.dart';
+import 'EditServiceVendor.dart';
 
 class ServiceFirstScreen extends StatelessWidget {
-  bool isLoading = false;
   Widget screenContainer({
     required String name,
     required String image,
+    required VoidCallback onTap,
   }) {
-    return Container(
-      height: 90,
-      width: 50,
-      // margin: EdgeInsets.only(
-      //   left: 10,
-      // ),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Color.fromARGB(255, 255, 255, 255),
-        borderRadius: BorderRadius.circular(20),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          Image.asset(
-            image,
-            fit: BoxFit.cover,
-            height: 95,
-          ),
-          Text(
-            name,
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: 'Poppins-Regular',
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 90,
+        width: 50,
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 255, 255, 255),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox(height: 10),
+            Image.asset(
+              image,
+              fit: BoxFit.cover,
+              height: 95,
             ),
-          ),
-        ],
+            Text(
+              name,
+              style: TextStyle(
+                fontSize: 16,
+                fontFamily: 'Poppins-Regular',
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -49,96 +47,101 @@ class ServiceFirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String vendorId = FirebaseAuth.instance.currentUser!.uid;
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 237, 250, 244),
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
       ),
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
-      body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('services')
-              .where('vendor_id', isEqualTo: vendorId)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              print('waiting');
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text('something went wrong'),
-              );
-            } else {
-              final services = snapshot.data!.docs;
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('services')
+            .where('vendor_id', isEqualTo: vendorId)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Something went wrong.'));
+          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('No services available.'));
+          } else {
+            final services = snapshot.data!.docs;
 
-              return isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 80,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Text(
-                            "My Service",
-                            style: TextStyle(
-                                fontSize: 27,
-                                color: Color.fromARGB(255, 21, 101, 93)),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 25,
-                        ),
-                        GridView.count(
-                          padding: EdgeInsets.all(15),
-                          crossAxisCount: 2,
-                          shrinkWrap: true,
-                          mainAxisSpacing: 17,
-                          crossAxisSpacing: 17,
-                          children: [
-                            GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              Detailpagevendor()));
-                                },
-                                child: screenContainer(
-                                    name: "Product Details",
-                                    image: "asset/information_14875512.png")),
-                            InkWell(
-                                splashColor: Colors.greenAccent,
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              AddServiceVendor()));
-                                },
-                                child: screenContainer(
-                                    name: "Add Service",
-                                    image: "asset/essay_3253267.png")),
-                            InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              EditServiceVendor(
-                                                serviceId: services[0].id,
-                                              )));
-                                },
-                                child: screenContainer(
-                                    name: "Edit Service",
-                                    image: 'asset/engineering_13337559.png')),
-                          ],
-                        ),
-                      ],
-                    );
-            }
-          }),
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 80),
+                Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Text(
+                    "My Service",
+                    style: TextStyle(
+                      fontSize: 27,
+                      color: Color.fromARGB(255, 21, 101, 93),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 25),
+                Expanded(
+                  child: GridView.count(
+                    padding: EdgeInsets.all(15),
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 17,
+                    crossAxisSpacing: 17,
+                    children: [
+                      // Static Actions
+                      screenContainer(
+                        name: "Product Details",
+                        image: "asset/information_14875512.png",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Detailpagevendor(),
+                            ),
+                          );
+                        },
+                      ),
+                      screenContainer(
+                        name: "Add Service",
+                        image: "asset/essay_3253267.png",
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AddServiceVendor(),
+                            ),
+                          );
+                        },
+                      ),
+                      // Dynamic Service Items
+                      ...services.map((service) {
+                        final serviceId = service.id;
+
+                        return screenContainer(
+                          name: "Edit Service",
+                          image: 'asset/engineering_13337559.png',
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditServiceVendor(serviceId: serviceId),
+                              ),
+                            );
+                          },
+                        );
+                      }).toList(),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          }
+        },
+      ),
     );
   }
 }

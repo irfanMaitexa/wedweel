@@ -27,7 +27,8 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
   @override
   void initState() {
     super.initState();
-    currentVendorId = FirebaseAuth.instance.currentUser?.uid; // Current vendor's ID
+    currentVendorId =
+        FirebaseAuth.instance.currentUser?.uid; // Current vendor's ID
     fetchServiceData();
   }
 
@@ -38,7 +39,8 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
           .doc(widget.serviceId)
           .get();
 
-      if (docSnapshot.exists && docSnapshot.data()?['vendor_id'] == currentVendorId) {
+      if (docSnapshot.exists &&
+          docSnapshot.data()?['vendor_id'] == currentVendorId) {
         final data = docSnapshot.data()!;
         serviceNameController.text = data['name'] ?? '';
         servicePriceController.text = data['price'] ?? '';
@@ -129,6 +131,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         surfaceTintColor: Colors.transparent,
       ),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
@@ -190,6 +193,10 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
               TextField(
                 controller: servicePriceController,
                 decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Colors.teal, width: 1),
+                  ),
                   hintText: "Service Price",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -201,6 +208,10 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
                 controller: serviceDescriptionController,
                 maxLines: 6,
                 decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Colors.teal, width: 1),
+                  ),
                   hintText: "Describe your service",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),

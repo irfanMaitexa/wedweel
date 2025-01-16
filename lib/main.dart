@@ -70,7 +70,7 @@ void main() async {
         home: // LoginUserPage(),
             //SignUpUserPage(),
             // AdminHome(),
-             Loginvendor(),
+            Loginvendor(),
             // Signupvendor(),
         //Managevendor()
         //Managevendordetails(),
