@@ -1,9 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/AddServiceVendor.dart';
+import 'package:wedweel/venders/VendorScreen/ServiceScreen/DetailPageVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/EditServiceVendor.dart';
 
 class ServiceFirstScreen extends StatelessWidget {
+  bool isLoading = false;
   Widget screenContainer({
     required String name,
     required String image,
@@ -44,64 +48,97 @@ class ServiceFirstScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String vendorId = FirebaseAuth.instance.currentUser!.uid;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
       ),
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 80,
-          ),
-          Padding(
-            padding: const EdgeInsets.all(15),
-            child: Text(
-              "My Service",
-              style: TextStyle(
-                  fontSize: 27, color: Color.fromARGB(255, 21, 101, 93)),
-            ),
-          ),
-          SizedBox(
-            height: 25,
-          ),
-          GridView.count(
-            padding: EdgeInsets.all(15),
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            mainAxisSpacing: 17,
-            crossAxisSpacing: 17,
-            children: [
-              GestureDetector(
-                  onTap: () {},
-                  child: screenContainer(
-                      name: "Product Details",
-                      image: "asset/information_14875512.png")),
-              InkWell(
-                  splashColor: Colors.greenAccent,
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AddServiceVendor()));
-                  },
-                  child: screenContainer(
-                      name: "Add Service", image: "asset/essay_3253267.png")),
-              InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => EditServiceVendor(serviceId: ,)));
-                  },
-                  child: screenContainer(
-                      name: "Edit Service",
-                      image: 'asset/engineering_13337559.png')),
-            ],
-          ),
-        ],
-      ),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('services')
+              .where('vendor_id', isEqualTo: vendorId)
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              print('waiting');
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('something went wrong'),
+              );
+            } else {
+              final services = snapshot.data!.docs;
+
+              return isLoading
+                  ? Center(child: CircularProgressIndicator())
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          height: 80,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(15),
+                          child: Text(
+                            "My Service",
+                            style: TextStyle(
+                                fontSize: 27,
+                                color: Color.fromARGB(255, 21, 101, 93)),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 25,
+                        ),
+                        GridView.count(
+                          padding: EdgeInsets.all(15),
+                          crossAxisCount: 2,
+                          shrinkWrap: true,
+                          mainAxisSpacing: 17,
+                          crossAxisSpacing: 17,
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              Detailpagevendor()));
+                                },
+                                child: screenContainer(
+                                    name: "Product Details",
+                                    image: "asset/information_14875512.png")),
+                            InkWell(
+                                splashColor: Colors.greenAccent,
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              AddServiceVendor()));
+                                },
+                                child: screenContainer(
+                                    name: "Add Service",
+                                    image: "asset/essay_3253267.png")),
+                            InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              EditServiceVendor(
+                                                serviceId: services[0].id,
+                                              )));
+                                },
+                                child: screenContainer(
+                                    name: "Edit Service",
+                                    image: 'asset/engineering_13337559.png')),
+                          ],
+                        ),
+                      ],
+                    );
+            }
+          }),
     );
   }
 }
