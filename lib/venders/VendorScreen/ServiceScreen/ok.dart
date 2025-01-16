@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/AddServiceVendor.dart';
+import 'package:wedweel/venders/VendorScreen/ServiceScreen/DetailPageVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/EditServiceVendor.dart';
 
 class ServiceFirstScreen extends StatelessWidget {
@@ -74,7 +75,11 @@ class ServiceFirstScreen extends StatelessWidget {
             crossAxisSpacing: 17,
             children: [
               GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.push(
+                      context,MaterialPageRoute(builder: (context)=> Detailpagevendor())
+                    );
+                  },
                   child: screenContainer(
                       name: "Product Details",
                       image: "asset/information_14875512.png")),
@@ -105,3 +110,4 @@ class ServiceFirstScreen extends StatelessWidget {
     );
   }
 }
+

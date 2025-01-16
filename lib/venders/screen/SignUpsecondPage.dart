@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wedweel/main.dart';
 import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/venders/vendorServics/VendorServics.dart';
 
@@ -50,7 +52,7 @@ class Signupsecondpage extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: 30,
+              height: 30.h,
             ),
             Stack(
               children: [
@@ -85,21 +87,21 @@ class Signupsecondpage extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 50,
+              height: 50.h,
             ),
             editProfile(
                 controller: phone,
                 hintname: "1234567890",
                 iconprofile: Icons.phone_android_outlined),
             SizedBox(
-              height: 14,
+              height: 14.h,
             ),
             editProfile(
                 controller: address,
                 hintname: "Calicut",
                 iconprofile: Icons.location_on_outlined),
             SizedBox(
-              height: 14,
+              height: 14.h,
             ),
             ElevatedButton.icon(
               onPressed: () async {
@@ -117,13 +119,13 @@ class Signupsecondpage extends StatelessWidget {
               icon: Icon(Icons.document_scanner, color: Colors.black),
               style: ElevatedButton.styleFrom(
                   minimumSize: Size(310, 50),
-                  backgroundColor: const Color.fromARGB(190, 255, 255, 255),
+                  backgroundColor: Color.fromARGB(255, 235, 250, 244),
                   shape: RoundedRectangleBorder(
                       side: BorderSide(color: Color.fromARGB(255, 21, 101, 93)),
                       borderRadius: BorderRadius.circular(30))),
             ),
             SizedBox(
-              height: 30,
+              height: 30.h,
             ),
             ElevatedButton(
               onPressed: () {

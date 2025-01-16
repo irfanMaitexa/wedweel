@@ -1,13 +1,58 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class Editprofilevendor extends StatelessWidget {
+class Editprofilevendor extends StatefulWidget {
+  final String fullname;
+  final String email;
+  final phone;
+  final address;
+  final logo;
+  final document;
+  Editprofilevendor(
+      {super.key,
+      required this.fullname,
+      required this.email,
+      required this.phone,
+      required this.address,
+      required this.logo,
+      required this.document});
+
+  @override
+  State<Editprofilevendor> createState() => _EditprofilevendorState();
+}
+
+class _EditprofilevendorState extends State<Editprofilevendor> {
   File? image;
+  bool isLoading = false;
+  final String vendorid = FirebaseAuth.instance.currentUser!.uid;
+
+  TextEditingController fullnameController = TextEditingController();
+
+  TextEditingController emailController = TextEditingController();
+
+  TextEditingController phoneController = TextEditingController();
+
+  TextEditingController addressController = TextEditingController();
+  void initState() {
+    fullnameController.text = widget.fullname;
+    emailController.text = widget.email;
+    phoneController.text = widget.phone;
+    addressController.text = widget.address;
+
+    super.initState();
+  }
+
   Widget editProfile(
-      {String? labelname, String? hintname, IconData? iconprofile}) {
+      {String? labelname,
+      String? hintname,
+      IconData? iconprofile,
+      TextEditingController? controller}) {
     return TextFormField(
+      controller: controller,
       decoration: InputDecoration(
           focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(27),
@@ -37,7 +82,7 @@ class Editprofilevendor extends StatelessWidget {
             color: Color.fromARGB(255, 21, 101, 93),
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
       ),
       backgroundColor: Color.fromARGB(255, 237, 250, 244),
       body: Padding(
@@ -53,8 +98,9 @@ class Editprofilevendor extends StatelessWidget {
                   child: CircleAvatar(
                     radius: 50,
                     child: ClipOval(
-                      child: Image.asset(
-                        'asset/wedlogo.jpg',
+                      child: Image.network(
+                        widget.logo,
+                        width: double.infinity,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -83,6 +129,7 @@ class Editprofilevendor extends StatelessWidget {
               height: 50,
             ),
             editProfile(
+                controller: fullnameController,
                 labelname: "Name",
                 hintname: "Wedcom",
                 iconprofile: Icons.person),
@@ -90,6 +137,7 @@ class Editprofilevendor extends StatelessWidget {
               height: 14,
             ),
             editProfile(
+                controller: emailController,
                 labelname: "Email",
                 hintname: "Wedcom@gmailcom",
                 iconprofile: Icons.email_outlined),
@@ -97,6 +145,7 @@ class Editprofilevendor extends StatelessWidget {
               height: 14,
             ),
             editProfile(
+                controller: phoneController,
                 labelname: "Phone",
                 hintname: "1234567890",
                 iconprofile: Icons.phone_android_outlined),
@@ -104,16 +153,24 @@ class Editprofilevendor extends StatelessWidget {
               height: 14,
             ),
             editProfile(
+                controller: addressController,
                 labelname: "Address",
                 hintname: "Calicut",
                 iconprofile: Icons.location_on_outlined),
             SizedBox(
-              height: 41,
+              height: 14,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    content: Image.network(widget.document),
+                  ),
+                );
+              },
               child: Text(
-                "Edit Profile",
+                "View document",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 18,
@@ -121,6 +178,47 @@ class Editprofilevendor extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
               ),
+              style: ElevatedButton.styleFrom(
+                  minimumSize: Size(320, 50),
+                  backgroundColor: Color.fromARGB(255, 235, 250, 244),
+                  shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                          color: const Color.fromARGB(255, 121, 116, 116)),
+                      borderRadius: BorderRadius.circular(40))),
+            ),
+            SizedBox(
+              height: 41,
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                setState(() {
+                  isLoading = true;
+                });
+                await FirebaseFirestore.instance
+                    .collection("vendor")
+                    .doc(vendorid)
+                    .update({
+                  "fullname": fullnameController.text,
+                  "email": emailController.text,
+                  "phone": phoneController.text,
+                  "address": addressController.text,
+                  "image": image
+                });
+                setState(() {
+                  isLoading = false;
+                });
+              },
+              child: isLoading
+                  ? CircularProgressIndicator()
+                  : Text(
+                      "Edit Profile",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontFamily: 'Poppins-Medium',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
               style: ElevatedButton.styleFrom(
                   minimumSize: Size(280, 50),
                   backgroundColor: Color.fromARGB(255, 208, 255, 233),

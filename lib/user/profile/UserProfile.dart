@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedweel/main.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/user/profile/Wishlist/Wishlist.dart';
 import 'package:wedweel/user/profile/bookings/UserBooking.dart';
@@ -18,8 +20,8 @@ class _UserProfileState extends State<UserProfile> {
   Widget listContainer({required IconData iconleading, required String name}) {
     return ListTile(
       leading: Container(
-          height: 30,
-          width: 30,
+          height: 30.h,
+          width: 30.w,
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 178, 215, 181),
             shape: BoxShape.rectangle,
@@ -31,8 +33,8 @@ class _UserProfileState extends State<UserProfile> {
           )),
       title: Text(name),
       trailing: Container(
-          height: 30,
-          width: 30,
+          height: 30.h,
+          width: 30.w,
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 178, 215, 181),
             shape: BoxShape.rectangle,
@@ -89,7 +91,7 @@ class _UserProfileState extends State<UserProfile> {
                     : Column(
                         children: [
                           SizedBox(
-                            height: 15,
+                            height: 15.h,
                           ),
                           Center(
                             child: CircleAvatar(
@@ -103,7 +105,7 @@ class _UserProfileState extends State<UserProfile> {
                             ),
                           ),
                           SizedBox(
-                            height: 10,
+                            height: 10.h,
                           ),
                           Text(
                             data!['fullname'],
@@ -114,10 +116,10 @@ class _UserProfileState extends State<UserProfile> {
                                 fontWeight: FontWeight.w500),
                           ),
                           SizedBox(
-                            height: 8,
+                            height: 8.h,
                           ),
                           Container(
-                            height: 180,
+                            height: 180.h,
                             margin: EdgeInsets.all(20),
                             decoration: BoxDecoration(
                               color: Color.fromARGB(255, 249, 255, 251),
@@ -168,7 +170,7 @@ class _UserProfileState extends State<UserProfile> {
                             ),
                           ),
                           Container(
-                            height: 180,
+                            height: 180.h,
                             margin: EdgeInsets.only(
                                 left: 20, right: 20, bottom: 20),
                             decoration: BoxDecoration(

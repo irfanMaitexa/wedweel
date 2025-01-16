@@ -2,12 +2,119 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Editservicevendor extends StatelessWidget {
+class EditServiceVendor extends StatefulWidget {
+  final String serviceId; // Service ID to identify the document in Firestore
+
+  EditServiceVendor({Key? key, required this.serviceId}) : super(key: key);
+
+  @override
+  _EditServiceVendorState createState() => _EditServiceVendorState();
+}
+
+class _EditServiceVendorState extends State<EditServiceVendor> {
+  final TextEditingController serviceNameController = TextEditingController();
+  final TextEditingController servicePriceController = TextEditingController();
+  final TextEditingController serviceDescriptionController =
+      TextEditingController();
+
   File? image;
+  bool isLoading = true; // For loading spinner
+  String? currentVendorId;
+
+  @override
+  void initState() {
+    super.initState();
+    currentVendorId = FirebaseAuth.instance.currentUser?.uid; // Current vendor's ID
+    fetchServiceData();
+  }
+
+  Future<void> fetchServiceData() async {
+    try {
+      final docSnapshot = await FirebaseFirestore.instance
+          .collection('services')
+          .doc(widget.serviceId)
+          .get();
+
+      if (docSnapshot.exists && docSnapshot.data()?['vendor_id'] == currentVendorId) {
+        final data = docSnapshot.data()!;
+        serviceNameController.text = data['name'] ?? '';
+        servicePriceController.text = data['price'] ?? '';
+        serviceDescriptionController.text = data['description'] ?? '';
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Service not found or access denied.")),
+        );
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error fetching service: $e")),
+      );
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> updateService() async {
+    if (serviceNameController.text.isEmpty ||
+        servicePriceController.text.isEmpty ||
+        serviceDescriptionController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please fill all fields.")),
+      );
+      return;
+    }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => Center(child: CircularProgressIndicator()),
+    );
+
+    try {
+      final dataToUpdate = {
+        'name': serviceNameController.text,
+        'price': servicePriceController.text,
+        'description': serviceDescriptionController.text,
+      };
+
+      await FirebaseFirestore.instance
+          .collection('services')
+          .doc(widget.serviceId)
+          .update(dataToUpdate);
+
+      Navigator.pop(context); // Close loading dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Service updated successfully!")),
+      );
+      Navigator.pop(context); // Return to the previous screen
+    } catch (e) {
+      Navigator.pop(context); // Close loading dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error updating service: $e")),
+      );
+    }
+  }
+
+  Future<File?> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedImage =
+        await picker.pickImage(source: ImageSource.gallery);
+    return pickedImage != null ? File(pickedImage.path) : null;
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -22,14 +129,12 @@ class Editservicevendor extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         surfaceTintColor: Colors.transparent,
       ),
-      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: SingleChildScrollView(
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
                     child: Column(
@@ -42,108 +147,69 @@ class Editservicevendor extends StatelessWidget {
                               fontSize: 17,
                               color: Colors.black),
                         ),
-                        SizedBox(
-                          height: 6,
-                        ),
+                        SizedBox(height: 6),
                         TextFormField(
+                          controller: serviceNameController,
                           decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide:
-                                    BorderSide(color: Colors.teal, width: 1),
-                              ),
-                              hintText: "Service Name",
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20))),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                              borderSide:
+                                  BorderSide(color: Colors.teal, width: 1),
+                            ),
+                            hintText: "Service Name",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
                         )
                       ],
                     ),
                   ),
-                  SizedBox(
-                    width: 20,
-                  ),
+                  SizedBox(width: 20),
                   Expanded(
-                    child: Container(
-                      child: InkWell(
-                        splashColor: Colors.white,
-                        onTap: () async {
-                          image = await uploadImage();
-                        },
-                        child: image != null
-                            ? Image.file(
-                                image!,
+                    child: InkWell(
+                      onTap: () async {
+                        image = await pickImage();
+                        setState(() {});
+                      },
+                      child: image != null
+                          ? Image.file(image!, height: 100, width: 100)
+                          : ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.asset(
+                                'asset/upload.jpeg',
                                 height: 100,
                                 width: 100,
-                              )
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.asset(
-                                  'asset/upload.jpeg',
-                                  height: 100,
-                                  width: 100,
-                                ),
                               ),
-                      ),
+                            ),
                     ),
                   )
                 ],
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Service Price",
-                    style:
-                        TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
+              SizedBox(height: 30),
+              TextField(
+                controller: servicePriceController,
+                decoration: InputDecoration(
+                  hintText: "Service Price",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.teal, width: 1),
-                        ),
-                        hintText: "2000",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                  ),
-                ],
+                ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Describe your service",
-                      style: TextStyle(
-                          fontSize: 17, fontFamily: 'Poppins-Regular')),
-                  SizedBox(
-                    height: 6,
+              SizedBox(height: 30),
+              TextField(
+                controller: serviceDescriptionController,
+                maxLines: 6,
+                decoration: InputDecoration(
+                  hintText: "Describe your service",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  TextFormField(
-                    maxLines: 6,
-                    decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.teal, width: 1),
-                        ),
-                        hintText: "Description",
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20))),
-                  ),
-                ],
+                ),
               ),
-              SizedBox(
-                height: 46,
-              ),
+              SizedBox(height: 46),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: updateService,
                 child: Text(
                   "Edit Service",
                   style: TextStyle(
@@ -154,25 +220,17 @@ class Editservicevendor extends StatelessWidget {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                    minimumSize: Size(320, 50),
-                    backgroundColor: Color.fromARGB(255, 237, 250, 244),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10))),
-              )
+                  minimumSize: Size(320, 50),
+                  backgroundColor: Color.fromARGB(255, 237, 250, 244),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
             ],
           ),
         ),
       ),
     );
-  }
-
-  Future<File?> uploadImage() async {
-    final ImagePicker picker = ImagePicker();
-
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    final imageFile = image != null ? File(image.path) : null;
-
-    return imageFile;
   }
 }

@@ -1,9 +1,44 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/EditProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/PolicyProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfileInfo.dart';
 
-class Vendorprofile extends StatelessWidget {
+class Vendorprofile extends StatefulWidget {
+  final String fullname;
+  final String email;
+  final phone;
+  final address;
+  final logo;
+  final document;
+
+  Vendorprofile(
+      {super.key,
+      required this.fullname,
+      required this.email,
+      required this.phone,
+      required this.address,
+      required this.logo,
+      required this.document});
+
+  @override
+  State<Vendorprofile> createState() => _VendorprofileState();
+}
+
+class _VendorprofileState extends State<Vendorprofile> {
+  final String vendorid = FirebaseAuth.instance.currentUser!.uid;
+
+  TextEditingController fullnameController = TextEditingController();
+  TextEditingController logoController = TextEditingController();
+
+  void initState() {
+    fullnameController.text = widget.fullname;
+
+    logoController.text = widget.logo;
+
+    super.initState();
+  }
+
   Widget listprofile(
       {String? listtitle,
       IconData? listicon,
@@ -50,8 +85,9 @@ class Vendorprofile extends StatelessWidget {
               child: CircleAvatar(
                 radius: 45,
                 child: ClipOval(
-                  child: Image.asset(
-                    'asset/wedlogo.jpg',
+                  child: Image.network(
+                    width: double.infinity,
+                    widget.logo,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -61,7 +97,7 @@ class Vendorprofile extends StatelessWidget {
               height: 10,
             ),
             Text(
-              "  Wedcom Events",
+              widget.fullname,
               style: TextStyle(
                   fontSize: 18, color: Color.fromARGB(255, 21, 101, 93)),
             ),
@@ -73,7 +109,14 @@ class Vendorprofile extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Editprofilevendor()));
+                        builder: (context) => Editprofilevendor(
+                              address: widget.address,
+                              document: widget.document,
+                              email: widget.email,
+                              fullname: widget.fullname,
+                              logo: widget.logo,
+                              phone: widget.phone,
+                            )));
               },
               child: Text(
                 "Edit Profile",
@@ -93,7 +136,13 @@ class Vendorprofile extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => Vendorprofileinfo()));
+                        builder: (context) => Vendorprofileinfo(
+                              address: widget.address,
+                              email: widget.email,
+                              fullname: widget.fullname,
+                              logo: widget.logo,
+                              phone: widget.phone,
+                            )));
               },
               child: listprofile(
                   listtitle: "information",
@@ -107,9 +156,8 @@ class Vendorprofile extends StatelessWidget {
             listprofile(
                 listicon: Icons.support_agent_outlined,
                 listtitle: "Help & Support"),
-           
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                     context,
                     MaterialPageRoute(

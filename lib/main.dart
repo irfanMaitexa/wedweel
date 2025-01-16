@@ -34,6 +34,7 @@ import 'package:wedweel/venders/VendorScreen/ProfileScreen/EditProfileVendor.dar
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/PolicyProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfileInfo.dart';
 import 'package:wedweel/venders/VendorScreen/ReviewScreen/VendorReviewScreen.dart';
+import 'package:wedweel/venders/VendorScreen/ServiceScreen/DetailPageVendor.dart';
 
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/ServiceFirstScreenVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/AddServiceVendor.dart';
@@ -53,6 +54,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
   runApp(ScreenUtilInit(
     designSize: Size(384, 805),
     minTextAdapt: true,
@@ -68,8 +70,8 @@ void main() async {
         home: // LoginUserPage(),
             //SignUpUserPage(),
             // AdminHome(),
-            // Loginvendor(),
-            Signupvendor(),
+             Loginvendor(),
+            // Signupvendor(),
         //Managevendor()
         //Managevendordetails(),
         //Manageuser()
@@ -105,6 +107,7 @@ void main() async {
         // Userbooking()
         //Privacypolicyuser()
         //  Signupsecondpage()
+       // Detailpagevendor()
       );
     },
   ));

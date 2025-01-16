@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Vendorprofileinfo extends StatelessWidget {
+  final String fullname;
+  final String email;
+  final String phone;
+  final String address;
+  final String logo;
+
+  const Vendorprofileinfo({super.key, required this.fullname, required this.email, required this.phone, required this.address, required this.logo});
+
+  // ignore: prefer_const_constructors_in_immutables
+ 
   Widget listprofileinfo(
       {String? listtitle,
       IconData? trailingicon,
@@ -9,7 +19,7 @@ class Vendorprofileinfo extends StatelessWidget {
     return ListTile(
       leading: Text(
         leadingtitle!,
-        style: TextStyle(fontSize: 16),
+        style: TextStyle(fontSize: 14),
       ),
       title: Text(
         listtitle!,
@@ -46,9 +56,10 @@ class Vendorprofileinfo extends StatelessWidget {
               child: CircleAvatar(
                 radius: 45,
                 child: ClipOval(
-                  child: Image.asset(
-                    'asset/wedlogo.jpg',
+                  child: Image.network(
+                    logo,
                     fit: BoxFit.cover,
+                    width: double.infinity,
                   ),
                 ),
               ),
@@ -77,36 +88,22 @@ class Vendorprofileinfo extends StatelessWidget {
             ),
             listprofileinfo(
               leadingtitle: "Name            ",
-              listtitle: "WedCom",
+              listtitle: fullname,
               trailingicon: Icons.arrow_forward_ios_rounded,
             ),
             listprofileinfo(
-              leadingtitle: "UserName     ",
-              listtitle: "Wed_com_1",
-              trailingicon: Icons.arrow_forward_ios_rounded,
-            ),
-            Divider(
-              height: 60,
-              color: Colors.grey,
-            ),
-            Text("Personal Information",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
-            SizedBox(
-              height: 15,
-            ),
-            listprofileinfo(
-                leadingtitle: "User ID       ",
-                listtitle: "45839",
-                trailingicon: Icons.copy_all_rounded),
-            listprofileinfo(
-              leadingtitle: "Email         ",
-              listtitle: "Wedcom@gmailcom",
+              leadingtitle: "email     ",
+              listtitle: email,
               trailingicon: Icons.email_outlined,
             ),
             listprofileinfo(
-              leadingtitle: "Phone Number   ",
-              listtitle: "+91 1234567890",
-              trailingicon: Icons.phone_android_rounded,
+                leadingtitle: "Phone       ",
+                listtitle: phone,
+                trailingicon: Icons.phone_android_rounded),
+            listprofileinfo(
+              leadingtitle: "address   ",
+              listtitle: address,
+              trailingicon: Icons.location_on_outlined,
             )
           ],
         ),
