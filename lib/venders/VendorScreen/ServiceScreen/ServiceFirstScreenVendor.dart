@@ -64,59 +64,69 @@ class ServiceFirstScreen extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             return Center(child: Text('Something went wrong.'));
-          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text('No services available.'));
-          } else {
-            final services = snapshot.data!.docs;
+          }
 
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 80),
-                Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Text(
-                    "My Service",
-                    style: TextStyle(
-                      fontSize: 27,
-                      color: Color.fromARGB(255, 21, 101, 93),
-                    ),
+          final services = snapshot.data?.docs ?? [];
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 80),
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Text(
+                  "My Service",
+                  style: TextStyle(
+                    fontSize: 27,
+                    color: Color.fromARGB(255, 21, 101, 93),
                   ),
                 ),
-                SizedBox(height: 25),
-                Expanded(
-                  child: GridView.count(
-                    padding: EdgeInsets.all(15),
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 17,
-                    crossAxisSpacing: 17,
-                    children: [
-                      // Static Actions
+              ),
+              SizedBox(height: 25),
+              Expanded(
+                child: GridView.count(
+                  padding: EdgeInsets.all(15),
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 17,
+                  crossAxisSpacing: 17,
+                  children: [
+                    // Static Actions
+                    screenContainer(
+                      name: "Product Details",
+                      image: "asset/information_14875512.png",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Detailpagevendor(),
+                          ),
+                        );
+                      },
+                    ),
+                    screenContainer(
+                      name: "Add Service",
+                      image: "asset/essay_3253267.png",
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AddServiceVendor(),
+                          ),
+                        );
+                      },
+                    ),
+                    // Dynamic Service Items
+                    if (services.isEmpty)
                       screenContainer(
-                        name: "Product Details",
-                        image: "asset/information_14875512.png",
+                        name: "Edit Service",
+                        image: 'asset/engineering_13337559.png',
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => Detailpagevendor(),
-                            ),
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('No services to edit.')),
                           );
                         },
                       ),
-                      screenContainer(
-                        name: "Add Service",
-                        image: "asset/essay_3253267.png",
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => AddServiceVendor(),
-                            ),
-                          );
-                        },
-                      ),
-                      // Dynamic Service Items
+                    if (services.isNotEmpty)
                       ...services.map((service) {
                         final serviceId = service.id;
 
@@ -134,12 +144,11 @@ class ServiceFirstScreen extends StatelessWidget {
                           },
                         );
                       }).toList(),
-                    ],
-                  ),
+                  ],
                 ),
-              ],
-            );
-          }
+              ),
+            ],
+          );
         },
       ),
     );

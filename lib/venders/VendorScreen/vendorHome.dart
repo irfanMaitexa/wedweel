@@ -2,16 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/admin/screen/ManageBlogs.dart';
-
 import 'package:wedweel/venders/VendorScreen/ReviewScreen/VendorReviewScreen.dart';
-
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/ServiceFirstScreenVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfile.dart';
 import 'package:wedweel/venders/screen/BookingScreen/FirstScreenBooking.dart';
 
 class VendorHome extends StatelessWidget {
   bool isLoading = false;
+
+  // Function to log out the user
+  Future<void> logout(BuildContext context) async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      // Redirect to the vendor login screen
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => Loginvendor()),
+        (route) => false,
+      );
+    } catch (e) {
+      // Show an error if logout fails
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error logging out: $e')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,256 +48,176 @@ class VendorHome extends StatelessWidget {
         ),
       ),
       body: StreamBuilder(
-          stream: FirebaseFirestore.instance
-              .collection('vendor')
-              .doc(FirebaseAuth.instance.currentUser?.uid)
-              .snapshots(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              print('waiting');
-              return Center(child: CircularProgressIndicator());
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text('something went wrong'),
-              );
-            } else {
-              final data = snapshot.data!.data();
-              final email = data!['email'];
-              final name = data['fullname'];
-              final profile = data!['logo'];
-              final phone = data!['phone'];
-              final address = data['address'];
-              final document = data['document'];
+        stream: FirebaseFirestore.instance
+            .collection('vendor')
+            .doc(FirebaseAuth.instance.currentUser?.uid)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text('Something went wrong'),
+            );
+          }
 
-              return isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : Column(children: [
-                      Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Row(
-                          children: [
-                            CircleAvatar(
-                              radius: 40,
-                              child: ClipOval(
-                                child: Image.network(
-                                  width: double.infinity,
-                                  data!['logo'],
-                                  fit: BoxFit.cover,
-                                ),
+          final data = snapshot.data?.data();
+          final email = data?['email'] ?? '';
+          final name = data?['fullname'] ?? '';
+          final profile = data?['logo'] ?? '';
+          final phone = data?['phone'] ?? 'Phone Number';
+          final address = data?['address'] ?? 'Address';
+          final document = data?['document'] ?? '';
+
+          return isLoading
+              ? Center(child: CircularProgressIndicator())
+              : Column(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(20),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 40,
+                            child: ClipOval(
+                              child: Image.network(
+                                profile,
+                                width: double.infinity,
+                                fit: BoxFit.cover,
                               ),
                             ),
-                            SizedBox(
-                              width: 18.w,
-                            ),
-                            Column(
-                              children: [
-                                Text("welcome,",
-                                    style: TextStyle(
-                                      fontSize: 27,
-                                      fontFamily: 'Poppins-Regular',
-                                      color: Color.fromARGB(255, 21, 101, 93),
-                                    )),
-                                Text(
-                                  data!['fullname'],
-                                  style: TextStyle(
-                                      fontSize: 19,
-                                      fontFamily: 'poppins-Bold',
-                                      fontWeight: FontWeight.w900),
+                          ),
+                          SizedBox(width: 18.w),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Welcome,",
+                                style: TextStyle(
+                                  fontSize: 27,
+                                  fontFamily: 'Poppins-Regular',
+                                  color: Color.fromARGB(255, 21, 101, 93),
                                 ),
-                              ],
-                            )
-                          ],
-                        ),
+                              ),
+                              Text(
+                                name,
+                                style: TextStyle(
+                                  fontSize: 19,
+                                  fontFamily: 'Poppins-Bold',
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ],
+                          )
+                        ],
                       ),
-                      Expanded(
-                        child: GridView.count(
-                          crossAxisCount: 2,
-                          shrinkWrap: true,
-                          mainAxisSpacing: 7,
-                          crossAxisSpacing: 7,
-                          childAspectRatio: .9,
-                          padding: EdgeInsets.all(8),
-                          children: [
-                            Container(
-                              height: 90,
-                              width: 50,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ServiceFirstScreen()));
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(19),
-                                    child: Column(
-                                      children: [
-                                        Image.asset('asset/service.jpg'),
-                                        Text(" service")
-                                      ],
-                                    ),
+                    ),
+                    Expanded(
+                      child: GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        mainAxisSpacing: 7,
+                        crossAxisSpacing: 7,
+                        childAspectRatio: .9,
+                        padding: EdgeInsets.all(20),
+                        children: [
+                          buildCard(
+                            context,
+                            "asset/service.jpg",
+                            "Service",
+                            ServiceFirstScreen(),
+                          ),
+                          buildCard(
+                            context,
+                            "asset/Booking.jpeg",
+                            "Bookings",
+                            FirstScreenBooking(),
+                          ),
+                          buildCard(
+                            context,
+                            "asset/5348778.jpg",
+                            "Review",
+                            VendorReviewScreen(),
+                          ),
+                          buildCard(
+                            context,
+                            "asset/blog.jpg",
+                            "Blog",
+                            Manageblogs(),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Vendorprofile(
+                                    email: email,
+                                    fullname: name,
+                                    phone: phone,
+                                    address: address,
+                                    document: document,
+                                    logo: profile,
                                   ),
                                 ),
-                              ),
+                              );
+                            },
+                            child: buildCardContainer(
+                              "asset/profile.jpg",
+                              "Profile",
                             ),
-                            Container(
-                              height: 90,
-                              width: 50,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              FirstScreenBooking()));
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(19),
-                                    child: Column(
-                                      children: [
-                                        Image.asset('asset/Booking.jpeg'),
-                                        Text(" Bookings")
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
+                          ),
+                          GestureDetector(
+                            onTap: () => logout(context),
+                            child: buildCardContainer(
+                              "asset/logout.jpg",
+                              "LogOut",
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            VendorReviewScreen()));
-                              },
-                              child: Container(
-                                height: 90,
-                                width: 50,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      children: [
-                                        Image.asset(
-                                          'asset/review.jpg',
-                                          fit: BoxFit.cover,
-                                        ),
-                                        SizedBox(
-                                          height: 41,
-                                        ),
-                                        Text(" Review"),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Manageblogs()));
-                              },
-                              child: Container(
-                                height: 90,
-                                width: 50,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      children: [
-                                        Image.asset('asset/blog.jpg'),
-                                        SizedBox(
-                                          height: 17,
-                                        ),
-                                        Text(" Blog")
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Vendorprofile(
-                                              email: data['email'],
-                                              fullname: data['fullname'],
-                                              phone: phone ?? 'Phone Number',
-                                              address: address ?? 'Address',
-                                              document: data['document'],
-                                              logo: data['logo'],
-                                            )));
-                              },
-                              splashColor: Colors.transparent,
-                              child: Container(
-                                height: 90,
-                                width: 50,
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20),
-                                  ),
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(20),
-                                    child: Column(
-                                      children: [
-                                        Image.asset('asset/profile.jpg'),
-                                        Text(" Profile")
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 90,
-                              width: 50,
-                              child: Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: EdgeInsets.all(20),
-                                  child: Column(
-                                    children: [
-                                      Image.asset('asset/logout.jpg'),
-                                      Text("LogOut"),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      )
-                    ]);
-            }
-          }),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                );
+        },
+      ),
+    );
+  }
+
+  Widget buildCard(
+      BuildContext context, String imagePath, String title, Widget screen) {
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => screen),
+        );
+      },
+      child: buildCardContainer(imagePath, title),
+    );
+  }
+
+  Widget buildCardContainer(
+    String imagePath,
+    String title,
+  ) {
+    return Container(
+      height: 90,
+      width: 50,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        color: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            children: [
+              Image.asset(imagePath, fit: BoxFit.cover, height: 118.h),
+              Text(title),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

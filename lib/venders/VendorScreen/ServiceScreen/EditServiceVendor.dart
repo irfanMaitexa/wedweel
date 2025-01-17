@@ -89,11 +89,22 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
           .doc(widget.serviceId)
           .update(dataToUpdate);
 
-      Navigator.pop(context); // Close loading dialog
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Service updated successfully!")),
-      );
-      Navigator.pop(context); // Return to the previous screen
+      Navigator.pop(context);
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Text('Your service has been updated successfully.'),
+              actions: [
+                ElevatedButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
     } catch (e) {
       Navigator.pop(context); // Close loading dialog
       ScaffoldMessenger.of(context).showSnackBar(
