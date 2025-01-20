@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wedweel/admin/AdminBlog/BlogFirstAdmin.dart';
 import 'package:wedweel/admin/screen/ManageBlogs.dart';
 import 'package:wedweel/admin/screen/ManageCompliant.dart';
 import 'package:wedweel/admin/screen/ManageProfile.dart';
@@ -134,7 +135,7 @@ class AdminHome extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Manageblogs(),
+                        builder: (context) => Blogfirstadmin(),
                       ));
                 },
                 child: const Text(
