@@ -1,132 +1,77 @@
 import 'dart:io';
-
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:wedweel/AddCloudinaryImage.dart';
 
-class Editblog extends StatefulWidget {
+class EditBlog extends StatefulWidget {
+  final String blogId;
+  final Map<String, dynamic> blogData;
 
-  
-  
+  EditBlog({required this.blogId, required this.blogData});
+
   @override
-  _EditServiceVendorState createState() => _EditServiceVendorState();
+  State<EditBlog> createState() => _EditBlogState();
 }
 
-class _EditServiceVendorState extends State<Editblog> {
-  final TextEditingController serviceNameController = TextEditingController();
-  final TextEditingController servicePriceController = TextEditingController();
-  final TextEditingController serviceDescriptionController =
-      TextEditingController();
+class _EditBlogState extends State<EditBlog> {
+  final TextEditingController blogNameController = TextEditingController();
+  final TextEditingController blogReadtimeController = TextEditingController();
+  final TextEditingController blogDescriptionController = TextEditingController();
+  final TextEditingController blogDateController = TextEditingController();
 
   File? image;
-  bool isLoading = true; // For loading spinner
-  String? currentVendorId;
+  String? currentImageUrl;
 
   @override
   void initState() {
     super.initState();
-    currentVendorId =
-        FirebaseAuth.instance.currentUser?.uid; // Current vendor's ID
-    fetchServiceData();
+    // Initialize controllers with existing blog data
+    blogNameController.text = widget.blogData['name'];
+    blogReadtimeController.text = widget.blogData['read_time'];
+    blogDescriptionController.text = widget.blogData['description'];
+    blogDateController.text = widget.blogData['date'];
+    currentImageUrl = widget.blogData['image'];
   }
 
-  Future<void> fetchServiceData() async {
-    try {
-      final docSnapshot = await FirebaseFirestore.instance
-          .collection('services')
-          .doc()
-          .get();
-
-      if (docSnapshot.exists &&
-          docSnapshot.data()?['vendor_id'] == currentVendorId) {
-        final data = docSnapshot.data()!;
-        serviceNameController.text = data['name'] ?? '';
-        servicePriceController.text = data['price'] ?? '';
-        serviceDescriptionController.text = data['description'] ?? '';
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Service not found or access denied.")),
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error fetching service: $e")),
-      );
-    } finally {
-      setState(() {
-        isLoading = false;
-      });
-    }
-  }
-
-  Future<void> updateService() async {
-    if (serviceNameController.text.isEmpty ||
-        servicePriceController.text.isEmpty ||
-        serviceDescriptionController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please fill all fields.")),
-      );
-      return;
-    }
-
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => Center(child: CircularProgressIndicator()),
+  Widget textField({
+    required String labelName,
+    required String hintName,
+    TextEditingController? controller,
+    bool readOnly = false,
+    VoidCallback? onTap,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelName,
+          style: TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
+        ),
+        SizedBox(height: 6),
+        TextFormField(
+          controller: controller,
+          readOnly: readOnly,
+          onTap: onTap,
+          decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color: Colors.teal, width: 1),
+            ),
+            hintText: hintName,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        ),
+      ],
     );
-
-    try {
-      final dataToUpdate = {
-        'name': serviceNameController.text,
-        'price': servicePriceController.text,
-        'description': serviceDescriptionController.text,
-      };
-
-      await FirebaseFirestore.instance
-          .collection('services')
-          .doc()
-          .update(dataToUpdate);
-
-      Navigator.pop(context);
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              content: Text('Your service has been updated successfully.'),
-              actions: [
-                ElevatedButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                )
-              ],
-            );
-          });
-    } catch (e) {
-      Navigator.pop(context); // Close loading dialog
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error updating service: $e")),
-      );
-    }
-  }
-
-  Future<File?> pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? pickedImage =
-        await picker.pickImage(source: ImageSource.gallery);
-    return pickedImage != null ? File(pickedImage.path) : null;
   }
 
   @override
   Widget build(BuildContext context) {
-    if (isLoading) {
-      return Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -148,6 +93,7 @@ class _EditServiceVendorState extends State<Editblog> {
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
                     child: Column(
@@ -162,77 +108,101 @@ class _EditServiceVendorState extends State<Editblog> {
                         ),
                         SizedBox(height: 6),
                         TextFormField(
-                          controller: serviceNameController,
+                          controller: blogNameController,
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                               borderSide:
                                   BorderSide(color: Colors.teal, width: 1),
                             ),
-                            hintText: "Blog Name",
+                            hintText: "Blog name",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
                   SizedBox(width: 20),
                   Expanded(
                     child: InkWell(
+                      splashColor: Colors.white,
                       onTap: () async {
                         image = await pickImage();
                         setState(() {});
                       },
                       child: image != null
-                          ? Image.file(image!, height: 100, width: 100)
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                'asset/upload.jpeg',
-                                height: 100,
-                                width: 100,
-                              ),
-                            ),
+                          ? Image.file(
+                              image!,
+                              height: 100,
+                              width: 100,
+                            )
+                          : currentImageUrl != null
+                              ? Image.network(
+                                  currentImageUrl!,
+                                  height: 100,
+                                  width: 100,
+                                )
+                              : ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.asset(
+                                    'asset/upload.jpeg',
+                                    height: 100,
+                                    width: 100,
+                                  ),
+                                ),
                     ),
-                  )
+                  ),
                 ],
               ),
               SizedBox(height: 30),
-              TextField(
-                controller: servicePriceController,
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.teal, width: 1),
-                  ),
-                  hintText: "read time",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
+              textField(
+                labelName: "Read time",
+                hintName: "5 min",
+                controller: blogReadtimeController,
               ),
-              SizedBox(height: 30),
-              TextField(
-                controller: serviceDescriptionController,
-                maxLines: 6,
-                decoration: InputDecoration(
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.teal, width: 1),
+              SizedBox(height: 14.h),
+              textField(
+                labelName: "Date",
+                hintName:
+                    "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
+                controller: blogDateController
+                  ..text =
+                      "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
+                readOnly: true,
+              ),
+              SizedBox(height: 30.h),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Blog Description",
+                      style: TextStyle(
+                          fontSize: 17, fontFamily: 'Poppins-Regular')),
+                  SizedBox(height: 6),
+                  TextFormField(
+                    controller: blogDescriptionController,
+                    maxLines: 6,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.teal, width: 1),
+                      ),
+                      hintText: "Description",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
                   ),
-                  hintText: "Describe Blog",
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                ),
+                ],
               ),
               SizedBox(height: 46),
               ElevatedButton(
-                onPressed: updateService,
+                onPressed: () async {
+                  await updateBlogInFirebase(context);
+                },
                 child: Text(
-                  "Edit Blog",
+                  "Update Blog",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -244,8 +214,7 @@ class _EditServiceVendorState extends State<Editblog> {
                   minimumSize: Size(320, 50),
                   backgroundColor: Color.fromARGB(255, 237, 250, 244),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+                      borderRadius: BorderRadius.circular(10)),
                 ),
               ),
             ],
@@ -253,5 +222,75 @@ class _EditServiceVendorState extends State<Editblog> {
         ),
       ),
     );
+  }
+
+  Future<File?> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? pickedImage =
+        await picker.pickImage(source: ImageSource.gallery);
+    return pickedImage != null ? File(pickedImage.path) : null;
+  }
+
+  Future<void> updateBlogInFirebase(BuildContext context) async {
+    if (blogNameController.text.isEmpty ||
+        blogReadtimeController.text.isEmpty ||
+        blogDescriptionController.text.isEmpty ||
+        blogDateController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please fill all fields.")),
+      );
+      return;
+    }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return Center(child: CircularProgressIndicator());
+      },
+    );
+
+    try {
+      String? imageUrl = currentImageUrl;
+
+      // If a new image is selected, upload it to Cloudinary
+      if (image != null) {
+        imageUrl = await uploadImageToCloudinary(image!);
+      }
+
+      // Update data in Firestore
+      await FirebaseFirestore.instance
+          .collection('blog')
+          .doc(widget.blogId)
+          .update({
+        'name': blogNameController.text,
+        'date': blogDateController.text,
+        'description': blogDescriptionController.text,
+        'read_time': blogReadtimeController.text,
+        'image': imageUrl,
+      });
+
+      Navigator.pop(context); // Close the loading dialog
+      showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Text('Blog has been updated successfully.'),
+              actions: [
+                ElevatedButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                )
+              ],
+            );
+          });
+    } catch (e) {
+      Navigator.pop(context); // Close the loading dialog
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error: $e")),
+      );
+    }
   }
 }

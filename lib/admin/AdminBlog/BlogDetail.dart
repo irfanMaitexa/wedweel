@@ -7,14 +7,21 @@ class Blogdetail extends StatelessWidget {
   final String blogdate;
   final String readtime;
 
-  Blogdetail({required this.blogtitle, required this.blogdescription, required this.blogimage, required this.blogdate, required this.readtime});
-  
+  Blogdetail(
+      {required this.blogtitle,
+      required this.blogdescription,
+      required this.blogimage,
+      required this.blogdate,
+      required this.readtime});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
+        ),
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
@@ -26,7 +33,8 @@ class Blogdetail extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
                     blogimage,
-                    // height: 140,
+                    height: 180,
+                    width: double.infinity,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -40,28 +48,35 @@ class Blogdetail extends StatelessWidget {
                     color: Color.fromARGB(255, 21, 101, 93),
                   ),
                 ),
-              
-               
               ),
-             
               Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Wonderful Wedding Party",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Color.fromARGB(255, 21, 101, 93),
-                        )),
+                    Row(
+                      children: [
+                        Text(readtime),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        VerticalDivider(
+                          color: Colors.black,
+                          width: 10,
+                        ),
+                        Text(blogdate),
+                      ],
+                    ),
                     SizedBox(
                       height: 15,
                     ),
-                    Text(blogdescription,style:  TextStyle(
+                    Text(
+                      blogdescription,
+                      style: TextStyle(
                         fontFamily: 'Poppins-Medium',
                         fontSize: 15,
-                      ),),
+                      ),
+                    ),
                   ],
                 ),
               )
