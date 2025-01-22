@@ -1,110 +1,195 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/admin/AdminBlog/AddBlog.dart';
+import 'package:wedweel/admin/AdminBlog/BlogDetail.dart';
 import 'package:wedweel/admin/AdminBlog/EditBlog.dart';
-import 'package:wedweel/imageVendor.dart';
-import 'package:wedweel/main.dart';
 
 class Blogfirstadmin extends StatelessWidget {
-  Widget containgrid({required String image, required String name}) {
-    return Container(
-      height: 90,
-      width: 50,
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 10.h,
-          ),
-          Image.asset(
-            image,
-            fit: BoxFit.cover,
-            height: 95.h,
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            name,
-            style: TextStyle(
-              fontSize: 16,
-              fontFamily: 'Poppins-Regular',
-            ),
-          )
-        ],
-      ),
-    );
+  Widget bottombutton(
+      {required String name, required Color color, VoidCallback? onTap}) {
+    return ElevatedButton(
+        onPressed: onTap,
+        child: Text(
+          name,
+          style:
+              TextStyle(color: Color.fromARGB(255, 21, 101, 93), fontSize: 15),
+        ),
+        style: ElevatedButton.styleFrom(
+            minimumSize: Size(150.w, 40.h),
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color: color),
+                borderRadius: BorderRadius.circular(6)),
+            backgroundColor: Colors.white));
   }
 
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 237, 250, 244),
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         surfaceTintColor: Colors.transparent,
-      ),
-      body: Padding(
-        padding: EdgeInsets.only(left: 15.w, right: 15.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 60.h,
-            ),
-            Container(
-                padding: EdgeInsets.only(left: 10.w),
-                child: Text(
-                  "Blogs ",
-                  style: TextStyle(
-                    fontSize: 27,
-                    color: Color.fromARGB(255, 21, 101, 93),
-                  ),
-                )),
-            SizedBox(
-              height: 30.h,
-            ),
-            Expanded(
-              child: GridView.count(
-                crossAxisSpacing: 17,
-                mainAxisSpacing: 17,
-                crossAxisCount: 2,
-                children: [
-                  containgrid(
-                      image: 'asset/information_14875512.png',
-                      name: "Blog details"),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (context) => AddBlog()));
-                      },
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => AddBlog()));
-                        },
-                        child: containgrid(
-                            image: "asset/essay_3253267.png", name: "Add blog"),
-                      )),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Editblog()));
-                    },
-                    child: containgrid(
-                        image: 'asset/engineering_13337559.png',
-                        name: 'Edit blog'),
-                  )
-                ],
-              ),
-            )
-          ],
+        backgroundColor: Colors.transparent,
+        title: Text(
+          "Blogs",
+          style: TextStyle(
+            fontSize: 21.sp,
+            fontFamily: 'Poppins-Medium',
+            fontWeight: FontWeight.w500,
+            color: Color.fromARGB(255, 21, 101, 93),
+          ),
         ),
       ),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 30, right: 10, left: 10),
+        child: FloatingActionButton(
+          backgroundColor: Colors.white,
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => AddBlog()));
+          },
+          child: Icon(
+            Icons.add,
+            color: Color.fromARGB(255, 21, 101, 93),
+          ),
+        ),
+      ),
+      backgroundColor: Color.fromARGB(255, 237, 250, 244),
+      body: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('blog').snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(
+                child: Text('something went wrong'),
+              );
+            } else {
+              final data = snapshot.data!.docs;
+              ;
+
+              return isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: 250.h,
+                            padding: EdgeInsets.only(left: 10, right: 10),
+                            child: ListView.builder(
+                              itemCount: data!.length,
+                              itemBuilder: (context, index) {
+                                final blogname = data![index]['name'];
+                                final read_time = data![index]['read_time'];
+                                final description = data![index]['description'];
+                                final blogimage = data![index]['image'];
+                                return Container(
+                                  padding: EdgeInsets.all(10),
+                                  height: 225.h,
+                                  margin: EdgeInsets.only(bottom: 20),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: Colors.white,
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        // textBaseline: TextBaseline.ideographic,
+
+                                        children: [
+                                          Expanded(
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: Image.network(
+                                                blogimage,
+                                                height: 140.h,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 20.w,
+                                          ),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  blogname,
+                                                  style: TextStyle(
+                                                    fontSize: 15,
+                                                    fontFamily:
+                                                        'Poppins-Medium',
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 5.h,
+                                                ),
+                                                Text(
+                                                  read_time,
+                                                  style: TextStyle(
+                                                      fontSize: 11,
+                                                      color: Colors.grey[700]),
+                                                ),
+                                                SizedBox(
+                                                  height: 13.h,
+                                                ),
+                                                GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Blogdetail(blogtitle: data[index]['name'], blogdescription: data[index]['description'], blogimage: data[index]['image'], blogdate: data[index]['date'], readtime: data[index]['read_time'],)));
+                                                  },
+                                                  child: Text(
+                                                    "Read More",
+                                                    style: TextStyle(
+                                                        fontFamily:
+                                                            'Poppins-Medium',
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Colors.blue),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 15.h,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
+                                        children: [
+                                          bottombutton(
+                                              name: "Edit Blog",
+                                              color: Colors.green,
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            Editblog()));
+                                              }),
+                                          bottombutton(
+                                              name: "Delete Blog",
+                                              color: Colors.red),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        )
+                      ],
+                    );
+            }
+          }),
     );
   }
 }

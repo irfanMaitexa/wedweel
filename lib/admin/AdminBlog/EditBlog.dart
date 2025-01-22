@@ -7,10 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class Editblog extends StatefulWidget {
 
-  final String blogId;
-
-  Editblog({required this.blogId});
-
+  
   
   @override
   _EditServiceVendorState createState() => _EditServiceVendorState();
