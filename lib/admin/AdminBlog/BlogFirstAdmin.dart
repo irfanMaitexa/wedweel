@@ -243,8 +243,8 @@ class Blogfirstadmin extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                Navigator.pop(context); // Close the confirmation dialog
-                await deleteBlog(blogId, context); // Delete the blog
+                Navigator.pop(context); 
+                await deleteBlog(blogId, context);
               },
               child: Text(
                 "OK",
@@ -262,7 +262,7 @@ class Blogfirstadmin extends StatelessWidget {
     try {
       await FirebaseFirestore.instance.collection('blog').doc(blogId).delete();
 
-      // Show success dialog
+      
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -294,7 +294,7 @@ class Blogfirstadmin extends StatelessWidget {
             actions: [
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context); // Close the error dialog
+                  Navigator.pop(context); 
                 },
                 child: Text(
                   "OK",

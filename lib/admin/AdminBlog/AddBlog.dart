@@ -16,8 +16,7 @@ class _AddBlogState extends State<AddBlog> {
 
   final TextEditingController blogReadtimeController = TextEditingController();
 
-  final TextEditingController blogDescriptionController =
-      TextEditingController();
+  final TextEditingController blogDescriptionController =  TextEditingController();
 
   final TextEditingController blogDateController = TextEditingController();
 
