@@ -2,9 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/admin/LoginScreen/LoginAdmin.dart';
-import 'package:wedweel/admin/screen/BlogDetails.dart';
+
 import 'package:wedweel/admin/AdminBlog/BlogFirstAdmin.dart';
-import 'package:wedweel/admin/screen/ManageBlogs.dart';
+
 import 'package:wedweel/admin/screen/ManageCompliant.dart';
 import 'package:wedweel/admin/screen/ManageProfile.dart';
 import 'package:wedweel/admin/screen/ManageReview.dart';
@@ -49,6 +49,7 @@ import 'package:wedweel/venders/screen/BookingScreen/PaymentVendor.dart';
 import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/venders/screen/SignUpVendor.dart';
 import 'package:wedweel/venders/screen/SignUpsecondPage.dart';
+import 'package:wedweel/venders/viewblog/ViewBlogVendor.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -8,6 +8,7 @@ import 'package:wedweel/venders/VendorScreen/ReviewScreen/VendorReviewScreen.dar
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/ServiceFirstScreenVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfile.dart';
 import 'package:wedweel/venders/screen/BookingScreen/FirstScreenBooking.dart';
+import 'package:wedweel/venders/viewblog/ViewBlogVendor.dart';
 
 class VendorHome extends StatelessWidget {
   bool isLoading = false;
@@ -139,12 +140,8 @@ class VendorHome extends StatelessWidget {
                             "Review",
                             VendorReviewScreen(),
                           ),
-                          buildCard(
-                            context,
-                            "asset/blog.jpg",
-                            "Blog",
-                            Manageblogs(),
-                          ),
+                          buildCard(context, "asset/blog.jpg", "Blog",
+                              Viewblogvendor()),
                           GestureDetector(
                             onTap: () {
                               Navigator.push(

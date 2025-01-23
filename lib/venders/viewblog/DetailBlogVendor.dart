@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedweel/admin/AdminBlog/AddBlog.dart';
 
-class Blogdetail extends StatelessWidget {
+class Detailblogvendor extends StatelessWidget {
   final String blogtitle;
   final String blogdescription;
   final String blogimage;
   final String blogdate;
   final String readtime;
 
-  Blogdetail(
+  Detailblogvendor(
       {required this.blogtitle,
       required this.blogdescription,
       required this.blogimage,
@@ -22,7 +24,7 @@ class Blogdetail extends StatelessWidget {
           backgroundColor: Colors.transparent,
           surfaceTintColor: Colors.transparent,
         ),
-        backgroundColor: Color.fromARGB(255, 237, 250, 244),
+        backgroundColor: Color.fromARGB(255, 239, 248, 244),
         body: Padding(
           padding: const EdgeInsets.only(left: 15, right: 15),
           child: Column(
@@ -33,7 +35,7 @@ class Blogdetail extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
                     blogimage,
-                    height: 180,
+                    height: 180.h,
                     width: double.infinity,
                     fit: BoxFit.cover,
                   ),
@@ -44,7 +46,7 @@ class Blogdetail extends StatelessWidget {
                   blogtitle,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     color: Color.fromARGB(255, 21, 101, 93),
                   ),
                 ),
@@ -72,13 +74,13 @@ class Blogdetail extends StatelessWidget {
                     shrinkWrap: true,
                     children: [
                       SizedBox(
-                        height: 15,
+                        height: 15.h,
                       ),
                       Text(
                         blogdescription,
                         style: TextStyle(
                           fontFamily: 'Poppins-Medium',
-                          fontSize: 15,
+                          fontSize: 15.sp,
                         ),
                       ),
                     ],
