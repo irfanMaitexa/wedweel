@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/venders/screen/LoginVendor.dart';
-import 'package:wedweel/admin/screen/ManageBlogs.dart';
+
 import 'package:wedweel/venders/VendorScreen/ReviewScreen/VendorReviewScreen.dart';
 import 'package:wedweel/venders/VendorScreen/ServiceScreen/ServiceFirstScreenVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfile.dart';
@@ -198,8 +198,8 @@ class VendorHome extends StatelessWidget {
     String title,
   ) {
     return Container(
-      height: 90,
-      width: 50,
+      height: 90.h,
+      width: 50.w,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),

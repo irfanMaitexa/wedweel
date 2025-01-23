@@ -7,10 +7,16 @@ class Vendorprofileinfo extends StatelessWidget {
   final String address;
   final String logo;
 
-  const Vendorprofileinfo({super.key, required this.fullname, required this.email, required this.phone, required this.address, required this.logo});
+  const Vendorprofileinfo(
+      {super.key,
+      required this.fullname,
+      required this.email,
+      required this.phone,
+      required this.address,
+      required this.logo});
 
   // ignore: prefer_const_constructors_in_immutables
- 
+
   Widget listprofileinfo(
       {String? listtitle,
       IconData? trailingicon,

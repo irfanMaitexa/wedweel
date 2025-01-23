@@ -56,62 +56,60 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  
+
   runApp(ScreenUtilInit(
     designSize: Size(384, 805),
     minTextAdapt: true,
     builder: (context, child) {
-    
-
       return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'Poppins',
-        ),
-        
-        home: // LoginUserPage(),  
-            //SignUpUserPage(),
-        AdminHome()
-        
-           //Loginvendor(),
-            // Signupvendor(),
-        //Managevendor()
-        //Managevendordetails(),
-        //Manageuser()
-        //Managereview(),
-        //Managecompliant()
-        //LoginAdminPage()
-        //Manageprofile()
-        //Manageblogs()
-        // Blogdetails()
-        //VendorHome()
-        //  ServiceVendor()
-        //  ServiceFirstScreen()
-        // Addservicevendor()
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            scaffoldBackgroundColor:  Color.fromARGB(255, 237, 250, 244),
+            fontFamily: 'Poppins',
+          ),
+          home: // LoginUserPage(),
+              //SignUpUserPage(),
+            //  AdminHome()
 
-        // Vendorprofile()
-        //Vendorprofileinfo()
-        // Editprofilevendor()
-        //PolicyProfileVendor()
-        //VendorReviewScreen()
-        //FirstScreenBooking()
-        //Bookingvendor()
-        // Paymentvendor(),
+          Loginvendor(),
+          // Signupvendor(),
+          //Managevendor()
+          //Managevendordetails(),
+          //Manageuser()
+          //Managereview(),
+          //Managecompliant()
+          //LoginAdminPage()
+          //Manageprofile()
+          //Manageblogs()
+          // Blogdetails()
+          //VendorHome()
+          //  ServiceVendor()
+          //  ServiceFirstScreen()
+          // Addservicevendor()
 
-       // Userfirst()
-        //  Userblogs()
-        //Vendorlist()
-        // BottomNavBar()
-        //Vendoritemsuser()
-        //Photographyvendor()
-        //Venue()
-        //EditUserProfile()
-        //Wishlist()
-        // Userbooking()
-        //Privacypolicyuser()
-        //  Signupsecondpage()
-       // Detailpagevendor()
-      );
+          // Vendorprofile()
+          //Vendorprofileinfo()
+          // Editprofilevendor()
+          //PolicyProfileVendor()
+          //VendorReviewScreen()
+          //FirstScreenBooking()
+          //Bookingvendor()
+          // Paymentvendor(),
+
+          // Userfirst()
+          //  Userblogs()
+          //Vendorlist()
+          //  BottomNavBar()
+          //Vendoritemsuser()
+          //Photographyvendor()
+          //Venue()
+          //EditUserProfile()
+          //Wishlist()
+          // Userbooking()
+          //Privacypolicyuser()
+          //  Signupsecondpage()
+          // Detailpagevendor()
+          );
     },
   ));
 }

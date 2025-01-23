@@ -243,7 +243,7 @@ class Blogfirstadmin extends StatelessWidget {
             ),
             TextButton(
               onPressed: () async {
-                Navigator.pop(context); 
+                Navigator.pop(context);
                 await deleteBlog(blogId, context);
               },
               child: Text(
@@ -262,7 +262,6 @@ class Blogfirstadmin extends StatelessWidget {
     try {
       await FirebaseFirestore.instance.collection('blog').doc(blogId).delete();
 
-      
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -285,26 +284,28 @@ class Blogfirstadmin extends StatelessWidget {
       );
     } catch (e) {
       // Show error dialog
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("Error"),
-            content: Text("Failed to delete blog: $e"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context); 
-                },
-                child: Text(
-                  "OK",
-                  style: TextStyle(color: Colors.red),
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text("Error"),
+              content: Text("Failed to delete blog: $e"),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    "OK",
+                    style: TextStyle(color: Colors.red),
+                  ),
                 ),
-              ),
-            ],
-          );
-        },
-      );
+              ],
+            );
+          },
+        );
+      }
     }
   }
 }

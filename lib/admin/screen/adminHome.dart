@@ -6,10 +6,31 @@ import 'package:wedweel/admin/screen/ManageProfile.dart';
 import 'package:wedweel/admin/screen/ManageReview.dart';
 import 'package:wedweel/admin/screen/ManageUser.dart';
 import 'package:wedweel/admin/screen/manageVendor.dart';
-import 'package:wedweel/config.dart';
 
 class AdminHome extends StatelessWidget {
   const AdminHome({super.key});
+
+  Widget contain({required String name, required VoidCallback pagename}) {
+    return GestureDetector(
+      onTap: pagename,
+      child: Container(
+        child: Center(
+          child: Text(name,
+              style: TextStyle(
+                  color: Colors.teal,
+                  fontFamily: 'Poppins-Medium',
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16)),
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(20),
+            color: const Color.fromARGB(255, 250, 255, 250),
+            border: Border.all(
+              color: Colors.teal,
+            )),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +48,8 @@ class AdminHome extends StatelessWidget {
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
       ),
       body: Container(
-        alignment: Alignment.center,
-        height: MediaQuery.of(context).size.height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-              image: AssetImage('asset/primaryBg.png'), fit: BoxFit.cover),
-        ),
+        height: double.maxFinite,
+        color: Color.fromARGB(255, 237, 250, 244),
         child: GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
@@ -41,135 +58,49 @@ class AdminHome extends StatelessWidget {
           childAspectRatio: .8,
           padding: const EdgeInsets.all(12),
           children: [
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 232, 245, 233),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Manageprofile(),
-                      ));
-                },
-                child: const Text(
-                  'Manage Profile',
-                  style: TextStyle(
-                      color: Colors.teal,
-                      fontFamily: 'Poppins-Medium',
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16),
-                )),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 232, 245, 233),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onPressed: () {
+            contain(
+                name: 'Manage Profile',
+                pagename: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Manageuser()));
-                },
-                child: const Text(
-                  'Manage User',
-                  style: TextStyle(
-                      color: Colors.teal,
-                      fontFamily: 'Poppins-Medium',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                )),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 232, 245, 233),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onPressed: () {
+                      MaterialPageRoute(builder: (context) => Manageprofile()));
+                }),
+            contain(
+                name: 'Manageuser',
+                pagename: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Managevendor(),
+                        builder: (context) => Manageuser(),
                       ));
-                },
-                child: const Text(
-                  'Manage Vendor',
-                  style: TextStyle(
-                      color: Colors.teal,
-                      fontFamily: 'Poppins-Medium',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                )),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 232, 245, 233),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onPressed: () {
+                }),
+            contain(
+                name: 'Manage Vendor',
+                pagename: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Managevendor()));
+                }),
+            contain(
+                name: "View Review",
+                pagename: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Managereview()));
-                },
-                child: const Text(
-                  'View Review',
-                  style: TextStyle(
-                    color: Colors.teal,
-                    fontFamily: 'Poppins-Medium',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                )),
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color.fromARGB(255, 232, 245, 233),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                onPressed: () {
+                }),
+            contain(
+                name: "Manage blogs",
+                pagename: () {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Blogfirstadmin(),
-                      ));
-                },
-                child: const Text(
-                  'Manage blogs',
-                  style: TextStyle(
-                      color: Colors.teal,
-                      fontFamily: 'Poppins-Medium',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500),
-                )),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color.fromARGB(255, 232, 245, 233),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Managecompliant(),
-                  ),
-                );
-              },
-              child: Text(
-                'Manage\n Complaint',
-                style: TextStyle(
-                    color: Colors.teal,
-                    fontFamily: 'Poppins-Medium',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500),
-              ),
-            )
+                          builder: (context) => Blogfirstadmin()));
+                }),
+            contain(
+                name: "Manage\n Complaint",
+                pagename: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => Managecompliant()));
+                })
           ],
         ),
       ),

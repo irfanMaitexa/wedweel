@@ -9,6 +9,8 @@ class Managevendor extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          surfaceTintColor: Colors.transparent,
           title: const Center(
             child: Text(
               "Manage Vendor",
