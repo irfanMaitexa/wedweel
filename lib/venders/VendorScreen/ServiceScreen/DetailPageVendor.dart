@@ -5,8 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/main.dart';
 
 class Detailpagevendor extends StatelessWidget {
-  final String collectionName =
-      "services"; // Replace with your actual Firestore collection name
+  final String collectionName = "services";
+
+  Widget name({required String name}) {
+    return Text(name,
+        style:
+            TextStyle(fontSize: 20, color: Color.fromARGB(255, 21, 101, 93)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +76,7 @@ class Detailpagevendor extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "Description ",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: Color.fromARGB(255, 21, 101, 93)),
-                              ),
+                              name(name: "Description"),
                               SizedBox(
                                 height: 10.h,
                               ),
@@ -87,16 +87,38 @@ class Detailpagevendor extends StatelessWidget {
                               SizedBox(
                                 height: 10.h,
                               ),
-                              Text("price",
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      color: Color.fromARGB(255, 21, 101, 93))),
+                              name(name: "Price"),
                               SizedBox(
                                 height: 10.h,
                               ),
                               Text(
                                 data['price'],
-                                style: TextStyle(color: Colors.teal),
+                                style:
+                                    TextStyle(color: Colors.teal, fontSize: 17),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              name(name: "Category"),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                data['category'],
+                                style:
+                                    TextStyle(color: Colors.teal, fontSize: 17),
+                              ),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              name(name: "Location"),
+                              SizedBox(
+                                height: 10.h,
+                              ),
+                              Text(
+                                data['location'],
+                                style:
+                                    TextStyle(color: Colors.teal, fontSize: 17),
                               ),
                             ],
                           ),

@@ -23,13 +23,56 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
   File? image;
   bool isLoading = true; // For loading spinner
   String? currentVendorId;
+  List<Map<String, dynamic>> servicesList = []; // List to store services
+  String? selectedServiceId; // Selected service ID from dropdown
+  String? selectedCategory; // Selected category from dropdown
+
+  // List of categories
+  final List<String> categories = [
+    'vendor',
+    'venue',
+    'photo',
+    'makeup',
+    'flower',
+    'decoration',
+    'food',
+    'cake'
+  ];
 
   @override
   void initState() {
     super.initState();
     currentVendorId =
         FirebaseAuth.instance.currentUser?.uid; // Current vendor's ID
-    fetchServiceData();
+    fetchServices(); // Fetch the list of services
+  }
+
+  Future<void> fetchServices() async {
+    try {
+      final querySnapshot = await FirebaseFirestore.instance
+          .collection('services')
+          .where('vendor_id', isEqualTo: currentVendorId)
+          .get();
+
+      setState(() {
+        servicesList = querySnapshot.docs.map((doc) {
+          return {
+            'id': doc.id,
+            'location': doc['location'],
+            'price': doc['price'],
+            'description': doc['description'],
+            'category': doc['category']
+          };
+        }).toList();
+      });
+
+      // After fetching the services, fetch the data for the specific service being edited
+      fetchServiceData();
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error fetching services: $e")),
+      );
+    }
   }
 
   Future<void> fetchServiceData() async {
@@ -45,6 +88,13 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
         serviceNameController.text = data['location'] ?? '';
         servicePriceController.text = data['price'] ?? '';
         serviceDescriptionController.text = data['description'] ?? '';
+        selectedCategory =
+            data['category'] ?? 'vendor'; // Set the selected category
+
+        // Set the selectedServiceId to the service being edited
+        setState(() {
+          selectedServiceId = widget.serviceId;
+        });
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Service not found or access denied.")),
@@ -61,10 +111,34 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
     }
   }
 
+  void onServiceSelected(String? serviceId) {
+    if (serviceId == null) return;
+
+    setState(() {
+      selectedServiceId = serviceId;
+    });
+
+    final selectedService =
+        servicesList.firstWhere((service) => service['id'] == serviceId);
+    serviceNameController.text = selectedService['location'];
+    servicePriceController.text = selectedService['price'];
+    serviceDescriptionController.text = selectedService['description'];
+    selectedCategory = selectedService['category'];
+  }
+
+  void onCategorySelected(String? category) {
+    if (category == null) return;
+
+    setState(() {
+      selectedCategory = category;
+    });
+  }
+
   Future<void> updateService() async {
     if (serviceNameController.text.isEmpty ||
         servicePriceController.text.isEmpty ||
-        serviceDescriptionController.text.isEmpty) {
+        serviceDescriptionController.text.isEmpty ||
+        selectedCategory == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Please fill all fields.")),
       );
@@ -82,11 +156,13 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
         'location': serviceNameController.text,
         'price': servicePriceController.text,
         'description': serviceDescriptionController.text,
+        'category': selectedCategory,
       };
 
       await FirebaseFirestore.instance
           .collection('services')
-          .doc(widget.serviceId)
+          .doc(
+              selectedServiceId) // Use selectedServiceId to update the correct service
           .update(dataToUpdate);
 
       Navigator.pop(context);
@@ -155,7 +231,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "location",
+                          "Location",
                           style: TextStyle(
                               fontFamily: 'Poppins-Regular',
                               fontSize: 17,
@@ -251,7 +327,50 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
                   ),
                 ),
               ),
-              SizedBox(height: 46),
+              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Category",
+                  style: TextStyle(
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 17,
+                      color: Colors.black),
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              DropdownButtonFormField<String>(
+                value: selectedCategory,
+                hint: Text(
+                  "Select a category",
+                  style: TextStyle(color: Colors.black54),
+                ),
+                onChanged: onCategorySelected,
+                items: categories.map<DropdownMenuItem<String>>((category) {
+                  return DropdownMenuItem<String>(
+                    value: category,
+                    child: Text(
+                      category,
+                      style: TextStyle(color: Colors.black),
+                    ),
+                  );
+                }).toList(),
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Colors.teal, width: 1),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                dropdownColor: const Color.fromARGB(255, 249, 255, 254),
+              ),
+              SizedBox(height: 26),
               ElevatedButton(
                 onPressed: updateService,
                 child: Text(
