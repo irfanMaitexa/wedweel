@@ -3,18 +3,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'package:wedweel/AddCloudinaryImage.dart';
 
-class AddServiceVendor extends StatelessWidget {
+class AddServiceVendor extends StatefulWidget {
   AddServiceVendor({Key? key}) : super(key: key);
 
+  @override
+  _AddServiceVendorState createState() => _AddServiceVendorState();
+}
+
+class _AddServiceVendorState extends State<AddServiceVendor> {
   final TextEditingController serviceNameController = TextEditingController();
   final TextEditingController servicePriceController = TextEditingController();
   final TextEditingController serviceDescriptionController =
       TextEditingController();
 
   File? image;
+  String? selectedCategory; // State variable for the selected category
+  final List<String> categories = [
+    'vendor',
+    'venue',
+    'photo',
+    'makeup',
+    'flower',
+    'decoration',
+    'food',
+    'cake'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +53,48 @@ class AddServiceVendor extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // Dropdown for selecting category
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Category",
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontFamily: 'Poppins-Regular',
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  DropdownButtonFormField<String>(
+                    dropdownColor: const Color.fromARGB(255, 250, 255, 249),
+                    borderRadius: BorderRadius.circular(10),
+                    value: selectedCategory,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedCategory = newValue;
+                      });
+                    },
+                    items: categories
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.teal, width: 1),
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      hintText: "Select a category",
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -46,7 +103,7 @@ class AddServiceVendor extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Service Name",
+                          "location",
                           style: TextStyle(
                               fontFamily: 'Poppins-Regular',
                               fontSize: 17,
@@ -63,7 +120,7 @@ class AddServiceVendor extends StatelessWidget {
                               borderSide:
                                   BorderSide(color: Colors.teal, width: 1),
                             ),
-                            hintText: "Service Name",
+                            hintText: "location",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
@@ -80,6 +137,8 @@ class AddServiceVendor extends StatelessWidget {
                       splashColor: Colors.white,
                       onTap: () async {
                         image = await pickImage();
+                        setState(
+                            () {}); // Refresh the UI to show the selected image
                       },
                       child: image != null
                           ? Image.file(
@@ -197,9 +256,12 @@ class AddServiceVendor extends StatelessWidget {
     if (serviceNameController.text.isEmpty ||
         servicePriceController.text.isEmpty ||
         serviceDescriptionController.text.isEmpty ||
-        image == null) {
+        image == null ||
+        selectedCategory == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please fill all fields and select an image.")),
+        SnackBar(
+            content: Text(
+                "Please fill all fields, select an image, and choose a category.")),
       );
       return;
     }
@@ -218,10 +280,11 @@ class AddServiceVendor extends StatelessWidget {
 
       // Save data to Firestore
       await FirebaseFirestore.instance.collection('services').add({
-        'name': serviceNameController.text,
+        'location': serviceNameController.text,
         'price': servicePriceController.text,
         'description': serviceDescriptionController.text,
         'image': cloudinaryUrl,
+        'category': selectedCategory, // Add the selected category
         'vendor_id': FirebaseAuth.instance.currentUser?.uid,
       });
 
@@ -230,7 +293,6 @@ class AddServiceVendor extends StatelessWidget {
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              
               content: Text('Your service has been added successfully.'),
               actions: [
                 ElevatedButton(

@@ -120,7 +120,10 @@ class VendorHome extends StatelessWidget {
                         mainAxisSpacing: 7,
                         crossAxisSpacing: 7,
                         childAspectRatio: .9,
-                        padding: EdgeInsets.all(20),
+                        padding: EdgeInsets.only(
+                          left: 20,
+                          right: 20,
+                        ),
                         children: [
                           buildCard(
                             context,

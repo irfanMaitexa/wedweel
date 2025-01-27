@@ -6,13 +6,13 @@ import 'package:wedweel/config.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
 import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
 
-class LayerThree extends StatefulWidget {
-  LayerThree({super.key});
+class LayerThreeVendor extends StatefulWidget {
+  LayerThreeVendor({super.key});
   @override
-  State<LayerThree> createState() => _LayerThree();
+  State<LayerThreeVendor> createState() => _LayerThree();
 }
 
-class _LayerThree extends State<LayerThree> {
+class _LayerThree extends State<LayerThreeVendor> {
   bool obscureText = true;
   final _formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();

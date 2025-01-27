@@ -42,7 +42,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
       if (docSnapshot.exists &&
           docSnapshot.data()?['vendor_id'] == currentVendorId) {
         final data = docSnapshot.data()!;
-        serviceNameController.text = data['name'] ?? '';
+        serviceNameController.text = data['location'] ?? '';
         servicePriceController.text = data['price'] ?? '';
         serviceDescriptionController.text = data['description'] ?? '';
       } else {
@@ -79,7 +79,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
 
     try {
       final dataToUpdate = {
-        'name': serviceNameController.text,
+        'location': serviceNameController.text,
         'price': servicePriceController.text,
         'description': serviceDescriptionController.text,
       };
@@ -155,7 +155,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Service Name",
+                          "location",
                           style: TextStyle(
                               fontFamily: 'Poppins-Regular',
                               fontSize: 17,
@@ -200,7 +200,18 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
                   )
                 ],
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Price",
+                  style: TextStyle(
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 17,
+                      color: Colors.black),
+                ),
+              ),
+              SizedBox(height: 6),
               TextField(
                 controller: servicePriceController,
                 decoration: InputDecoration(
@@ -214,7 +225,18 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
                   ),
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Description",
+                  style: TextStyle(
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 17,
+                      color: Colors.black),
+                ),
+              ),
+              SizedBox(height: 6),
               TextField(
                 controller: serviceDescriptionController,
                 maxLines: 6,

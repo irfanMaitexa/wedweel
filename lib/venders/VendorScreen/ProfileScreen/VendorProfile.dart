@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/EditProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/PolicyProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfileInfo.dart';
+import 'package:wedweel/venders/screen/LoginVendor.dart';
 
 class Vendorprofile extends StatefulWidget {
   final String fullname;
@@ -167,13 +168,35 @@ class _VendorprofileState extends State<Vendorprofile> {
                   listtitle: "Privacy Policy",
                   listicon: Icons.privacy_tip_outlined),
             ),
-            listprofile(
-                listtitle: "Logout",
-                listicon: Icons.logout_outlined,
-                TextColor: Colors.red)
+            GestureDetector(
+              onTap: () {
+                logout(context);
+              },
+              child: listprofile(
+                  listtitle: "Logout",
+                  listicon: Icons.logout_outlined,
+                  TextColor: Colors.red),
+            )
           ],
         ),
       ),
+    );
+  }
+}
+
+Future<void> logout(BuildContext context) async {
+  try {
+    await FirebaseAuth.instance.signOut();
+    // Redirect to the vendor login screen
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => Loginvendor()),
+      (route) => false,
+    );
+  } catch (e) {
+    // Show an error if logout fails
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Error logging out: $e')),
     );
   }
 }

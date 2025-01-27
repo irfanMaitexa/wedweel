@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:wedweel/user/screen/layers/layer1.dart';
-import 'package:wedweel/user/screen/layers/layer2.dart';
-import 'package:wedweel/user/screen/layers/layer3.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedweel/admin/AdminBlog/AddBlog.dart';
+import 'package:wedweel/user/screen/layersUser/layer1.dart';
+import 'package:wedweel/user/screen/layersUser/layer2.dart';
+import 'package:wedweel/user/screen/layersUser/layer3.dart';
 
 class LoginUserPage extends StatelessWidget {
   @override
@@ -29,10 +31,15 @@ class LoginUserPage extends StatelessWidget {
                         color: Colors.white),
                   ),
                 )),
-            Positioned(top: 290, right: 0, bottom: 0, child: LayerOne()),
+            Positioned(top: 240.h, right: 0.w, bottom: 0.h, child: LayerOne()),
             Positioned(
-                top: 320, right: 0, bottom: 0, left: 20, child: LayerTwo()),
-            Positioned(top: 160, right: 0, bottom: 0, child: LayerThree()),
+                top: 270.h,
+                right: 0.w,
+                bottom: 0.h,
+                left: 20.w,
+                child: LayerTwo()),
+            Positioned(
+                top: 130.h, right: 0.w, bottom: 0.h, child: LayerThree()),
           ],
         ),
       ),
