@@ -67,11 +67,10 @@ void main() async {
             scaffoldBackgroundColor:  Color.fromARGB(255, 237, 250, 244),
             fontFamily: 'Poppins',
           ),
-          home://  LoginUserPage(),
+          home:  LoginUserPage(),
               //SignUpUserPage(),
             // AdminHome()
-
-          Loginvendor(),
+         // Loginvendor(),
           // Signupvendor(),
           //Managevendor()
           //Managevendordetails(),

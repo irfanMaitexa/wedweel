@@ -3,6 +3,24 @@ import 'package:wedweel/imageVendor.dart';
 import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Venuedetails extends StatelessWidget {
+  final String vendorname;
+  final String location;
+  final String vendorphoto;
+  final String price;
+  final String description;
+  final String guestcount;
+  final String category;
+
+  Venuedetails({
+    required this.vendorname,
+    required this.location,
+    required this.vendorphoto,
+    required this.price,
+    required this.description,
+    required this.guestcount,
+    required this.category,
+  });
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -12,7 +30,7 @@ class Venuedetails extends StatelessWidget {
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           title: Text(
-            "Grand Hall",
+            vendorname,
             style: TextStyle(
               fontSize: 17,
               fontFamily: 'Poppins-Medium',
@@ -23,12 +41,12 @@ class Venuedetails extends StatelessWidget {
         ),
         body: Vendormaindetails(
             isVenueVendor: true,
-            vendorname: "Grand Hall",
-            location: "idiyangara, Calicut",
-            vendorimage: hall1,
-            price: '90000',
+            vendorname: vendorname,
+            location: location,
+            vendorimage:vendorphoto,
+            price: price,
             vendordescription:
-                'Welcome to Grand Hall, the perfect venue for your special events in Calicut. Our spacious and elegant hall is ideal for weddings, receptions, corporate events, and other celebrations. With a capacity of 1000 guests, we can accommodate large gatherings and provide a comfortable and luxurious setting for your event. Our experienced staff will work with you to create a customized event that meets your needs and exceeds your expectations. Let Grand Hall be the backdrop for your unforgettable moments.'),
+                description,),
       ),
     );
   }

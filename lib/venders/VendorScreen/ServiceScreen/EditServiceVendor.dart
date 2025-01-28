@@ -15,6 +15,8 @@ class EditServiceVendor extends StatefulWidget {
 }
 
 class _EditServiceVendorState extends State<EditServiceVendor> {
+  final TextEditingController serviceCapacityController =
+      TextEditingController();
   final TextEditingController serviceNameController = TextEditingController();
   final TextEditingController servicePriceController = TextEditingController();
   final TextEditingController serviceDescriptionController =
@@ -61,7 +63,9 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
             'location': doc['location'],
             'price': doc['price'],
             'description': doc['description'],
-            'category': doc['category']
+            'category': doc['category'],
+            if (doc['category'] == "venue")
+              'number_of_guests': doc['number_of_guests'],
           };
         }).toList();
       });
@@ -85,6 +89,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
       if (docSnapshot.exists &&
           docSnapshot.data()?['vendor_id'] == currentVendorId) {
         final data = docSnapshot.data()!;
+        serviceCapacityController.text = data['number_of_guests'] ?? '';
         serviceNameController.text = data['location'] ?? '';
         servicePriceController.text = data['price'] ?? '';
         serviceDescriptionController.text = data['description'] ?? '';
@@ -327,6 +332,33 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
                   ),
                 ),
               ),
+              if (selectedCategory == 'venue')
+                Column(children: [
+                  SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Capacity",
+                      style: TextStyle(
+                          fontFamily: 'Poppins-Regular',
+                          fontSize: 17,
+                          color: Colors.black),
+                    ),
+                  ),
+                  SizedBox(height: 6),
+                  TextField(
+                      controller: serviceCapacityController,
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                            borderSide:
+                                BorderSide(color: Colors.teal, width: 1),
+                          ),
+                          hintText: "Capacity",
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          )))
+                ]),
               SizedBox(height: 20),
               Align(
                 alignment: Alignment.topLeft,

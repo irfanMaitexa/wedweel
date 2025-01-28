@@ -13,13 +13,15 @@ class AddServiceVendor extends StatefulWidget {
 }
 
 class _AddServiceVendorState extends State<AddServiceVendor> {
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController serviceNameController = TextEditingController();
   final TextEditingController servicePriceController = TextEditingController();
   final TextEditingController serviceDescriptionController =
       TextEditingController();
+  final TextEditingController numberOfGuestsController = TextEditingController();
 
   File? image;
-  String? selectedCategory; // State variable for the selected category
+  String? selectedCategory;
   final List<String> categories = [
     'vendor',
     'venue',
@@ -53,7 +55,6 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              // Dropdown for selecting category
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,6 +95,35 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                   ),
                 ],
               ),
+              if (selectedCategory == "venue")
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20),
+                    Text(
+                      "Number of Guests",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontFamily: 'Poppins-Regular',
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    TextFormField(
+                      controller: numberOfGuestsController,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide(color: Colors.teal, width: 1),
+                        ),
+                        hintText: "Enter guest capacity",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -103,42 +133,37 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "location",
+                          "Location",
                           style: TextStyle(
-                              fontFamily: 'Poppins-Regular',
-                              fontSize: 17,
-                              color: Colors.black),
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 17,
+                            color: Colors.black,
+                          ),
                         ),
-                        SizedBox(
-                          height: 6,
-                        ),
+                        SizedBox(height: 6),
                         TextFormField(
                           controller: serviceNameController,
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
-                              borderSide:
-                                  BorderSide(color: Colors.teal, width: 1),
+                              borderSide: BorderSide(color: Colors.teal, width: 1),
                             ),
-                            hintText: "location",
+                            hintText: "Location",
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   ),
-                  SizedBox(
-                    width: 20,
-                  ),
+                  SizedBox(width: 20),
                   Expanded(
                     child: InkWell(
                       splashColor: Colors.white,
                       onTap: () async {
                         image = await pickImage();
-                        setState(
-                            () {}); // Refresh the UI to show the selected image
+                        setState(() {});
                       },
                       child: image != null
                           ? Image.file(
@@ -158,20 +183,15 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 30,
-              ),
+              SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Service Price",
-                    style:
-                        TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
+                    style: TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
                   ),
-                  SizedBox(
-                    height: 6,
-                  ),
+                  SizedBox(height: 6),
                   TextFormField(
                     controller: servicePriceController,
                     decoration: InputDecoration(
@@ -187,18 +207,39 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 30,
-              ),
+              SizedBox(height: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Service Description",
-                      style: TextStyle(
-                          fontSize: 17, fontFamily: 'Poppins-Regular')),
-                  SizedBox(
-                    height: 6,
+                  Text(
+                    "Name",
+                    style: TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
                   ),
+                  SizedBox(height: 6),
+                  TextFormField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                        borderSide: BorderSide(color: Colors.teal, width: 1),
+                      ),
+                      hintText: "Name",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 20),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Service Description",
+                    style: TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
+                  ),
+                  SizedBox(height: 6),
                   TextFormField(
                     controller: serviceDescriptionController,
                     maxLines: 6,
@@ -215,9 +256,7 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 46,
-              ),
+              SizedBox(height: 46),
               ElevatedButton(
                 onPressed: () async {
                   await addServiceToFirebase(context);
@@ -257,7 +296,9 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
         servicePriceController.text.isEmpty ||
         serviceDescriptionController.text.isEmpty ||
         image == null ||
-        selectedCategory == null) {
+        selectedCategory == null ||
+        (selectedCategory == "venue" &&
+            numberOfGuestsController.text.isEmpty)) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(
@@ -275,20 +316,21 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
     );
 
     try {
-      // Initialize Cloudinary
       final cloudinaryUrl = await uploadImageToCloudinary(image!);
 
-      // Save data to Firestore
       await FirebaseFirestore.instance.collection('services').add({
         'location': serviceNameController.text,
         'price': servicePriceController.text,
         'description': serviceDescriptionController.text,
         'image': cloudinaryUrl,
-        'category': selectedCategory, // Add the selected category
+        'category': selectedCategory,
         'vendor_id': FirebaseAuth.instance.currentUser?.uid,
+        'name': nameController.text,
+        if (selectedCategory == "venue")
+          'number_of_guests': numberOfGuestsController.text,
       });
 
-      Navigator.pop(context); // Close the loading dialog
+      Navigator.pop(context);
       showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -305,7 +347,7 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
             );
           });
     } catch (e) {
-      Navigator.pop(context); // Close the loading dialog
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Error: $e")),
       );

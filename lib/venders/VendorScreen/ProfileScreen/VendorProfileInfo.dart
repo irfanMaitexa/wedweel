@@ -18,21 +18,22 @@ class Vendorprofileinfo extends StatelessWidget {
   // ignore: prefer_const_constructors_in_immutables
 
   Widget listprofileinfo(
-      {String? listtitle,
-      IconData? trailingicon,
-      String leadingtitle = " ",
-      Color? TextColor}) {
+      {String? listtitle, String leadingtitle = " ", Color? TextColor}) {
     return ListTile(
       leading: Text(
         leadingtitle!,
         style: TextStyle(fontSize: 14),
       ),
-      title: Text(
-        listtitle!,
-        style: TextStyle(color: TextColor),
-      ),
-      trailing: Icon(
-        trailingicon,
+      title: Row(
+        children: [
+          SizedBox(
+            width: 10,
+          ),
+          Text(
+            listtitle!,
+            style: TextStyle(color: TextColor),
+          ),
+        ],
       ),
     );
   }
@@ -42,12 +43,6 @@ class Vendorprofileinfo extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        // title: Text("Profile",
-        //     style: TextStyle(
-        //         fontFamily: 'Poppins-Regular',
-        //         fontSize: 23,
-        //         color: Color.fromARGB(255, 21, 101, 93),
-        //         fontWeight: FontWeight.w500)),
       ),
       backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Padding(
@@ -93,23 +88,20 @@ class Vendorprofileinfo extends StatelessWidget {
               height: 25,
             ),
             listprofileinfo(
-              leadingtitle: "Name            ",
+              leadingtitle: "Name :",
               listtitle: fullname,
-              trailingicon: Icons.arrow_forward_ios_rounded,
             ),
             listprofileinfo(
-              leadingtitle: "email     ",
+              leadingtitle: "email :",
               listtitle: email,
-              trailingicon: Icons.email_outlined,
             ),
             listprofileinfo(
-                leadingtitle: "Phone       ",
-                listtitle: phone,
-                trailingicon: Icons.phone_android_rounded),
+              leadingtitle: "Phone :",
+              listtitle: phone,
+            ),
             listprofileinfo(
-              leadingtitle: "address   ",
+              leadingtitle: "address :",
               listtitle: address,
-              trailingicon: Icons.location_on_outlined,
             )
           ],
         ),
