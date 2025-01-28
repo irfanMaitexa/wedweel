@@ -15,6 +15,7 @@ class EditServiceVendor extends StatefulWidget {
 }
 
 class _EditServiceVendorState extends State<EditServiceVendor> {
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController serviceCapacityController =
       TextEditingController();
   final TextEditingController serviceNameController = TextEditingController();
@@ -59,6 +60,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
       setState(() {
         servicesList = querySnapshot.docs.map((doc) {
           return {
+            'phone': doc['phone'],
             'id': doc.id,
             'location': doc['location'],
             'price': doc['price'],
@@ -93,6 +95,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
         serviceNameController.text = data['location'] ?? '';
         servicePriceController.text = data['price'] ?? '';
         serviceDescriptionController.text = data['description'] ?? '';
+        phoneController.text = data['phone'] ?? '';
         selectedCategory =
             data['category'] ?? 'vendor'; // Set the selected category
 
@@ -129,6 +132,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
     servicePriceController.text = selectedService['price'];
     serviceDescriptionController.text = selectedService['description'];
     selectedCategory = selectedService['category'];
+    phoneController.text = selectedService['phone'];
   }
 
   void onCategorySelected(String? category) {
@@ -158,6 +162,8 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
 
     try {
       final dataToUpdate = {
+        'number_of_guests': serviceCapacityController.text,
+        'phone': phoneController.text,
         'location': serviceNameController.text,
         'price': servicePriceController.text,
         'description': serviceDescriptionController.text,
@@ -301,6 +307,31 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
                     borderSide: BorderSide(color: Colors.teal, width: 1),
                   ),
                   hintText: "Service Price",
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+              ),
+              SizedBox(height: 20),
+              Align(
+                alignment: Alignment.topLeft,
+                child: Text(
+                  "Phone Number",
+                  style: TextStyle(
+                      fontFamily: 'Poppins-Regular',
+                      fontSize: 17,
+                      color: Colors.black),
+                ),
+              ),
+              SizedBox(height: 6),
+              TextField(
+                controller: phoneController,
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(color: Colors.teal, width: 1),
+                  ),
+                  hintText: "Enter phone number",
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                   ),

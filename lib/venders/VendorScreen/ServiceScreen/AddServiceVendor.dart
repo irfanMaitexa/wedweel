@@ -13,12 +13,14 @@ class AddServiceVendor extends StatefulWidget {
 }
 
 class _AddServiceVendorState extends State<AddServiceVendor> {
+  final TextEditingController phoneController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController serviceNameController = TextEditingController();
   final TextEditingController servicePriceController = TextEditingController();
   final TextEditingController serviceDescriptionController =
       TextEditingController();
-  final TextEditingController numberOfGuestsController = TextEditingController();
+  final TextEditingController numberOfGuestsController =
+      TextEditingController();
 
   File? image;
   String? selectedCategory;
@@ -32,6 +34,38 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
     'food',
     'cake'
   ];
+  Widget form(
+      {required String labelName,
+      required String hintName,
+      required TextEditingController controller}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          labelName,
+          style: TextStyle(
+            fontSize: 17,
+            fontFamily: 'Poppins-Regular',
+          ),
+        ),
+        SizedBox(height: 6),
+        TextFormField(
+          controller: controller,
+          decoration: InputDecoration(
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+              borderSide: BorderSide(color: Colors.teal, width: 1),
+            ),
+            hintText: hintName,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
+        SizedBox(height: 20),
+      ],
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,66 +130,19 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                 ],
               ),
               if (selectedCategory == "venue")
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 20),
-                    Text(
-                      "Number of Guests",
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontFamily: 'Poppins-Regular',
-                      ),
-                    ),
-                    SizedBox(height: 6),
-                    TextFormField(
-                      controller: numberOfGuestsController,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                          borderSide: BorderSide(color: Colors.teal, width: 1),
-                        ),
-                        hintText: "Enter guest capacity",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                form(
+                    labelName: "Number of Guests",
+                    hintName: "Enter guest capacity",
+                    controller: numberOfGuestsController),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Location",
-                          style: TextStyle(
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 17,
-                            color: Colors.black,
-                          ),
-                        ),
-                        SizedBox(height: 6),
-                        TextFormField(
-                          controller: serviceNameController,
-                          decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                              borderSide: BorderSide(color: Colors.teal, width: 1),
-                            ),
-                            hintText: "Location",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: form(
+                        labelName: "Location",
+                        hintName: "Enter location",
+                        controller: nameController),
                   ),
                   SizedBox(width: 20),
                   Expanded(
@@ -184,60 +171,25 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                 ],
               ),
               SizedBox(height: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Service Price",
-                    style: TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
-                  ),
-                  SizedBox(height: 6),
-                  TextFormField(
-                    controller: servicePriceController,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.teal, width: 1),
-                      ),
-                      hintText: "2000",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Name",
-                    style: TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
-                  ),
-                  SizedBox(height: 6),
-                  TextFormField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.teal, width: 1),
-                      ),
-                      hintText: "Name",
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 20),
+              form(
+                  labelName: "Service Price",
+                  hintName: "Enter service price",
+                  controller: servicePriceController),
+              form(
+                  labelName: "Service Name",
+                  hintName: "Enter service name",
+                  controller: serviceNameController),
+              form(
+                  labelName: "Phone Number",
+                  hintName: "Enter phone number",
+                  controller: phoneController),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     "Service Description",
-                    style: TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
+                    style:
+                        TextStyle(fontSize: 17, fontFamily: 'Poppins-Regular'),
                   ),
                   SizedBox(height: 6),
                   TextFormField(
@@ -256,7 +208,7 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                   ),
                 ],
               ),
-              SizedBox(height: 46),
+              SizedBox(height: 26),
               ElevatedButton(
                 onPressed: () async {
                   await addServiceToFirebase(context);
@@ -324,6 +276,7 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
         'description': serviceDescriptionController.text,
         'image': cloudinaryUrl,
         'category': selectedCategory,
+        'phone': phoneController.text,
         'vendor_id': FirebaseAuth.instance.currentUser?.uid,
         'name': nameController.text,
         if (selectedCategory == "venue")

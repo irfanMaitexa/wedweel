@@ -3,6 +3,7 @@ import 'package:wedweel/imageVendor.dart';
 import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Venuedetails extends StatelessWidget {
+  final String phonenumber;
   final String vendorname;
   final String location;
   final String vendorphoto;
@@ -12,6 +13,7 @@ class Venuedetails extends StatelessWidget {
   final String category;
 
   Venuedetails({
+    required this.phonenumber,
     required this.vendorname,
     required this.location,
     required this.vendorphoto,
@@ -40,6 +42,8 @@ class Venuedetails extends StatelessWidget {
           ),
         ),
         body: Vendormaindetails(
+            phonenumber: phonenumber,
+          guestnumber: guestcount,
             isVenueVendor: true,
             vendorname: vendorname,
             location: location,

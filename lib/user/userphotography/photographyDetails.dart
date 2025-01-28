@@ -22,6 +22,7 @@ class Photographydetails extends StatelessWidget {
           ),
         ),
       body: Vendormaindetails(
+          phonenumber: '1234567890',
           isVenueVendor: false,
           vendorname: 'Photoland',
           location: 'calicut',

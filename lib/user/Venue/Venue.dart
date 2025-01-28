@@ -86,6 +86,8 @@ class Venue extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Venuedetails(
+                                  phonenumber: data['phone'] ?? 'No Phone',
+
                                   vendorname: data['name'] ?? 'No Name',
                                   location: data['location'] ?? 'No Location',
                                   price: data['price'] ?? 'No Price',
@@ -102,6 +104,7 @@ class Venue extends StatelessWidget {
                           child: SizedBox(
                             width: double.maxFinite,
                             child: Vendormaininuser(
+
                               vendorname: data['name'] ?? 'No Name',
                               location: data['location'] ?? 'No Location',
                               price: data['price'] ?? 'No Price',

@@ -62,53 +62,53 @@ void main() async {
     minTextAdapt: true,
     builder: (context, child) {
       return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            scaffoldBackgroundColor:  Color.fromARGB(255, 237, 250, 244),
-            fontFamily: 'Poppins',
-          ),
-          home:  LoginUserPage(),
-              //SignUpUserPage(),
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: Color.fromARGB(255, 237, 250, 244),
+          fontFamily: 'Poppins',
+        ),
+        home: LoginUserPage(),
+            //SignUpUserPage(),
             // AdminHome()
-         // Loginvendor(),
-          // Signupvendor(),
-          //Managevendor()
-          //Managevendordetails(),
-          //Manageuser()
-          //Managereview(),
-          //Managecompliant()
-          //LoginAdminPage()
-          //Manageprofile()
-          //Manageblogs()
-          // Blogdetails()
-          //VendorHome()
-          //  ServiceVendor()
-          //  ServiceFirstScreen()
-          // Addservicevendor()
+            //Loginvendor(),
+        // Signupvendor(),
+        //Managevendor()
+        //Managevendordetails(),
+        //Manageuser()
+        //Managereview(),
+        //Managecompliant()
+        //LoginAdminPage()
+        //Manageprofile()
+        //Manageblogs()
+        // Blogdetails()
+        //VendorHome()
+        //  ServiceVendor()
+        //  ServiceFirstScreen()
+        // Addservicevendor()
 
-          // Vendorprofile()
-          //Vendorprofileinfo()
-          // Editprofilevendor()
-          //PolicyProfileVendor()
-          //VendorReviewScreen()
-          //FirstScreenBooking()
-          //Bookingvendor()
-          // Paymentvendor(),
+        // Vendorprofile()
+        //Vendorprofileinfo()
+        // Editprofilevendor()
+        //PolicyProfileVendor()
+        //VendorReviewScreen()
+        //FirstScreenBooking()
+        //Bookingvendor()
+        // Paymentvendor(),
 
-          // Userfirst()
-          //  Userblogs()
-          //Vendorlist()
-          //  BottomNavBar()
-          //Vendoritemsuser()
-          //Photographyvendor()
-          //Venue()
-          //EditUserProfile()
-          //Wishlist()
-          // Userbooking()
-          //Privacypolicyuser()
-          //  Signupsecondpage()
-          // Detailpagevendor()
-          );
+        // Userfirst()
+        //  Userblogs()
+        //Vendorlist()
+        //  BottomNavBar()
+        //Vendoritemsuser()
+        //Photographyvendor()
+        //Venue()
+        //EditUserProfile()
+        //Wishlist()
+        // Userbooking()
+        //Privacypolicyuser()
+        //  Signupsecondpage()
+        // Detailpagevendor()
+      );
     },
   ));
 }

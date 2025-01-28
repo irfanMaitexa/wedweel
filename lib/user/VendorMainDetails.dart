@@ -8,8 +8,12 @@ class Vendormaindetails extends StatelessWidget {
   final String price;
   final String vendordescription;
   final bool isVenueVendor;
+  final String guestnumber;
+  final String phonenumber;
 
   Vendormaindetails({
+     this.phonenumber = " ",
+    this.guestnumber = " ",
     required this.vendorname,
     required this.isVenueVendor,
     required this.location,
@@ -28,7 +32,7 @@ class Vendormaindetails extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-            child: Image.asset(
+            child: Image.network(
               vendorimage,
               fit: BoxFit.cover,
             ),
@@ -67,7 +71,7 @@ class Vendormaindetails extends StatelessWidget {
                             color: Color.fromARGB(255, 21, 101, 93),
                           ),
                           SizedBox(width: 10),
-                          Text("1000 Guest")
+                          Text(guestnumber),
                         ],
                       )
                     : SizedBox(
@@ -118,19 +122,11 @@ class Vendormaindetails extends StatelessWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    "Phone: 1234567890",
+                    "Phone: $phonenumber",
                     style: TextStyle(fontSize: 12),
                   ),
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      "Email: 3q5W5@example.com",
-                      style: TextStyle(fontSize: 12),
-                    )),
+               
                 SizedBox(
                   height: 20,
                 ),
