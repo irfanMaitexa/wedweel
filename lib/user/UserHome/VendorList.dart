@@ -1,341 +1,132 @@
-import 'dart:math';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:wedweel/imageVendor.dart';
-import 'package:wedweel/user/UserHome/ViewAllVendors.dart';
+import 'package:wedweel/user/AllVendorDetailsUser.dart';
 
 class Vendorlist extends StatelessWidget {
-
   @override
-  Widget toplistVendor({
-    required String topvendorname,
-    required String topvendorimage,
-  }) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: 20, right: 20),
-      child: Container(
-        height: 210,
-        width: 290,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: Colors.white),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  topvendorimage,
-                  fit: BoxFit.cover,
-                  height: 170,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              left: 0,
-              bottom: 0,
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            topvendorname,
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontFamily: 'Poppins-Medium',
-                              height: 3,
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(
-                                255,
-                                21,
-                                101,
-                                93,
-                              ),
-                            ),
-                          ),
-                        ),
-                        ListTile(
-                            leading: Icon(
-                              Icons.star_border_outlined,
-                              color: Colors.amber,
-                            ),
-                            title: Row(
-                              children: [
-                                Text(
-                                  "4.5",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: const Color.fromARGB(
-                                          255, 97, 97, 97)),
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text(
-                                  "(200)",
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      color: const Color.fromARGB(
-                                          255, 97, 97, 97)),
-                                ),
-                              ],
-                            ),
-                            trailing: Icon(Icons.favorite_border_outlined)),
-                      ],
-                    ),
-                  )),
-            )
-          ],
-        ),
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Vendor List'),
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
       ),
-    );
-  }
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance.collection('services').snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text('No data available'));
+          } else {
+            final data = snapshot.data!.docs;
+            return ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final vendorData = data[index].data() as Map<String, dynamic>;
+                final vendorimage = vendorData['image'] ?? '';
+                final vendorname = vendorData['name'] ?? 'No Name';
+                final price = vendorData['price'] ?? 'N/A';
+                final location = vendorData['location'] ?? 'Unknown Location';
 
-  Widget listVendor({
-    required String vendorname,
-    required String vendorimage,
-  }) {
-    return Padding(
-      padding: EdgeInsets.only(
-        bottom: 20,
-      ),
-      child: Container(
-        height: 270,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: Colors.white),
-        child: Stack(
-          children: [
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.asset(
-                  vendorimage,
-                  fit: BoxFit.cover,
-                  height: 170,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              left: 0,
-              bottom: 0,
-              child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 10),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Allvendordetailsuser(
+                              phonenumber: data[index]['phone'],
+                              vendorname: data[index]['name'],
+                              location: data[index]['location'],
+                              vendorimage: data[index]['image'],
+                              price: data[index]['price'],
+                              vendordescription: data[index]['description']),
+                        ));
+                  },
+                  child: Container(
+                    height: 310,
+                    margin: EdgeInsets.only(
+                      left: 27,
+                      right: 27,
+                      top: 20,
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color.fromARGB(255, 178, 215, 181),
+                    ),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10),
-                          child: Text(
-                            vendorname,
-                            style: TextStyle(
-                              fontSize: 19,
-                              fontFamily: 'Poppins-Medium',
-                              fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(
-                                255,
-                                21,
-                                101,
-                                93,
-                              ),
+                        Container(
+                          margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+                          height: 150,
+                          width: double.infinity,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.network(
+                              vendorimage,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Center(
+                                  child: Icon(Icons.error, color: Colors.red),
+                                );
+                              },
+                              loadingBuilder:
+                                  (context, child, loadingProgress) {
+                                if (loadingProgress == null) return child;
+                                return Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes !=
+                                            null
+                                        ? loadingProgress
+                                                .cumulativeBytesLoaded /
+                                            loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         ),
-                        ListTile(
-                          leading: Icon(
-                            Icons.star,
-                            color: Colors.amber,
+                        Container(
+                          margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+                          height: 130,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          title: Row(
+                          child: Column(
                             children: [
-                              Text(
-                                "4.5",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color:
-                                        const Color.fromARGB(255, 97, 97, 97)),
+                              ListTile(
+                                title: Text(vendorname),
+                                trailing: Text(price),
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(
-                                "(200)",
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    color:
-                                        const Color.fromARGB(255, 97, 97, 97)),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 15),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(Icons.location_on),
+                                        SizedBox(width: 10),
+                                        Text(location),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
-                          trailing: Icon(Icons.favorite_border_outlined),
                         ),
                       ],
                     ),
-                  )),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-        ),
-        backgroundColor: Color.fromARGB(255, 237, 250, 244),
-        body: Padding(
-          padding: EdgeInsets.only(left: 17, right: 17, top: 17),
-          child: Column(
-            children: [
-              Align(
-                alignment: Alignment.topLeft,
-                child: Text(
-                  "Top Vendors",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontFamily: 'Poppins-Medium',
-                    fontWeight: FontWeight.w500,
-                    color: Color.fromARGB(255, 21, 101, 93),
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                height: 300,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    toplistVendor(
-                      topvendorimage: hall1,
-                      topvendorname: "Grand Auditorium",
-                    ),
-                    toplistVendor(
-                      topvendorimage: makeup1,
-                      topvendorname: "Wave Saloon",
-                    ),
-                    toplistVendor(
-                      topvendorimage: photography1,
-                      topvendorname: "Photoland",
-                    ),
-                    toplistVendor(
-                        topvendorname: "Cake Studio",
-                        topvendorimage: cakeshop1),
-                    toplistVendor(
-                        topvendorname: "City Blooms",
-                        topvendorimage: flowershop1),
-                    toplistVendor(
-                        topvendorname: "Royal Catering",
-                        topvendorimage: catering1),
-                    toplistVendor(
-                        topvendorname: "Dk decoration",
-                        topvendorimage: decoration1)
-                  ],
-                ),
-              ),
-              // SizedBox(
-              //   height: 50,
-              // ),
-              ListTile(
-                leading: Text(
-                  "vendors",
-                  style: TextStyle(fontFamily: 'Poppins-Regular', fontSize: 17),
-                ),
-                trailing: GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ViewAllVendors(),
-                      ),
-                    );
-                  },
-                  child: Text(
-                    "View All",
-                    style: TextStyle(
-                        fontFamily: 'Poppins-Regular',
-                        fontSize: 15,
-                        color: Colors.blue),
-                  ),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  child: ListView(
-                    children: [
-                      listVendor(
-                        vendorimage: cakeshop2,
-                        vendorname: "Biscotte",
-                      ),
-                      listVendor(
-                        vendorimage: makeup2,
-                        vendorname: "Seli beauty Lounge",
-                      ),
-                      listVendor(
-                        vendorimage: photography2,
-                        vendorname: "Life Style Photography",
-                      ),
-                      listVendor(
-                          vendorname: "Honey Cakes", vendorimage: cakeshop2),
-                      listVendor(
-                          vendorname: "flower shop", vendorimage: flowershop2),
-                      listVendor(
-                          vendorname: "Eva Mose Catering",
-                          vendorimage: catering2),
-                      listVendor(
-                          vendorname: "Splash Event", vendorimage: decoration2),
-                      listVendor(
-                        vendorimage: hall1,
-                        vendorname: "Grand Auditorium",
-                      ),
-                      listVendor(
-                        vendorimage: makeup1,
-                        vendorname: "Wavesaloon",
-                      ),
-                      listVendor(
-                        vendorimage: photography1,
-                        vendorname: "Photoland",
-                      ),
-                      listVendor(
-                          vendorname: "Cake Studio", vendorimage: cakeshop1),
-                      listVendor(
-                          vendorname: "City Blooms", vendorimage: flowershop1),
-                      listVendor(
-                          vendorname: "Royal Catering", vendorimage: catering1),
-                      listVendor(
-                          vendorname: "Dk decoration", vendorimage: decoration1)
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
+                );
+              },
+            );
+          }
+        },
       ),
     );
   }
