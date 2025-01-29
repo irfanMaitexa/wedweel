@@ -9,9 +9,11 @@ class Decorationdeatils extends StatelessWidget {
   final String  vendorDescription;
   final String vendorcategory;
   final String vendorphoto;
+  final String vendorid;
 
   const Decorationdeatils(
       {super.key,
+      required this.vendorid,
       required this.vendorphoto, required this.number, required this.name, required this.vendorlocation, required this.vendorprice, required this. vendorDescription, required this.vendorcategory
      });
   @override
@@ -33,6 +35,7 @@ class Decorationdeatils extends StatelessWidget {
         ),
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: Vendormaindetails(
+          id: vendorid,
           phonenumber: number,
             vendorname: name,
             isVenueVendor: false,

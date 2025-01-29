@@ -87,7 +87,7 @@ class Decorationvendor extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Decorationdeatils(
-
+                                  vendorid: documents[index].id,
                                   number: data['phone'] ?? 'No Phone',
                                   name: data['name'] ?? 'No Name',
                                   vendorlocation: data['location'] ?? 'No Location',

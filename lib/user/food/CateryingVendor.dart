@@ -87,7 +87,7 @@ class Cateryingvendor extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Cateryingdetails(
-
+                                  vendorid: documents[index].id,
                                   number: data['phone'] ?? 'No Phone',
                                   name: data['name'] ?? 'No Name',
                                   vendorlocation: data['location'] ?? 'No Location',

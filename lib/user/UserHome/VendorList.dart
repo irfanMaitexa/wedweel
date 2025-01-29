@@ -30,6 +30,7 @@ class Vendorlist extends StatelessWidget {
                 final vendorname = vendorData['name'] ?? 'No Name';
                 final price = vendorData['price'] ?? 'N/A';
                 final location = vendorData['location'] ?? 'Unknown Location';
+                final guestcount = vendorData['number_of_guests'] ?? 'N/A';
 
                 return GestureDetector(
                   onTap: () {
@@ -37,6 +38,7 @@ class Vendorlist extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => Allvendordetailsuser(
+                              id: data[index].id,
                               phonenumber: data[index]['phone'],
                               vendorname: data[index]['name'],
                               location: data[index]['location'],
@@ -112,6 +114,28 @@ class Vendorlist extends StatelessWidget {
                                         SizedBox(width: 10),
                                         Text(location),
                                       ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    Row(
+                                      children: data[index]['category'] ==
+                                              'venue'
+                                          ? [
+                                              Icon(Icons.people),
+                                              SizedBox(width: 10),
+                                              Text(guestcount),
+                                            ]
+                                          : [
+                                              Icon(
+                                                Icons.star_outline,
+                                                color: Colors.amber,
+                                              ),
+                                              Text(
+                                                "(4.5)",
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    color: Colors.grey[700]),
+                                              ),
+                                            ],
                                     ),
                                   ],
                                 ),

@@ -4,6 +4,7 @@ import 'package:wedweel/user/VendorMainDetails.dart';
 class Cateryingdetails extends StatelessWidget {
   final String number;
   final String name;
+  final String vendorid;
   final String vendorlocation;
   final String vendorprice;
   final String  vendorDescription;
@@ -12,6 +13,7 @@ class Cateryingdetails extends StatelessWidget {
 
   const Cateryingdetails(
       {super.key,
+      required this.vendorid,
       required this.vendorphoto, required this.number, required this.name, required this.vendorlocation, required this.vendorprice, required this. vendorDescription, required this.vendorcategory
      });
   @override
@@ -33,6 +35,7 @@ class Cateryingdetails extends StatelessWidget {
         ),
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: Vendormaindetails(
+          id: vendorid,
           phonenumber: number,
             vendorname: name,
             isVenueVendor: false,

@@ -18,7 +18,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController serviceCapacityController =
       TextEditingController();
-  final TextEditingController serviceNameController = TextEditingController();
+  final TextEditingController locationNameController = TextEditingController();
   final TextEditingController servicePriceController = TextEditingController();
   final TextEditingController serviceDescriptionController =
       TextEditingController();
@@ -92,7 +92,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
           docSnapshot.data()?['vendor_id'] == currentVendorId) {
         final data = docSnapshot.data()!;
         serviceCapacityController.text = data['number_of_guests'] ?? '';
-        serviceNameController.text = data['location'] ?? '';
+        locationNameController.text = data['location'] ?? '';
         servicePriceController.text = data['price'] ?? '';
         serviceDescriptionController.text = data['description'] ?? '';
         phoneController.text = data['phone'] ?? '';
@@ -128,7 +128,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
 
     final selectedService =
         servicesList.firstWhere((service) => service['id'] == serviceId);
-    serviceNameController.text = selectedService['location'];
+    locationNameController.text = selectedService['location'];
     servicePriceController.text = selectedService['price'];
     serviceDescriptionController.text = selectedService['description'];
     selectedCategory = selectedService['category'];
@@ -144,7 +144,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
   }
 
   Future<void> updateService() async {
-    if (serviceNameController.text.isEmpty ||
+    if (locationNameController.text.isEmpty ||
         servicePriceController.text.isEmpty ||
         serviceDescriptionController.text.isEmpty ||
         selectedCategory == null) {
@@ -164,7 +164,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
       final dataToUpdate = {
         'number_of_guests': serviceCapacityController.text,
         'phone': phoneController.text,
-        'location': serviceNameController.text,
+        'location': locationNameController.text,
         'price': servicePriceController.text,
         'description': serviceDescriptionController.text,
         'category': selectedCategory,
@@ -250,7 +250,7 @@ class _EditServiceVendorState extends State<EditServiceVendor> {
                         ),
                         SizedBox(height: 6),
                         TextFormField(
-                          controller: serviceNameController,
+                          controller:locationNameController,
                           decoration: InputDecoration(
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(20),

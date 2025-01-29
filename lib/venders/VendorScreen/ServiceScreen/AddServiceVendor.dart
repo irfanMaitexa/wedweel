@@ -14,7 +14,7 @@ class AddServiceVendor extends StatefulWidget {
 
 class _AddServiceVendorState extends State<AddServiceVendor> {
   final TextEditingController phoneController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController locationnameController = TextEditingController();
   final TextEditingController serviceNameController = TextEditingController();
   final TextEditingController servicePriceController = TextEditingController();
   final TextEditingController serviceDescriptionController =
@@ -142,7 +142,7 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                     child: form(
                         labelName: "Location",
                         hintName: "Enter location",
-                        controller: nameController),
+                        controller: locationnameController),
                   ),
                   SizedBox(width: 20),
                   Expanded(
@@ -271,14 +271,14 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
       final cloudinaryUrl = await uploadImageToCloudinary(image!);
 
       await FirebaseFirestore.instance.collection('services').add({
-        'location': serviceNameController.text,
+        'location': locationnameController.text,
         'price': servicePriceController.text,
         'description': serviceDescriptionController.text,
         'image': cloudinaryUrl,
         'category': selectedCategory,
         'phone': phoneController.text,
         'vendor_id': FirebaseAuth.instance.currentUser?.uid,
-        'name': nameController.text,
+        'name': serviceNameController.text,
         if (selectedCategory == "venue")
           'number_of_guests': numberOfGuestsController.text,
       });
