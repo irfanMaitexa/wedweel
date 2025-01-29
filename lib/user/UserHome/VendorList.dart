@@ -5,7 +5,6 @@ import 'package:wedweel/imageVendor.dart';
 import 'package:wedweel/user/UserHome/ViewAllVendors.dart';
 
 class Vendorlist extends StatelessWidget {
-  const Vendorlist({super.key});
 
   @override
   Widget toplistVendor({

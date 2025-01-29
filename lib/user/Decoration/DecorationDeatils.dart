@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:wedweel/imageVendor.dart';
 import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Decorationdeatils extends StatelessWidget {
+  final String number;
+  final String name;
+  final String vendorlocation;
+  final String vendorprice;
+  final String  vendorDescription;
+  final String vendorcategory;
+  final String vendorphoto;
+
+  const Decorationdeatils(
+      {super.key,
+      required this.vendorphoto, required this.number, required this.name, required this.vendorlocation, required this.vendorprice, required this. vendorDescription, required this.vendorcategory
+     });
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 237, 250, 244),
-         appBar: AppBar(
+        appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           title: Text(
-            "Dk Decoration",
+            name,
             style: TextStyle(
               fontSize: 17,
               fontFamily: 'Poppins-Medium',
@@ -21,14 +31,16 @@ class Decorationdeatils extends StatelessWidget {
             ),
           ),
         ),
+        backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: Vendormaindetails(
-            vendorname: 'Dk Decoration',
+          phonenumber: number,
+            vendorname: name,
             isVenueVendor: false,
-            location: 'Kochi',
-            vendorimage: decoration2,
-            price: '17000',
+            location: vendorlocation,
+            vendorimage: vendorphoto,
+            price: vendorprice,
             vendordescription:
-                'Transform your event with DK Decoration. Our expert team in Kochi creates stunning, personalized decorations for weddings, corporate events, and celebrations. From elegant floral arrangements to intricate lighting, we ensure every detail is perfect. Make your event unforgettable with DK Decoration.',),
+                vendorDescription),
       ),
     );
   }

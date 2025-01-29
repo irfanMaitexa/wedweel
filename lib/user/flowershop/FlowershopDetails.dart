@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:wedweel/imageVendor.dart';
 import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Flowershopdetails extends StatelessWidget {
-  
+  final String number;
+  final String name;
+  final String vendorlocation;
+  final String vendorprice;
+  final String  vendorDescription;
+  final String vendorcategory;
+  final String vendorphoto;
 
+  const Flowershopdetails(
+      {super.key,
+      required this.vendorphoto, required this.number, required this.name, required this.vendorlocation, required this.vendorprice, required this. vendorDescription, required this.vendorcategory
+     });
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 237, 250, 244),
-         appBar: AppBar(
+        appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           title: Text(
-            "Let Flowers",
+            name,
             style: TextStyle(
               fontSize: 17,
               fontFamily: 'Poppins-Medium',
@@ -23,7 +31,16 @@ class Flowershopdetails extends StatelessWidget {
             ),
           ),
         ),
-        body: Vendormaindetails(vendorname: 'Let Flowers', isVenueVendor: false, location: 'kochi', vendorimage: flowershop2, price: '1500', vendordescription:  'Welcome to Let Flowers, your premier destination for exquisite floral arrangements in Kochi. Our talented florists craft stunning bouquets and floral designs for every occasion, from weddings and corporate events to personal celebrations. Using only the freshest and most vibrant flowers, we ensure that each arrangement is a work of art. At Let Flowers, we are dedicated to providing exceptional service and creating beautiful, memorable experiences for our customers. Let us bring a touch of elegance and natural beauty to your special moments.'),
+        backgroundColor: Color.fromARGB(255, 237, 250, 244),
+        body: Vendormaindetails(
+          phonenumber: number,
+            vendorname: name,
+            isVenueVendor: false,
+            location: vendorlocation,
+            vendorimage: vendorphoto,
+            price: vendorprice,
+            vendordescription:
+                vendorDescription),
       ),
     );
   }

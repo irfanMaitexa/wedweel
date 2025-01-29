@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:wedweel/imageVendor.dart';
 import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Makeupdetails extends StatelessWidget {
-  
+  final String number;
+  final String name;
+  final String vendorlocation;
+  final String vendorprice;
+  final String  vendorDescription;
+  final String vendorcategory;
+  final String vendorphoto;
 
+  const Makeupdetails(
+      {super.key,
+      required this.vendorphoto, required this.number, required this.name, required this.vendorlocation, required this.vendorprice, required this. vendorDescription, required this.vendorcategory
+     });
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
-      backgroundColor: Color.fromARGB(255, 237, 250, 244),
-       appBar: AppBar(
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
           title: Text(
-            "Seli's Beauty Lounge",
+            name,
             style: TextStyle(
               fontSize: 17,
               fontFamily: 'Poppins-Medium',
@@ -22,14 +31,17 @@ class Makeupdetails extends StatelessWidget {
             ),
           ),
         ),
-      body: Vendormaindetails(
-          isVenueVendor: false,
-          vendorname: 'Seli\'s Beauty Lounge',
-          location: 'Calicut',
-          vendorimage: makeup2,
-          price: '5000',
-          vendordescription:
-              'Welcome to Seli\'s Beauty Lounge, where we create stunning looks for every occasion. Our professional makeup artists use high-quality products and the latest techniques to enhance your natural beauty. Whether it\'s a wedding, a party, or a photoshoot, we offer personalized services to suit your unique style. Our team is dedicated to making you look and feel your best, ensuring you leave our salon with confidence and a smile. Conveniently located in Calicut, Seli\'s Beauty Lounge is your one-stop destination for all your makeup needs.'
-    )));
+        backgroundColor: Color.fromARGB(255, 237, 250, 244),
+        body: Vendormaindetails(
+          phonenumber: number,
+            vendorname: name,
+            isVenueVendor: false,
+            location: vendorlocation,
+            vendorimage: vendorphoto,
+            price: vendorprice,
+            vendordescription:
+                vendorDescription),
+      ),
+    );
   }
 }

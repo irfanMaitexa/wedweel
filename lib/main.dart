@@ -17,7 +17,6 @@ import 'package:wedweel/admin/screen/manageVendor.dart';
 import 'package:wedweel/firebase_options.dart';
 import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 import 'package:wedweel/user/UserFirst.dart';
-import 'package:wedweel/user/UserHome/VendorList.dart';
 import 'package:wedweel/user/UserHome/VendoritemsUser.dart';
 import 'package:wedweel/user/VendorMainDetails.dart';
 import 'package:wedweel/user/Venue/Venue.dart';
@@ -70,6 +69,7 @@ void main() async {
         home: LoginUserPage(),
             //SignUpUserPage(),
             // AdminHome()
+            
             //Loginvendor(),
         // Signupvendor(),
         //Managevendor()
