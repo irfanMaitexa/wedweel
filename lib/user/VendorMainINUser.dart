@@ -1,6 +1,8 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedweel/admin/AdminBlog/AddBlog.dart';
 
 class Vendormaininuser extends StatelessWidget {
   final String vendorname;
@@ -22,7 +24,7 @@ class Vendormaininuser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 310,
+      height: 310.h,
       margin: EdgeInsets.only(
         left: 27,
         right: 27,
@@ -35,7 +37,7 @@ class Vendormaininuser extends StatelessWidget {
         children: [
           Container(
             margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-            height: 150,
+            height: 150.h,
             width: double.infinity,
             child: ClipRRect(
                 borderRadius: BorderRadius.circular(15),
@@ -46,34 +48,48 @@ class Vendormaininuser extends StatelessWidget {
           // ),
           Container(
             margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-            height: 130,
+            height: 130.h,
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(20)),
             child: Column(children: [
-              ListTile(
-                title: Text(vendorname),
-                trailing: Text(price),
+            
+
+              Padding(
+                padding: const EdgeInsets.all(15),
+                child: Row(
+                  children: [
+                    Text(
+                      vendorname,
+                      style: TextStyle(
+                          color: const Color.fromARGB(255, 27, 101, 52)),
+                    ),
+                    Spacer(),
+                    Text(
+                      "Rs : $price",
+                      style: TextStyle(
+                          color: const Color.fromARGB(255, 27, 101, 52)),
+                    ),
+                  ],
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Column(
                   children: [
                     Row(
-                      children: [
-                        Icon(Icons.location_on),
-                        SizedBox(width: 10),
-                        Text(location),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
                       children: isVenueVendor
                           ? [
-                              Icon(Icons.people),
+                              Icon(
+                                Icons.people,
+                                color: const Color.fromARGB(255, 27, 101, 52),
+                              ),
                               SizedBox(width: 10),
-                              Text(guestcount),
+                              Text(
+                                guestcount,
+                                style: TextStyle(
+                                    color:
+                                        const Color.fromARGB(255, 27, 101, 52)),
+                              ),
                             ]
                           : [
                               Icon(
@@ -87,6 +103,29 @@ class Vendormaininuser extends StatelessWidget {
                               ),
                             ],
                     ),
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.location_on,
+                          color: const Color.fromARGB(255, 27, 101, 52),
+                        ),
+                        SizedBox(width: 10),
+                        Text(
+                          location,
+                          style: TextStyle(
+                            color: const Color.fromARGB(255, 27, 101, 52),
+                          ),
+                        ),
+                        Spacer(),
+                        IconButton(
+                          icon: Icon(
+                            Icons.favorite_border,
+                            color: Colors.green,
+                          ),
+                          onPressed: () {},
+                        )
+                      ],
+                    ),
                   ],
                 ),
               )
@@ -95,6 +134,5 @@ class Vendormaininuser extends StatelessWidget {
         ],
       ),
     );
-  
   }
 }
