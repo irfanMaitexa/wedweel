@@ -4,7 +4,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:wedweel/AddCloudinaryImage.dart';
-import 'package:wedweel/user/UserFirst.dart';
 import 'package:wedweel/user/bootomNavBar.dart';
 import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
 import 'package:wedweel/venders/screen/LoginVendor.dart';

@@ -3,21 +3,20 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/config.dart';
-import 'package:wedweel/user/loginmain.dart/signuppage.dart';
-import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
-import 'package:wedweel/venders/screen/SignUpVendor.dart';
+import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 
-class LayerThreeVendor extends StatefulWidget {
-  LayerThreeVendor({super.key});
+class Layer3signupuser extends StatefulWidget {
+  Layer3signupuser({super.key});
   @override
-  State<LayerThreeVendor> createState() => _LayerThree();
+  State<Layer3signupuser> createState() => _LayerThree();
 }
 
-class _LayerThree extends State<LayerThreeVendor> {
+class _LayerThree extends State<Layer3signupuser> {
   bool obscureText = true;
   final _formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
+  TextEditingController fullName = TextEditingController(); // Add full name controller
   bool isLoad = false;
 
   String? validateEmail(String email) {
@@ -52,7 +51,7 @@ class _LayerThree extends State<LayerThreeVendor> {
                 left: 59.w,
                 top: 169.h,
                 child: Text(
-                  'Username',
+                  'Email',
                   style: TextStyle(
                     fontFamily: 'Poppins-Medium',
                     fontSize: 24.sp,
@@ -70,7 +69,7 @@ class _LayerThree extends State<LayerThreeVendor> {
                     validator: (value) => validateEmail(value!),
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
-                      hintText: 'Enter User ID or Email',
+                      hintText: 'Enter your Email',
                       hintStyle: TextStyle(color: hintText),
                     ),
                   ),
@@ -116,56 +115,43 @@ class _LayerThree extends State<LayerThreeVendor> {
                 ),
               ),
               Positioned(
-                right: 30.w,
-                top: 360.h,
+                left: 59.w,
+                top: 359.h,
                 child: Text(
-                  'Forgot Password',
+                  'Fullname',
                   style: TextStyle(
-                    color: forgotPasswordText,
-                    fontSize: 16.sp,
                     fontFamily: 'Poppins-Medium',
-                    fontWeight: FontWeight.w600,
+                    fontSize: 24.sp,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),
               Positioned(
-                left: 46.w,
-                bottom: 180.h,
-                child: Row(
-                  children: [
-                    Checkbox(
-                      checkColor: Colors.black,
-                      activeColor: checkbox,
-                      value: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value!;
-                        });
-                      },
+                left: 59.w,
+                top: 400.h,
+                child: Container(
+                  width: 310.w,
+                  child: TextFormField(
+                    controller: fullName, // Use fullName controller
+                    decoration: InputDecoration(
+                      border: UnderlineInputBorder(),
+                      hintText: 'Enter your full name',
+                      hintStyle: TextStyle(color: hintText),
                     ),
-                    Text(
-                      'Remember Me',
-                      style: TextStyle(
-                        color: forgotPasswordText,
-                        fontSize: 14.sp,
-                        fontFamily: 'Poppins-Medium',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               Positioned(
-                bottom: 190.h,
-                right: 36.w,
+                bottom: 130.h,
+                right: 26.w,
                 child: GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {
                       setState(() {
                         isLoad = true;
                       });
-                      await _checkVerificationStatus(
-                          context, email.text.trim(), password.text.trim());
+                      await _registerUser(context, email.text.trim(),
+                          password.text.trim(), fullName.text.trim());
                       setState(() {
                         isLoad = false;
                       });
@@ -183,7 +169,7 @@ class _LayerThree extends State<LayerThreeVendor> {
                     ),
                     child: Center(
                       child: Text(
-                        'Sign In',
+                        'Sign Up',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 18.sp,
@@ -196,59 +182,6 @@ class _LayerThree extends State<LayerThreeVendor> {
                 ),
               ),
               Positioned(
-                  bottom: 140.h,
-                  left: 59.w,
-                  child: Container(
-                    height: 0.5.h,
-                    width: 310.w,
-                    color: inputBorder,
-                  )),
-              Positioned(
-                bottom: 50.h,
-                left: 120.w,
-                right: 120.w,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Container(
-                      width: 59.w,
-                      height: 58.h,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: signInBox),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20.r),
-                              bottomRight: Radius.circular(20.r))),
-                      child: Image.asset(
-                        'asset/icon_google.png',
-                        width: 20.w,
-                        height: 21.h,
-                      ),
-                    ),
-                    Text(
-                      'or',
-                      style: TextStyle(
-                          fontSize: 18.sp,
-                          fontFamily: 'Poppins-Regular',
-                          color: hintText),
-                    ),
-                    Container(
-                      width: 59.w,
-                      height: 58.h,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: signInBox),
-                          borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(20.r),
-                              bottomRight: Radius.circular(20.r))),
-                      child: Image.asset(
-                        'asset/icon_apple.png',
-                        width: 20.w,
-                        height: 21.h,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
                 bottom: 0.h,
                 left: 59.w,
                 right: 59.w,
@@ -256,7 +189,7 @@ class _LayerThree extends State<LayerThreeVendor> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Don\'t have an account? ',
+                      'Already have an account? ',
                       style: TextStyle(
                           fontSize: 17.sp,
                           fontFamily: 'Poppins-Regular',
@@ -267,11 +200,11 @@ class _LayerThree extends State<LayerThreeVendor> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Signupvendor()),
+                              builder: (context) => LoginUserPage()),
                         );
                       },
                       child: Text(
-                        'Sign Up',
+                        'Sign in',
                         style: TextStyle(
                             fontSize: 17.sp,
                             fontFamily: 'Poppins-Regular',
@@ -287,53 +220,47 @@ class _LayerThree extends State<LayerThreeVendor> {
       ),
     );
   }
-}
 
-Future<void> _checkVerificationStatus(
-    context, String email, String password) async {
-  try {
-    final userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
-    final vendorData = await FirebaseFirestore.instance
-        .collection('vendor')
-        .doc(userCredential.user?.uid)
-        .get();
+  Future<void> _registerUser(
+      BuildContext context, String email, String password, String fullName) async {
+    try {
+      // Register the user with Firebase Authentication
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    if (vendorData.exists && userCredential.user != null) {
-      final verificationStatus = vendorData.get('IsAdminApproved');
-      if (verificationStatus == false) {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text('Verification Pending'),
-              content: Text(
-                  'Your verification is pending. Please wait for the admin to approve your account.'),
-              actions: [
-                ElevatedButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      } else {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => VendorHome()),
-          (route) => false,
-        );
-      }
-    } else {
+      // Save additional user details to Firestore
+      await FirebaseFirestore.instance
+          .collection('user')
+          .doc(userCredential.user?.uid)
+          .set({
+        'email': email,
+        'fullName': fullName,
+        'uid': userCredential.user?.uid,
+      });
+
+      // Navigate to the CompleteProfilePage
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => CompleteProfilePage(userId: userCredential.user!.uid),
+      //   ),
+      // );
+       Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => LoginUserPage(),
+      ),
+    );
+    } catch (e) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Please Create Your Account'),
-            content: Text('Please create your account to continue.'),
+            title: Text('Error'),
+            content: Text('Failed to register: $e'),
             actions: [
               ElevatedButton(
                 child: Text('OK'),
@@ -346,23 +273,6 @@ Future<void> _checkVerificationStatus(
         },
       );
     }
-  } catch (e) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Error'),
-          content: Text('Invalid credentials. Please try again.'),
-          actions: [
-            ElevatedButton(
-              child: Text('OK'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
   }
 }
+

@@ -109,7 +109,7 @@ class _UserProfileState extends State<UserProfile> {
                         ),
                         SizedBox(height: 10.h),
                         Text(
-                          data['fullname'],
+                          data['fullName'],
                           style: TextStyle(
                             fontFamily: 'Poppins-Regular',
                             fontSize: 20,
@@ -134,7 +134,7 @@ class _UserProfileState extends State<UserProfile> {
                                     MaterialPageRoute(
                                       builder: (context) => EditUserProfile(
                                         email: data['email'],
-                                        fullname: data['fullname'],
+                                        fullname: data['fullName'],
                                         phone: phone ?? 'Phone Number',
                                         address: address ?? 'Address',
                                       ),

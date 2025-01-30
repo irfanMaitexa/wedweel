@@ -10,12 +10,12 @@ import 'package:wedweel/user/servicesuser/AuthUserServices.dart';
 import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/venders/screen/SignUpsecondPage.dart';
 
-class LayerThree extends StatefulWidget {
+class Layer3signupvendor extends StatefulWidget {
   @override
-  State<LayerThree> createState() => _LayerThree();
+  State<Layer3signupvendor> createState() => _LayerThree();
 }
 
-class _LayerThree extends State<LayerThree> {
+class _LayerThree extends State<Layer3signupvendor> {
   final _formKey = GlobalKey<FormState>();
   String? validateEmail(String email) {
     final RegExp emailRegExp = RegExp(

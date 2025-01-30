@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:wedweel/config.dart';
 
-class LayerOne extends StatelessWidget {
+class Layer2signupvendor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 354,
+      width: 399,
+      height: 484,
       decoration: BoxDecoration(
-        color: layerOneBg,
+        color: layerTwoBg,
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(60.0),
-          bottomRight: Radius.circular(60.0)
+          bottomRight: Radius.circular(60.0),
+          bottomLeft: Radius.circular(60.0),
         ),
       ),
     );
