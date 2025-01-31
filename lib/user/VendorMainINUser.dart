@@ -1,8 +1,7 @@
-import 'dart:math';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wedweel/admin/AdminBlog/AddBlog.dart';
 
 class Vendormaininuser extends StatelessWidget {
   final String vendorname;
@@ -10,16 +9,60 @@ class Vendormaininuser extends StatelessWidget {
   final String price;
   final String vendorimage;
   final String guestcount;
-
   final bool isVenueVendor;
 
-  Vendormaininuser(
-      {required this.vendorname,
-      this.guestcount = "",
-      required this.location,
-      required this.price,
-      required this.vendorimage,
-      required this.isVenueVendor});
+  Vendormaininuser({
+    required this.vendorname,
+    this.guestcount = "",
+    required this.location,
+    required this.price,
+    required this.vendorimage,
+    required this.isVenueVendor,
+  });
+
+  // Function to toggle wishlist
+  Future<void> toggleWishlist(BuildContext context) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+      // Handle the case where the user is not logged in
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('You need to be logged in to add to wishlist')),
+      );
+      return;
+    }
+
+    // Reference to the user's wishlist subcollection
+    final wishlistRef = FirebaseFirestore.instance
+        .collection('users')
+        .doc(user.uid)
+        .collection('wishlist')
+        .doc(vendorname); // Use vendorname as the document ID
+
+    // Check if the item is already in the wishlist
+    final doc = await wishlistRef.get();
+    if (doc.exists) {
+      // Remove from wishlist
+      await wishlistRef.delete();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Removed from wishlist')),
+      );
+    } else {
+      // Add to wishlist
+      await wishlistRef.set({
+        
+        'vendorname': vendorname,
+        'location': location,
+        'price': price,
+        'vendorimage': vendorimage,
+        'guestcount': guestcount,
+        'isVenueVendor': isVenueVendor,
+        'timestamp': FieldValue.serverTimestamp(), // Optional: Add timestamp
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Added to wishlist')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,17 +86,12 @@ class Vendormaininuser extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15),
                 child: Image.network(vendorimage, fit: BoxFit.cover)),
           ),
-          // SizedBox(
-          //   height: 10,
-          // ),
           Container(
             margin: EdgeInsets.only(left: 10, right: 10, top: 10),
             height: 130.h,
             decoration: BoxDecoration(
                 color: Colors.white, borderRadius: BorderRadius.circular(20)),
             child: Column(children: [
-            
-
               Padding(
                 padding: const EdgeInsets.all(15),
                 child: Row(
@@ -122,7 +160,7 @@ class Vendormaininuser extends StatelessWidget {
                             Icons.favorite_border,
                             color: Colors.green,
                           ),
-                          onPressed: () {},
+                          onPressed: () => toggleWishlist(context),
                         )
                       ],
                     ),

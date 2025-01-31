@@ -1,72 +1,82 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:wedweel/imageVendor.dart';
 
-class Wishlist extends StatelessWidget {
+class WishlistPage extends StatelessWidget {
+  const WishlistPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 237, 250, 244),
       appBar: AppBar(
-        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
-        title: Text(
-          "Wishlist",
-          style: TextStyle(
-            fontSize: 19,
-            fontFamily: 'Poppins-Medium',
-            fontWeight: FontWeight.w500,
-            color: Color.fromARGB(255, 21, 101, 93),
-          ),
-        ),
+        surfaceTintColor: Colors.transparent,
+        title: Text('Your Wishlist'),
       ),
-      body: GridView.builder(
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2, mainAxisSpacing: 10),
-        itemCount: 10, // number of items
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-              margin: EdgeInsets.only(left: 13, right: 13, top: 10),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(255, 178, 215, 181),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(6),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        hall1,
-                        fit: BoxFit.cover,
-                        height: 100,
-                        width: double.infinity,
+      body: user == null
+          ? Center(
+              child: Text('You need to be logged in to view your wishlist.'),
+            )
+          : StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user.uid)
+                  .collection('wishlist')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+                if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                  return Center(child: Text('Your wishlist is empty.'));
+                }
+
+                final wishlistItems = snapshot.data!.docs;
+                return ListView.builder(
+                  itemCount: wishlistItems.length,
+                  itemBuilder: (context, index) {
+                    final item =
+                        wishlistItems[index].data() as Map<String, dynamic>;
+                    return ListTile(
+                      leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(8),
+                        child: Image.network(
+                          item['vendorimage'],
+                          width: 70,
+                          height: 70,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      width: double.infinity,
-                      margin: EdgeInsets.only(left: 6, right: 6, bottom: 6),
-                      child: Container(
-                          padding: EdgeInsets.only(left: 10),
-                          child: Text(
-                            "Grand Hall",
-                            style: TextStyle(
-                                fontFamily: 'Poppins-Medium',
-                                fontWeight: FontWeight.w500,
-                                color: Color.fromARGB(255, 21, 101, 93)),
-                          )),
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 249, 255, 251),
-                        borderRadius: BorderRadius.circular(10),
+                      title: Text(
+                        item['vendorname'],
+                        style: TextStyle(
+                            color: const Color.fromARGB(255, 20, 74, 49)),
                       ),
-                    ),
-                  )
-                ],
-              ));
-        },
-      ),
+                      subtitle: Text(item['location']),
+                      trailing: IconButton(
+                        icon: Icon(
+                          Icons.delete_outlined,
+                          color: Colors.red,
+                        ),
+                        onPressed: () async {
+                          await FirebaseFirestore.instance
+                              .collection('users')
+                              .doc(user.uid)
+                              .collection('wishlist')
+                              .doc(item['vendorname'])
+                              .delete();
+                        },
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
     );
   }
 }

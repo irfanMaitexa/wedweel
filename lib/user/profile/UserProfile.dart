@@ -151,7 +151,7 @@ class _UserProfileState extends State<UserProfile> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Wishlist(),
+                                      builder: (context) => WishlistPage(),
                                     ),
                                   );
                                 },
