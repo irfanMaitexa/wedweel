@@ -11,6 +11,18 @@ class Photographyvendor extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+            surfaceTintColor: Colors.transparent,
+            backgroundColor: Colors.transparent,
+            title: Text(
+              "Photography Vendors",
+              style: TextStyle(
+                fontSize: 19,
+                fontFamily: 'Poppins-Medium',
+                fontWeight: FontWeight.w500,
+                color: Color.fromARGB(255, 21, 101, 93),
+              ),
+            )),
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
@@ -37,43 +49,7 @@ class Photographyvendor extends StatelessWidget {
               width: double.maxFinite,
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(
-                            left: 20,
-                            right: 10,
-                          ),
-                          margin: EdgeInsets.only(left: 20, right: 10, top: 30),
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                              hintText: "Search Vendors",
-                              prefixIcon:
-                                  Icon(Icons.search, color: Colors.teal),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide:
-                                    BorderSide(color: Colors.grey, width: 0.5),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide:
-                                      BorderSide(color: Colors.teal, width: 1)),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(right: 20, top: 20),
-                        child: Icon(
-                          Icons.filter_alt_outlined,
-                          color: Colors.teal,
-                          size: 30,
-                        ),
-                      )
-                    ],
-                  ),
+                  
                   Expanded(
                     child: ListView.builder(
                       itemCount: documents.length,

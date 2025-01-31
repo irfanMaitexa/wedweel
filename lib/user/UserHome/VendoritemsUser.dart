@@ -25,33 +25,9 @@ class Vendoritemsuser extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: "Search Vendors",
-                  prefixIcon: Icon(Icons.search, color: Colors.teal),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20),
-                    borderSide: BorderSide(color: Colors.grey, width: 0.5),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(20),
-                      borderSide: BorderSide(color: Colors.teal, width: 1)),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 12),
-                child: Text("Categories",
-                    style: TextStyle(
-                      fontSize: 21,
-                      height: 3,
-                      fontFamily: 'Poppins-Medium',
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(255, 21, 101, 93),
-                    )),
-              ),
+             SizedBox(
+               height: 30,
+             ),
              CardSectionGrid(),
               SizedBox(
                 height: 10,
