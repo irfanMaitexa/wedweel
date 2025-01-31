@@ -26,7 +26,7 @@ class Vendormaininuser extends StatelessWidget {
     if (user == null) {
       // Handle the case where the user is not logged in
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('You need to be logged in to add to wishlist')),
+        SnackBar(content: Text('You need to be logged in to manage wishlist')),
       );
       return;
     }
@@ -49,7 +49,6 @@ class Vendormaininuser extends StatelessWidget {
     } else {
       // Add to wishlist
       await wishlistRef.set({
-        
         'vendorname': vendorname,
         'location': location,
         'price': price,
@@ -66,6 +65,8 @@ class Vendormaininuser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = FirebaseAuth.instance.currentUser;
+
     return Container(
       height: 310.h,
       margin: EdgeInsets.only(
@@ -155,13 +156,31 @@ class Vendormaininuser extends StatelessWidget {
                           ),
                         ),
                         Spacer(),
-                        IconButton(
-                          icon: Icon(
-                            Icons.favorite_border,
-                            color: Colors.green,
-                          ),
-                          onPressed: () => toggleWishlist(context),
-                        )
+                        // Single Button with Ternary Operator
+                        StreamBuilder<DocumentSnapshot>(
+                          stream: user != null
+                              ? FirebaseFirestore.instance
+                                  .collection('users')
+                                  .doc(user.uid)
+                                  .collection('wishlist')
+                                  .doc(vendorname)
+                                  .snapshots()
+                              : null,
+                          builder: (context, snapshot) {
+                            final isInWishlist = snapshot.data?.exists ?? false;
+                            return IconButton(
+                              icon: Icon(
+                                isInWishlist
+                                    ? Icons.favorite
+                                    : Icons.favorite_border,
+                                color: isInWishlist
+                                    ? const Color.fromARGB(255, 32, 120, 51)
+                                    : Colors.green,
+                              ),
+                              onPressed: () => toggleWishlist(context),
+                            );
+                          },
+                        ),
                       ],
                     ),
                   ],

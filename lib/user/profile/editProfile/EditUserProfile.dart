@@ -175,7 +175,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                           .collection("user")
                           .doc(userid)
                           .update({
-                        "fullname": fullnameController.text,
+                        "fullName": fullnameController.text,
                         "email": emailController.text,
                         "phone": phoneController.text,
                         "address": addressController.text,
