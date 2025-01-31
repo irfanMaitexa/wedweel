@@ -176,8 +176,8 @@ class _AddServiceVendorState extends State<AddServiceVendor> {
                   hintName: "Enter service price",
                   controller: servicePriceController),
               form(
-                  labelName: "Service Name",
-                  hintName: "Enter service name",
+                  labelName: "Vendor Name",
+                  hintName: "Enter vendor name",
                   controller: serviceNameController),
               form(
                   labelName: "Phone Number",
