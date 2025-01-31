@@ -64,7 +64,7 @@ class Userfirst extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SearchPage()));
+                                  builder: (context) => Searchpage()));
                         },
                         icon: Icon(
                           Icons.search,
