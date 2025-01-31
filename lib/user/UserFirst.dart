@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/imageVendor.dart';
+import 'package:wedweel/user/SearchPage.dart';
 import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 import 'package:intl/intl.dart';
 import 'package:wedweel/user/UserHome/CardSectionGrid.dart';
@@ -58,13 +59,21 @@ class Userfirst extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-                      trailing: Icon(
-                        Icons.search,
-                        color: Colors.teal,
-                        size: 35.w,
+                      trailing: IconButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SearchPage()));
+                        },
+                        icon: Icon(
+                          Icons.search,
+                          color: Colors.teal,
+                          size: 30.w,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 40.h),
+                    SizedBox(height: 20.h),
                     Center(
                       child: Text(
                         "Create Your Own Version\n Of Perfect Wedding",

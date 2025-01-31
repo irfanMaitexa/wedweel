@@ -156,7 +156,6 @@ class Vendormaininuser extends StatelessWidget {
                           ),
                         ),
                         Spacer(),
-                        // Single Button with Ternary Operator
                         StreamBuilder<DocumentSnapshot>(
                           stream: user != null
                               ? FirebaseFirestore.instance
