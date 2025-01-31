@@ -6,7 +6,6 @@ import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 import 'package:intl/intl.dart';
 import 'package:wedweel/user/UserHome/CardSectionGrid.dart';
 
-
 class Userfirst extends StatelessWidget {
   final bool check;
   Userfirst({required this.check});
@@ -100,12 +99,16 @@ class Userfirst extends StatelessWidget {
                                 color: Color.fromARGB(255, 21, 101, 93),
                               ),
                             ),
-                            SizedBox(height: 20.h),
-                            Text(
-                              'Tired of looking through every single vendor of each service type? We will select a tailored package that best fits your interests.',
-                              style: TextStyle(fontSize: 14.sp),
+                            // SizedBox(height: 20.h),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 15, top: 15, bottom: 15),
+                              child: Text(
+                                'Tired of looking through every single vendor of each service type? We will select a tailored package that best fits your interests.',
+                                style: TextStyle(fontSize: 14.sp),
+                              ),
                             ),
-                            SizedBox(height: 25.h),
+                            // SizedBox(height: 25.h),
                             Container(
                               width: 150.w,
                               height: 35.h,
@@ -161,18 +164,22 @@ class Userfirst extends StatelessWidget {
                                     return Padding(
                                       padding: EdgeInsets.only(right: 15.w),
                                       child: Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 7.w),
+                                        padding: EdgeInsets.symmetric(
+                                            horizontal: 7.w),
                                         height: 150.h,
                                         width: 170.w,
                                         margin: EdgeInsets.only(bottom: 20.h),
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10.r),
+                                          borderRadius:
+                                              BorderRadius.circular(10.r),
                                         ),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             ClipRRect(
-                                              borderRadius: BorderRadius.circular(10.r),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r),
                                               child: Image.asset(
                                                 hall1,
                                                 height: 105.h,
@@ -186,7 +193,8 @@ class Userfirst extends StatelessWidget {
                                                 fontSize: 17.sp,
                                                 fontFamily: 'Poppins-Medium',
                                                 fontWeight: FontWeight.w500,
-                                                color: Color.fromARGB(255, 21, 101, 93),
+                                                color: Color.fromARGB(
+                                                    255, 21, 101, 93),
                                               ),
                                             ),
                                             SizedBox(height: 5.h),
@@ -246,7 +254,8 @@ class Userfirst extends StatelessWidget {
                                 SizedBox(width: 20.w),
                                 Expanded(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(height: 7.h),
                                       Text(
@@ -275,8 +284,10 @@ class Userfirst extends StatelessWidget {
                                                 blogdate: data[index]['date'],
                                                 blogtitle: data[index]['name'],
                                                 blogimage: data[index]['image'],
-                                                blogdescription: data[index]['description'],
-                                                readtime: data[index]['read_time'],
+                                                blogdescription: data[index]
+                                                    ['description'],
+                                                readtime: data[index]
+                                                    ['read_time'],
                                               ),
                                             ),
                                           );

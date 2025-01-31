@@ -21,22 +21,22 @@ class Loginvendor extends StatelessWidget {
         child: Stack(
           children: <Widget>[
             Positioned(
-                top: 80,
-                left: 59,
+                top: 120.h,
+                left: 59.w,
                 child: Container(
                   child: Text(
                     'Login',
                     style: TextStyle(
-                        fontSize: 48,
+                        fontSize: 48.sp,
                         fontFamily: 'Poppins-Medium',
                         fontWeight: FontWeight.w500,
                         color: Colors.white),
                   ),
                 )),
             Positioned(
-                top: 200.h, right: 0.w, bottom: 0.h, child: LayerOneVendor()),
+                top: 250.h, right: 0.w, bottom: 0.h, child: LayerOneVendor()),
             Positioned(
-                top: 225.h,
+                top: 275.h,
                 right: 0.w,
                 bottom: 0.h,
                 left: 20.w,

@@ -70,7 +70,7 @@ class _LayerThree extends State<LayerThreeVendor> {
                     validator: (value) => validateEmail(value!),
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
-                      hintText: 'Enter User ID or Email',
+                      hintText: 'Enter Vendor ID or Email',
                       hintStyle: TextStyle(color: hintText),
                     ),
                   ),

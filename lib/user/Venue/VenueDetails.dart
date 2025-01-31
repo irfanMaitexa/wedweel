@@ -13,7 +13,8 @@ class Venuedetails extends StatelessWidget {
   final String guestcount;
   final String category;
 
-  Venuedetails({required this.vendorid,
+  Venuedetails({
+    required this.vendorid,
     required this.phonenumber,
     required this.vendorname,
     required this.location,

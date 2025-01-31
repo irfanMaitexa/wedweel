@@ -34,7 +34,7 @@ class Manageuser extends StatelessWidget {
                 itemCount: data.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  final String fullname = data[index]['fullname'];
+                  final String fullname = data[index]['fullName'];
                   final String  email = data[index]['email'];
 
                   return Card(

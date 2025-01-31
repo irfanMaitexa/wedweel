@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedweel/FirstScreen/FirstScreen.dart';
 import 'package:wedweel/admin/LoginScreen/LoginAdmin.dart';
 
 import 'package:wedweel/admin/AdminBlog/BlogFirstAdmin.dart';
@@ -66,10 +67,10 @@ void main() async {
           scaffoldBackgroundColor: Color.fromARGB(255, 237, 250, 244),
           fontFamily: 'Poppins',
         ),
-        home: LoginUserPage(),
+        home: //LoginUserPage(),
            // SignUpUserPage(),
             // AdminHome()
-            
+            Firstscreen()
            // Loginvendor(),
         // Signupvendor(),
         //Managevendor()
