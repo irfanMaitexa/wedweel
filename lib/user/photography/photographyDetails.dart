@@ -3,6 +3,7 @@ import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Photographydetails extends StatelessWidget {
   final String number;
+  final isvenuevendor;
   final String name;
   final String vendorid;
   final String vendorlocation;
@@ -13,6 +14,7 @@ class Photographydetails extends StatelessWidget {
 
   const Photographydetails(
       {super.key,
+      required this.isvenuevendor,
       required this.vendorid,
       required this.vendorphoto,
       required this.number,
@@ -40,10 +42,10 @@ class Photographydetails extends StatelessWidget {
         ),
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: Vendormaindetails(
-          id: vendorid,
+            id: vendorid,
             phonenumber: number,
             vendorname: name,
-            isVenueVendor: false,
+            isVenueVendor: isvenuevendor,
             location: vendorlocation,
             vendorimage: vendorphoto,
             price: vendorprice,

@@ -31,6 +31,8 @@ class Vendorlist extends StatelessWidget {
                 final price = vendorData['price'] ?? 'N/A';
                 final location = vendorData['location'] ?? 'Unknown Location';
                 final guestcount = vendorData['number_of_guests'] ?? 'N/A';
+                  final category = vendorData['category'] ?? 'Unknown Category';
+
 
                 return GestureDetector(
                   onTap: () {
@@ -38,6 +40,11 @@ class Vendorlist extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => Allvendordetailsuser(
+                            guestnumber:
+                             category == 'venue'
+                              ? guestcount
+                              : 'N/A',
+                            category: category,
                               id: data[index].id,
                               phonenumber: data[index]['phone'],
                               vendorname: data[index]['name'],

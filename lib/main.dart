@@ -30,7 +30,7 @@ import 'package:wedweel/user/profile/Wishlist/Wishlist.dart';
 import 'package:wedweel/user/profile/bookings/UserBooking.dart';
 import 'package:wedweel/user/profile/editProfile/EditUserProfile.dart';
 import 'package:wedweel/user/profile/privacyPolicy/PrivacyPolicyUser.dart';
-import 'package:wedweel/user/userphotography/photographyVendor.dart';
+import 'package:wedweel/user/photography/photographyVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/EditProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/PolicyProfileVendor.dart';
 import 'package:wedweel/venders/VendorScreen/ProfileScreen/VendorProfileInfo.dart';

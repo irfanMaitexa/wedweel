@@ -3,6 +3,7 @@ import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Decorationdeatils extends StatelessWidget {
   final String number;
+  final isvenuevendor;
   final String name;
   final String vendorlocation;
   final String vendorprice;
@@ -13,6 +14,7 @@ class Decorationdeatils extends StatelessWidget {
 
   const Decorationdeatils(
       {super.key,
+      required this.isvenuevendor,
       required this.vendorid,
       required this.vendorphoto, required this.number, required this.name, required this.vendorlocation, required this.vendorprice, required this. vendorDescription, required this.vendorcategory
      });
@@ -38,7 +40,7 @@ class Decorationdeatils extends StatelessWidget {
           id: vendorid,
           phonenumber: number,
             vendorname: name,
-            isVenueVendor: false,
+            isVenueVendor: isvenuevendor,
             location: vendorlocation,
             vendorimage: vendorphoto,
             price: vendorprice,

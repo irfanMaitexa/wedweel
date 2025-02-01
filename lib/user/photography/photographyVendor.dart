@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:wedweel/user/VendorMainINUser.dart';
-import 'package:wedweel/user/userphotography/photographyDetails.dart';
+import 'package:wedweel/user/photography/photographyDetails.dart';
 
 
 class Photographyvendor extends StatelessWidget {
@@ -56,6 +56,8 @@ class Photographyvendor extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final data =
                             documents[index].data() as Map<String, dynamic>;
+                            final isVenueVendor = data['category'] == 'venue';
+
 
                         return GestureDetector(
                           onTap: () {
@@ -63,6 +65,7 @@ class Photographyvendor extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Photographydetails(
+                                  isvenuevendor: isVenueVendor,
                                   vendorid: documents[index].id,
                                   number: data['phone'] ?? 'No Phone',
                                   name: data['name'] ?? 'No Name',
@@ -84,7 +87,7 @@ class Photographyvendor extends StatelessWidget {
                               price: data['price'] ?? 'No Price',
                               vendorimage: data['image'] ?? '',
                               isVenueVendor:
-                                  false, 
+                                  isVenueVendor, 
                             ),
                           ),
                         );

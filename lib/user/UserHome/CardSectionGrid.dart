@@ -6,7 +6,7 @@ import 'package:wedweel/user/Venue/Venue.dart';
 import 'package:wedweel/user/flowershop/FlowerVendor.dart';
 import 'package:wedweel/user/food/CateryingVendor.dart';
 import 'package:wedweel/user/makeup/MakeupVendor.dart';
-import 'package:wedweel/user/userphotography/photographyVendor.dart';
+import 'package:wedweel/user/photography/photographyVendor.dart';
 
 class CardSectionGrid extends StatelessWidget {
   Widget cardItems({

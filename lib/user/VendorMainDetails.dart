@@ -18,7 +18,7 @@ class Vendormaindetails extends StatelessWidget {
 
   Vendormaindetails({
     required this.id,
-    this.phonenumber = " ",
+    required this.phonenumber,
     this.guestnumber = " ",
     required this.vendorname,
     required this.isVenueVendor,
@@ -69,9 +69,15 @@ class Vendormaindetails extends StatelessWidget {
                           color: Colors.amber,
                         ),
                         SizedBox(width: 10),
-                        Text("5.0"),
+                        Text(
+                          "5.0",
+                          style: TextStyle(color: Colors.teal[700]),
+                        ),
                         SizedBox(width: 10),
-                        Text("(2348 Reviews)"),
+                        Text(
+                          "(2348 Reviews)",
+                          style: TextStyle(color: Colors.teal[700]),
+                        ),
                       ],
                     ),
                     SizedBox(height: 10.h),
@@ -87,7 +93,7 @@ class Vendormaindetails extends StatelessWidget {
                             ],
                           )
                         : SizedBox(
-                            height: 10.h,
+                            height: 1.h,
                           ),
                     SizedBox(
                       height: 10.h,
@@ -104,10 +110,20 @@ class Vendormaindetails extends StatelessWidget {
                       height: 15.h,
                     ),
                     Row(
-                      children: [Text("Contact"), Spacer(), Text(phonenumber)],
+                      children: [
+                        Text(
+                          "Contact",
+                          style: TextStyle(color: Colors.teal[700]),
+                        ),
+                        Spacer(),
+                        Text(
+                          phonenumber,
+                          style: TextStyle(color: Colors.teal[700]),
+                        ),
+                      ],
                     ),
                     SizedBox(
-                      height: 20.h,
+                      height: 10.h,
                     ),
                     TabBar(
                       tabs: [
@@ -132,7 +148,11 @@ class Vendormaindetails extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           top: 10, left: 10, right: 10),
-                                      child: Text(vendordescription),
+                                      child: Text(
+                                        vendordescription,
+                                        style:
+                                            TextStyle(color: Colors.teal[700]),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -154,7 +174,7 @@ class Vendormaindetails extends StatelessWidget {
                             ],
                           ),
                           // Review Tab
-                        Reviewwidget(vendorId: id),
+                          Reviewwidget(vendorId: id),
                           // Slot Tab
                           Padding(
                             padding: const EdgeInsets.only(left: 8, right: 8),
@@ -180,5 +200,3 @@ class Vendormaindetails extends StatelessWidget {
     );
   }
 }
-
-

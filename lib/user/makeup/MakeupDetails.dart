@@ -4,6 +4,7 @@ import 'package:wedweel/user/VendorMainDetails.dart';
 class Makeupdetails extends StatelessWidget {
   final String number;
   final String name;
+  final isvenuevendor;
   final String vendorid;
   final String vendorlocation;
   final String vendorprice;
@@ -13,6 +14,7 @@ class Makeupdetails extends StatelessWidget {
 
   const Makeupdetails(
       {super.key,
+      required this.isvenuevendor,
       required this.vendorid,
       required this.vendorphoto,
       required this.number,
@@ -43,7 +45,7 @@ class Makeupdetails extends StatelessWidget {
           id: vendorid,
             phonenumber: number,
             vendorname: name,
-            isVenueVendor: false,
+            isVenueVendor: isvenuevendor,
             location: vendorlocation,
             vendorimage: vendorphoto,
             price: vendorprice,

@@ -56,6 +56,7 @@ class Cateryingvendor extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final data =
                             documents[index].data() as Map<String, dynamic>;
+                            final isVenueVendor = data['category'] == 'venue';
 
                         return GestureDetector(
                           onTap: () {
@@ -63,6 +64,7 @@ class Cateryingvendor extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Cateryingdetails(
+                                  isvenuevendor: isVenueVendor,
                                   vendorid: documents[index].id,
                                   number: data['phone'] ?? 'No Phone',
                                   name: data['name'] ?? 'No Name',
@@ -84,7 +86,7 @@ class Cateryingvendor extends StatelessWidget {
                               price: data['price'] ?? 'No Price',
                               vendorimage: data['image'] ?? '',
                               isVenueVendor:
-                                  false, 
+                                  isVenueVendor, 
                             ),
                           ),
                         );

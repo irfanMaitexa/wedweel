@@ -12,10 +12,12 @@ class Allvendordetailsuser extends StatelessWidget {
   final String guestnumber;
   final String phonenumber;
   final String id;
+  final String category;
 
   Allvendordetailsuser({
     required this.id,
-    this.phonenumber = " ",
+    required this.category,
+   required this.phonenumber ,
     this.guestnumber = " ",
     required this.vendorname,
     required this.location,
@@ -90,6 +92,18 @@ class Allvendordetailsuser extends StatelessWidget {
                       ),
                       SizedBox(
                         height: 15.h,
+                      ),
+                       if (category == 'venue')
+                        Row(
+                          children: [
+                            Icon(Icons.people,
+                                color: Color.fromARGB(255, 21, 101, 93)),
+                            SizedBox(width: 10.w),
+                            Text("Guest Count: $guestnumber"),
+                          ],
+                        ),
+                      SizedBox(
+                        height: 20.h,
                       ),
                       Row(
                         children: [

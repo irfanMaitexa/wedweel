@@ -130,11 +130,14 @@ class _SearchPageState extends State<Searchpage> {
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : _searchResults.isEmpty
-                      ? Center(child: Text('No vendors found.'))
+                      ? Center(child: Text('Search for a vendor'))
                       : ListView.builder(
                           itemCount: _searchResults.length,
                           itemBuilder: (context, index) {
                             final service = _searchResults[index];
+                            final category = service['category'] ?? 'Unknown Category';
+                            final guestcount = service['number_of_guests'] ?? 'N/A';
+
                             return ListTile(
                               leading: service['image'] != null
                                   ? ClipRRect(
@@ -154,8 +157,9 @@ class _SearchPageState extends State<Searchpage> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => Searchdetailpage(
+                                      guestnumber: category == 'venue' ? guestcount : 'N/A',
                                       id: service['id'] ?? '',
-                                      isVenueVendor: false,
+                                      isVenueVendor: category == 'venue', // Pass whether it's a venue vendor
                                       location: service['location'] ?? 'No location',
                                       price: service['price'] ?? 0,
                                       vendordescription: service['description'] ?? 'No description',

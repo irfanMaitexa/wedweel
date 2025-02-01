@@ -11,14 +11,14 @@ class Searchdetailpage extends StatelessWidget {
   final String vendorimage;
   final String price;
   final String vendordescription;
-  final bool isVenueVendor;
+  final isVenueVendor;
   final String guestnumber;
   final String phonenumber;
   final String id;
 
   Searchdetailpage({
     required this.id,
-    this.phonenumber = " ",
+    required this.phonenumber,
     this.guestnumber = " ",
     required this.vendorname,
     required this.isVenueVendor,
@@ -82,9 +82,15 @@ class Searchdetailpage extends StatelessWidget {
                           color: Colors.amber,
                         ),
                         SizedBox(width: 10),
-                        Text("5.0"),
+                        Text(
+                          "5.0",
+                          style: TextStyle(color: Colors.teal[700]),
+                        ),
                         SizedBox(width: 10),
-                        Text("(2348 Reviews)"),
+                        Text(
+                          "(2348 Reviews)",
+                          style: TextStyle(color: Colors.teal[700]),
+                        ),
                       ],
                     ),
                     SizedBox(height: 10.h),
@@ -100,9 +106,8 @@ class Searchdetailpage extends StatelessWidget {
                             ],
                           )
                         : SizedBox(
-                            height: 10.h,
+                            height: 1.h,
                           ),
-
                     Row(
                       children: [
                         Icon(Icons.location_on,
@@ -115,10 +120,20 @@ class Searchdetailpage extends StatelessWidget {
                       height: 15.h,
                     ),
                     Row(
-                      children: [Text("Contact"), Spacer(), Text(phonenumber)],
+                      children: [
+                        Text(
+                          "Contact",
+                          style: TextStyle(color: Colors.teal[700]),
+                        ),
+                        Spacer(),
+                        Text(
+                          phonenumber,
+                          style: TextStyle(color: Colors.teal[700]),
+                        )
+                      ],
                     ),
                     SizedBox(
-                      height: 20.h,
+                      height: 10.h,
                     ),
                     TabBar(
                       tabs: [
@@ -143,7 +158,9 @@ class Searchdetailpage extends StatelessWidget {
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           top: 10, left: 10, right: 10),
-                                      child: Text(vendordescription),
+                                      child: Text(vendordescription,
+                                          style: TextStyle(
+                                              color: Colors.teal[700])),
                                     ),
                                   ],
                                 ),

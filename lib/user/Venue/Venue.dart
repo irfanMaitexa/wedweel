@@ -57,6 +57,8 @@ class Venue extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final data =
                             documents[index].data() as Map<String, dynamic>;
+                            final isVenueVendor = data['category'] == 'venue';
+
 
                         return GestureDetector(
                           onTap: () {
@@ -64,6 +66,7 @@ class Venue extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Venuedetails(
+                                  isvenuevendor: isVenueVendor,
                                   vendorid: documents[index].id,
                                   phonenumber: data['phone'] ?? 'No Phone',
                                   vendorname: data['name'] ?? 'No Name',
@@ -88,7 +91,7 @@ class Venue extends StatelessWidget {
                               vendorimage: data['image'] ?? '',
                               guestcount:
                                   data['number_of_guests'] ?? 'No Guest Count',
-                              isVenueVendor: true,
+                              isVenueVendor: isVenueVendor,
                             ),
                           ),
                         );

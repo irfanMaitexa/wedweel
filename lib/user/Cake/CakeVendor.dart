@@ -4,24 +4,25 @@ import 'package:wedweel/user/VendorMainINUser.dart';
 import 'package:wedweel/user/Cake/CakeDetails.dart';
 
 class Cakevendor extends StatelessWidget {
-  final String collectionName = "services"; 
+  final String collectionName = "services";
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-            surfaceTintColor: Colors.transparent,
-            backgroundColor: Colors.transparent,
-            title: Text(
-              "Cake Vendors",
-              style: TextStyle(
-                fontSize: 19,
-                fontFamily: 'Poppins-Medium',
-                fontWeight: FontWeight.w500,
-                color: Color.fromARGB(255, 21, 101, 93),
-              ),
-            )),
+          surfaceTintColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            "Cake Vendors",
+            style: TextStyle(
+              fontSize: 19,
+              fontFamily: 'Poppins-Medium',
+              fontWeight: FontWeight.w500,
+              color: Color.fromARGB(255, 21, 101, 93),
+            ),
+          ),
+        ),
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
@@ -48,7 +49,6 @@ class Cakevendor extends StatelessWidget {
               width: double.maxFinite,
               child: Column(
                 children: [
-                 
                   Expanded(
                     child: ListView.builder(
                       itemCount: documents.length,
@@ -56,12 +56,16 @@ class Cakevendor extends StatelessWidget {
                         final data =
                             documents[index].data() as Map<String, dynamic>;
 
+                        // Determine isVenueVendor based on the category
+                        final isVenueVendor = data['category'] == 'venue';
+
                         return GestureDetector(
                           onTap: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => Cakedetails(
+                                  isVenueVendor: isVenueVendor,
                                   vendorid: documents[index].id,
                                   number: data['phone'] ?? 'No Phone',
                                   name: data['name'] ?? 'No Name',
@@ -82,8 +86,7 @@ class Cakevendor extends StatelessWidget {
                               location: data['location'] ?? 'No Location',
                               price: data['price'] ?? 'No Price',
                               vendorimage: data['image'] ?? '',
-                              isVenueVendor:
-                                  false, 
+                              isVenueVendor: isVenueVendor, // Pass the dynamic value
                             ),
                           ),
                         );

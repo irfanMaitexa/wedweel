@@ -3,20 +3,26 @@ import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Flowershopdetails extends StatelessWidget {
   final String number;
+  final isvenuevendor;
   final String name;
   final String vendorid;
   final String vendorlocation;
   final String vendorprice;
-  final String  vendorDescription;
+  final String vendorDescription;
   final String vendorcategory;
   final String vendorphoto;
 
   const Flowershopdetails(
-
       {super.key,
+      required this.isvenuevendor,
       required this.vendorid,
-      required this.vendorphoto, required this.number, required this.name, required this.vendorlocation, required this.vendorprice, required this. vendorDescription, required this.vendorcategory
-     });
+      required this.vendorphoto,
+      required this.number,
+      required this.name,
+      required this.vendorlocation,
+      required this.vendorprice,
+      required this.vendorDescription,
+      required this.vendorcategory});
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -36,15 +42,14 @@ class Flowershopdetails extends StatelessWidget {
         ),
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: Vendormaindetails(
-          id: vendorid,
-          phonenumber: number,
+            id: vendorid,
+            phonenumber: number,
             vendorname: name,
-            isVenueVendor: false,
+            isVenueVendor: isvenuevendor,
             location: vendorlocation,
             vendorimage: vendorphoto,
             price: vendorprice,
-            vendordescription:
-                vendorDescription),
+            vendordescription: vendorDescription),
       ),
     );
   }

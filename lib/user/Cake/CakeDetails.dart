@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Cakedetails extends StatelessWidget {
+  final isVenueVendor;
   final String vendorid;
   final String number;
   final String name;
@@ -13,6 +14,7 @@ class Cakedetails extends StatelessWidget {
 
   const Cakedetails(
       {super.key,
+      required this.isVenueVendor,
       required this.vendorid,
       required this.vendorphoto,
       required this.number,
@@ -43,7 +45,7 @@ class Cakedetails extends StatelessWidget {
           id: vendorid,
             phonenumber: number,
             vendorname: name,
-            isVenueVendor: false,
+            isVenueVendor: isVenueVendor,
             location: vendorlocation,
             vendorimage: vendorphoto,
             price: vendorprice,
