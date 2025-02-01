@@ -49,6 +49,7 @@ class Vendormaininuser extends StatelessWidget {
     } else {
       // Add to wishlist
       await wishlistRef.set({
+        
         'vendorname': vendorname,
         'location': location,
         'price': price,

@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedweel/admin/AdminBlog/AddBlog.dart';
 import 'package:wedweel/user/AllVendorDetailsUser.dart';
 
 class Vendorlist extends StatelessWidget {
@@ -31,8 +33,7 @@ class Vendorlist extends StatelessWidget {
                 final price = vendorData['price'] ?? 'N/A';
                 final location = vendorData['location'] ?? 'Unknown Location';
                 final guestcount = vendorData['number_of_guests'] ?? 'N/A';
-                  final category = vendorData['category'] ?? 'Unknown Category';
-
+                final category = vendorData['category'] ?? 'Unknown Category';
 
                 return GestureDetector(
                   onTap: () {
@@ -40,11 +41,10 @@ class Vendorlist extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                           builder: (context) => Allvendordetailsuser(
-                            guestnumber:
-                             category == 'venue'
-                              ? guestcount
-                              : 'N/A',
-                            category: category,
+                              isvenuvendor: category == 'venue',
+                              guestnumber:
+                                  category == 'venue' ? guestcount : 'N/A',
+                              category: category,
                               id: data[index].id,
                               phonenumber: data[index]['phone'],
                               vendorname: data[index]['name'],
@@ -55,7 +55,7 @@ class Vendorlist extends StatelessWidget {
                         ));
                   },
                   child: Container(
-                    height: 310,
+                    height: 310.h,
                     margin: EdgeInsets.only(
                       left: 27,
                       right: 27,
@@ -69,7 +69,7 @@ class Vendorlist extends StatelessWidget {
                       children: [
                         Container(
                           margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                          height: 150,
+                          height: 150.h,
                           width: double.infinity,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(15),
@@ -100,7 +100,7 @@ class Vendorlist extends StatelessWidget {
                         ),
                         Container(
                           margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                          height: 130,
+                          height: 130.h,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
@@ -108,8 +108,14 @@ class Vendorlist extends StatelessWidget {
                           child: Column(
                             children: [
                               ListTile(
-                                title: Text(vendorname),
-                                trailing: Text(price),
+                                title: Text(vendorname,
+                                    style: TextStyle(
+                                      color: Colors.teal[700],
+                                    )),
+                                trailing: Text(price,
+                                    style: TextStyle(
+                                      color: Colors.teal[700],
+                                    )),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 15),
@@ -117,9 +123,13 @@ class Vendorlist extends StatelessWidget {
                                   children: [
                                     Row(
                                       children: [
-                                        Icon(Icons.location_on),
+                                        Icon(Icons.location_on,
+                                            color: Colors.teal[700]),
                                         SizedBox(width: 10),
-                                        Text(location),
+                                        Text(location,
+                                            style: TextStyle(
+                                              color: Colors.teal[700],
+                                            )),
                                       ],
                                     ),
                                     SizedBox(height: 10),
@@ -127,9 +137,13 @@ class Vendorlist extends StatelessWidget {
                                       children: data[index]['category'] ==
                                               'venue'
                                           ? [
-                                              Icon(Icons.people),
+                                              Icon(Icons.people,
+                                                  color: Colors.teal[700]),
                                               SizedBox(width: 10),
-                                              Text(guestcount),
+                                              Text(guestcount,
+                                                  style: TextStyle(
+                                                    color: Colors.teal[700],
+                                                  )),
                                             ]
                                           : [
                                               Icon(
@@ -139,8 +153,8 @@ class Vendorlist extends StatelessWidget {
                                               Text(
                                                 "(4.5)",
                                                 style: TextStyle(
-                                                    fontSize: 12,
-                                                    color: Colors.grey[700]),
+                                                    fontSize: 13.sp,
+                                                    color: Colors.teal[700]),
                                               ),
                                             ],
                                     ),

@@ -42,7 +42,8 @@ class _SearchPageState extends State<Searchpage> {
             .get();
 
         setState(() {
-          _suggestions = snapshot.docs.map((doc) => doc['name'] as String).toList();
+          _suggestions =
+              snapshot.docs.map((doc) => doc['name'] as String).toList();
         });
       } catch (e) {
         print("Error fetching suggestions: $e");
@@ -135,8 +136,10 @@ class _SearchPageState extends State<Searchpage> {
                           itemCount: _searchResults.length,
                           itemBuilder: (context, index) {
                             final service = _searchResults[index];
-                            final category = service['category'] ?? 'Unknown Category';
-                            final guestcount = service['number_of_guests'] ?? 'N/A';
+                            final category =
+                                service['category'] ?? 'Unknown Category';
+                            final guestcount =
+                                service['number_of_guests'] ?? 'N/A';
 
                             return ListTile(
                               leading: service['image'] != null
@@ -150,22 +153,36 @@ class _SearchPageState extends State<Searchpage> {
                                       ),
                                     )
                                   : Icon(Icons.image, size: 50.w),
-                              title: Text(service['name'] ?? 'No Name'),
-                              subtitle: Text(service['location'] ?? 'No location'),
+                              title: Text(service['name'] ?? 'No Name',
+                                  style: TextStyle(
+                                    color: Colors.teal[700],
+                                  )),
+                              subtitle:
+                                  Text(service['location'] ?? 'No location',
+                                      style: TextStyle(
+                                        color: Colors.teal[700],
+                                      )),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => Searchdetailpage(
-                                      guestnumber: category == 'venue' ? guestcount : 'N/A',
+                                      guestnumber: category == 'venue'
+                                          ? guestcount
+                                          : 'N/A',
                                       id: service['id'] ?? '',
-                                      isVenueVendor: category == 'venue', // Pass whether it's a venue vendor
-                                      location: service['location'] ?? 'No location',
+                                      isVenueVendor: category ==
+                                          'venue', // Pass whether it's a venue vendor
+                                      location:
+                                          service['location'] ?? 'No location',
                                       price: service['price'] ?? 0,
-                                      vendordescription: service['description'] ?? 'No description',
+                                      vendordescription:
+                                          service['description'] ??
+                                              'No description',
                                       vendorimage: service['image'] ?? '',
                                       vendorname: service['name'] ?? 'No name',
-                                      phonenumber: service['phone'] ?? 'No phone number',
+                                      phonenumber:
+                                          service['phone'] ?? 'No phone number',
                                     ),
                                   ),
                                 );
