@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wedweel/config.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 import 'package:wedweel/venders/screen/LoginVendor.dart';
 
@@ -11,7 +10,7 @@ class Firstscreen extends StatelessWidget {
           minimumSize: Size(125.w, 40.h),
           backgroundColor: Color.fromARGB(255, 232, 255, 243),
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(5),
               side: BorderSide(
                 color: Colors.teal,
               ))),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:wedweel/admin/AdminBlog/AddBlog.dart';
 import 'package:wedweel/user/VendorMainDetails.dart';
 
 class Allvendordetailsuser extends StatelessWidget {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/user/Cake/CakeVendor.dart';
 import 'package:wedweel/user/Decoration/DecorationVendor.dart';
 import 'package:wedweel/user/UserHome/VendorList.dart';
@@ -16,12 +17,12 @@ class CardSectionGrid extends StatelessWidget {
     double imagewidth = 35,
   }) {
     return Container(
-      height: 200,
+      height: 200.h,
       child: Column(
         children: [
           Container(
-            height: 100,
-            width: 200,
+            height: 100.h,
+            width: 200.w,
             child: Card(
               elevation: 10,
               shape: RoundedRectangleBorder(
@@ -39,7 +40,7 @@ class CardSectionGrid extends StatelessWidget {
                   ),
                   Text(
                     name,
-                    style: TextStyle(fontSize: 12),
+                    style: TextStyle(fontSize: 12.sp),
                   )
                 ],
               ),
@@ -53,11 +54,11 @@ class CardSectionGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250,
+      height: 250.h,
       child: GridView.count(
           crossAxisCount: 4,
           shrinkWrap: true,
-          mainAxisSpacing: 20,
+          mainAxisSpacing: 10,
           crossAxisSpacing: 8,
           childAspectRatio: .8,
           children: [
@@ -67,7 +68,6 @@ class CardSectionGrid extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => Vendorlist()));
               },
               child: GestureDetector(
-                
                 child: cardItems(
                   name: "Vendor",
                   photo: "asset/person.png",
@@ -81,7 +81,7 @@ class CardSectionGrid extends StatelessWidget {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => Venue()));
                 },
-              child: cardItems(name: "Venue", photo: "asset/venue2.png")),
+                child: cardItems(name: "Venue", photo: "asset/venue2.png")),
             GestureDetector(
               onTap: () {
                 Navigator.push(
