@@ -98,13 +98,10 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(height: 15.h),
                         Center(
                           child: CircleAvatar(
+                            backgroundImage: data['image']==null
+                                ? AssetImage('asset/wedlogo.jpg')
+                                : NetworkImage(data['image']),
                             radius: 30,
-                            child: ClipOval(
-                              child: Image.asset(
-                                'asset/wedlogo.jpg',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
                           ),
                         ),
                         SizedBox(height: 10.h),
@@ -133,6 +130,7 @@ class _UserProfileState extends State<UserProfile> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => EditUserProfile(
+                                        image: data['image'],
                                         email: data['email'],
                                         fullname: data['fullName'],
                                         phone: phone ?? 'Phone Number',

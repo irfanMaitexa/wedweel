@@ -141,8 +141,7 @@ class VendorHome extends StatelessWidget {
                             context,
                             "asset/5348778.jpg",
                             "Review",
-                            VendorReviewScreen(),
-                          ),
+                            VendorReviewsPage() ),
                           buildCard(context, "asset/blog.jpg", "Blog",
                               Viewblogvendor()),
                           GestureDetector(

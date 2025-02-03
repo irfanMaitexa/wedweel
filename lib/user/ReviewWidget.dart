@@ -6,8 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Reviewwidget extends StatefulWidget {
   final vendorId;
- 
-Reviewwidget({required this.vendorId});
+
+  Reviewwidget({required this.vendorId});
 
   @override
   State<Reviewwidget> createState() => _ReviewwidgetState();
@@ -42,9 +42,12 @@ class _ReviewwidgetState extends State<Reviewwidget> {
                     children: [
                       ListTile(
                         leading: CircleAvatar(
+                          backgroundColor: Color.fromARGB(255, 54, 219, 142),
                           radius: 20,
-                          child: Text(review['username']
-                              [0]), // First letter of username
+                          child: Text(
+                            review['username'][0],
+                            style: TextStyle(color: Colors.teal[700]),
+                          ), // First letter of username
                         ),
                         title: Text(review['username']), // Display username
                         subtitle: Text("Rating: ${review['rating']}"),
@@ -112,7 +115,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
           .get();
       if (userDoc.exists) {
         setState(() {
-          _username = userDoc['fullname']; // Fetch username from Firestore
+          _username = userDoc['fullName']; // Fetch username from Firestore
         });
       }
     }
@@ -129,6 +132,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
           'vendorId': widget.vendorId,
           'rating': rating,
           'review': review,
+          'userId': user.uid,
           'username': _username, // Store username
           'timestamp': FieldValue.serverTimestamp(),
         });

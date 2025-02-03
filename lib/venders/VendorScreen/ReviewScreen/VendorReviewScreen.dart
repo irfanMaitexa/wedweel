@@ -1,167 +1,84 @@
-import 'package:custom_rating_bar/custom_rating_bar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class VendorReviewScreen extends StatelessWidget {
-  Widget reviewtitle() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(
-          "Overall",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-        ),
-        Text(
-          "Quality of Service",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-        ),
-        Text(
-          "Communication",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-        )
-      ],
-    );
-  }
+class VendorReviewsPage extends StatefulWidget {
+  @override
+  _VendorReviewsPageState createState() => _VendorReviewsPageState();
+}
 
-  Widget verfication({required String name}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Text(
-          name,
-          style: TextStyle(fontSize: 15),
-        ),
-        SizedBox(
-          width: 4,
-        ),
-        Icon(Icons.verified, color: Colors.green)
-      ],
-    );
-  }
-
-  Widget rating({double? rating}) {
-    return RatingBar.readOnly(
-      filledIcon: Icons.star,
-      emptyIcon: Icons.star_border,
-      initialRating: rating ?? 0,
-      maxRating: 5,
-      size: 20,
-    );
-  }
+class _VendorReviewsPageState extends State<VendorReviewsPage> {
+  final String vendorId = FirebaseAuth.instance.currentUser!.uid;
 
   @override
   Widget build(BuildContext context) {
+    print(vendorId);
     return Scaffold(
-      appBar: AppBar(backgroundColor: Color.fromARGB(255, 237, 250, 244)),
-      backgroundColor: Color.fromARGB(255, 237, 250, 244),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 80,
-                ),
-                Row(
-                  // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(
-                        "112 Reviews",
-                        style: TextStyle(
-                            fontSize: 27,
-                            color: Color.fromARGB(255, 21, 101, 93)),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Column(
+      appBar: AppBar(
+        title: Text(
+          "Vendor Reviews",
+          style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(10.w),
+        child: Column(
+          children: [
+            Expanded(
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection("reviews")
+                    .where("vendorId", isEqualTo: vendorId)
+                    .snapshots(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+                    return Center(child: Text("No reviews yet."));
+                  }
+
+                  print("Total reviews: ${snapshot.data!.docs.length}");
+
+                  var reviews = snapshot.data!.docs;
+
+                  return Column(
                     children: [
-                      SizedBox(
-                        height: 30,
-                      ),
-                      reviewtitle(),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          rating(rating: 4.5),
-                          rating(rating: 4),
-                          rating(rating: 3.5),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
                       Text(
-                          " provided excellent service for our wedding. They were highly professional, responsive, and delivered on their promises. "),
-                      SizedBox(
-                        height: 15,
+                        "Total Reviews: ${reviews.length}",
+                        style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
                       ),
-                      verfication(name: "12 Dec 2024  ajmal khan"),
-                      Divider(
-                        color: Colors.grey[500],
-                        height: 45,
+                      SizedBox(height: 10.h),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: reviews.length,
+                          itemBuilder: (context, index) {
+                            var review = reviews[index];
+                            return Card(
+                              margin: EdgeInsets.symmetric(vertical: 8.h),
+                              child: ListTile(
+                                leading: Icon(Icons.reviews, color: Colors.teal),
+                                title: Text(review["username"] ?? "Anonymous"),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text("Rating: ${review["rating"]}/5"),
+                                    Text("Comment: ${review["review"]}")
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
-                      reviewtitle(),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          rating(rating: 4),
-                          rating(rating: 5),
-                          rating(rating: 3),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Text(
-                          " I had a great experience with this wedding planner. They were incredibly helpful and patient throughout the entire wedding planning process. "),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      verfication(name: "24 jan 2023  Anas "),
-                      Divider(
-                        color: Colors.grey[500],
-                        height: 45,
-                      ),
-                      reviewtitle(),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          rating(rating: 4.5),
-                          rating(rating: 4),
-                          rating(rating: 3.5),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 25,
-                      ),
-                      Text(
-                          " WedCom was a mixed bag. While they were professional and timely, there were some areas where they could improve.\nPros:\nPunctuality: They were always on time for appointments and meetings.\nProfessionalism: Their demeanor was courteous and respectful.\nCreativity: They offered unique and innovative ideas for our wedding.\nCons:\nCommunication: Sometimes, communication could be a bit slow, leading to minor delays.\nBudgeting: Their initial quote was a bit higher than expected.Overall, we were satisfied with their services. \nHowever, they could improve their communication and pricing transparency.\n"),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      verfication(name: "25 Feb 2024  Mufeeda"),
                     ],
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

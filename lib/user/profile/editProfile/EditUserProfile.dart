@@ -3,16 +3,21 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:wedweel/AddCloudinaryImage.dart';
+import 'package:wedweel/admin/AdminBlog/AddBlog.dart';
 
 class EditUserProfile extends StatefulWidget {
   final String fullname;
   final String email;
   final phone;
   final address;
+  final String? image;
 
   EditUserProfile(
       {super.key,
+      required this.image,
       required this.fullname,
       required this.email,
       required this.phone,
@@ -34,14 +39,15 @@ class _EditUserProfileState extends State<EditUserProfile> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
+  String? imageuril;
 
   @override
   void initState() {
     fullnameController.text = widget.fullname;
     emailController.text = widget.email;
     phoneController.text = widget.phone;
-    addressController.text = widget.address
-    ;
+    addressController.text = widget.address;
+    imageuril = widget.image;
     super.initState();
   }
 
@@ -51,8 +57,8 @@ class _EditUserProfileState extends State<EditUserProfile> {
       IconData? iconprofile,
       TextEditingController? controller}) {
     return Container(
-      height: 50,
-      margin: EdgeInsets.all(13),
+      height: 50.h,
+      margin: EdgeInsets.all(13.w),
       padding: EdgeInsets.only(left: 10, right: 10),
       child: TextFormField(
         controller: controller,
@@ -80,7 +86,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
         title: Text(
           "Edit Profile",
           style: TextStyle(
-            fontSize: 22,
+            fontSize: 22.sp,
             fontFamily: 'Poppins-Medium',
             fontWeight: FontWeight.w500,
             color: Color.fromARGB(255, 21, 101, 93),
@@ -93,24 +99,21 @@ class _EditUserProfileState extends State<EditUserProfile> {
         child: Column(
           children: [
             SizedBox(
-              height: 30,
+              height: 30.h,
             ),
             Stack(
               children: [
                 Center(
                   child: CircleAvatar(
-                    radius: 50,
-                    child: ClipOval(
-                      child: Image.asset(
-                        'asset/wedlogo.jpg',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    backgroundImage: imageuril == null
+                        ? AssetImage('asset/wedlogo.jpg')
+                        : NetworkImage(imageuril!),
+                    radius: 55.r,
                   ),
                 ),
                 Positioned(
-                    top: 55,
-                    right: 120,
+                    top: 65.h,
+                    right: 130.w,
                     child: ElevatedButton.icon(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
@@ -123,12 +126,12 @@ class _EditUserProfileState extends State<EditUserProfile> {
                         label: Icon(
                           Icons.camera_alt_outlined,
                           color: Colors.black,
-                          size: 17,
+                          size: 17.sp,
                         )))
               ],
             ),
             SizedBox(
-              height: 50,
+              height: 40.h,
             ),
             Container(
               margin: EdgeInsets.only(left: 20, right: 20),
@@ -141,7 +144,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
               child: Column(
                 children: [
                   SizedBox(
-                    height: 30,
+                    height: 30.h,
                   ),
                   editProfile(
                       controller: fullnameController,
@@ -149,28 +152,33 @@ class _EditUserProfileState extends State<EditUserProfile> {
                       hintname: "Wedcom",
                       iconprofile: Icons.person),
                   editProfile(
-                    controller: emailController,
+                      controller: emailController,
                       labelname: "Email",
                       hintname: "Wedcom@gmailcom",
                       iconprofile: Icons.email_outlined),
                   editProfile(
-                    controller: phoneController,
+                      controller: phoneController,
                       labelname: 'phone',
                       hintname: "1234567890",
                       iconprofile: Icons.phone_android_outlined),
                   editProfile(
-                    controller: addressController,
+                      controller: addressController,
                       labelname: "Address",
                       hintname: "Calicut",
                       iconprofile: Icons.location_on_outlined),
                   SizedBox(
-                    height: 30,
+                    height: 30.h,
                   ),
                   ElevatedButton(
                     onPressed: () async {
                       setState(() {
                         isLoading = true;
                       });
+
+                      if (image != null) {
+                        imageuril = await uploadImageToCloudinary(image!);
+                      }
+
                       await FirebaseFirestore.instance
                           .collection("user")
                           .doc(userid)
@@ -179,7 +187,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                         "email": emailController.text,
                         "phone": phoneController.text,
                         "address": addressController.text,
-                        "image": image
+                        "image": imageuril
                       });
                       setState(() {
                         isLoading = false;
@@ -191,7 +199,7 @@ class _EditUserProfileState extends State<EditUserProfile> {
                             "Edit Profile",
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               fontFamily: 'Poppins-Medium',
                               fontWeight: FontWeight.w500,
                             ),
