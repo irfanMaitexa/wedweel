@@ -33,7 +33,6 @@ class Vendormaininuser extends StatelessWidget {
       return;
     }
 
-  
     final wishlistRef = FirebaseFirestore.instance
         .collection('users')
         .doc(user.uid)
@@ -138,7 +137,8 @@ class Vendormaininuser extends StatelessWidget {
                 margin: EdgeInsets.only(left: 10, right: 10, top: 10),
                 height: 130.h,
                 decoration: BoxDecoration(
-                    color: Colors.white, borderRadius: BorderRadius.circular(20)),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
                 child: Column(children: [
                   Padding(
                     padding: const EdgeInsets.all(15),
@@ -151,7 +151,7 @@ class Vendormaininuser extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          "Rs : $price",
+                          "Rent : $price",
                           style: TextStyle(
                               color: const Color.fromARGB(255, 27, 101, 52)),
                         ),
@@ -167,13 +167,15 @@ class Vendormaininuser extends StatelessWidget {
                               ? [
                                   Icon(
                                     Icons.people,
-                                    color: const Color.fromARGB(255, 27, 101, 52),
+                                    color:
+                                        const Color.fromARGB(255, 27, 101, 52),
                                   ),
                                   SizedBox(width: 10),
                                   Text(
                                     guestcount,
                                     style: TextStyle(
-                                        color: const Color.fromARGB(255, 27, 101, 52)),
+                                        color: const Color.fromARGB(
+                                            255, 27, 101, 52)),
                                   ),
                                 ]
                               : [
@@ -183,7 +185,8 @@ class Vendormaininuser extends StatelessWidget {
                                   ),
                                   SizedBox(width: 5),
                                   Text(
-                                    averageRating.toStringAsFixed(1), // Display average rating
+                                    averageRating.toStringAsFixed(
+                                        1), // Display average rating
                                     style: TextStyle(
                                         fontSize: 12, color: Colors.grey[700]),
                                   ),
@@ -219,7 +222,8 @@ class Vendormaininuser extends StatelessWidget {
                                       .snapshots()
                                   : null,
                               builder: (context, snapshot) {
-                                final isInWishlist = snapshot.data?.exists ?? false;
+                                final isInWishlist =
+                                    snapshot.data?.exists ?? false;
                                 return IconButton(
                                   icon: Icon(
                                     isInWishlist

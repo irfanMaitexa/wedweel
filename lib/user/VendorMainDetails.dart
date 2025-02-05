@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/user/ReviewWidget.dart';
+import 'package:wedweel/user/profile/bookings/UserBookingScreen.dart';
 
 class Vendormaindetails extends StatelessWidget {
   final String vendorname;
@@ -93,9 +94,10 @@ class Vendormaindetails extends StatelessWidget {
                 ListTile(
                   title: Text(vendorname,
                       style: TextStyle(
-                          fontSize: 15, color: Color.fromARGB(255, 21, 101, 93))),
+                          fontSize: 15,
+                          color: Color.fromARGB(255, 21, 101, 93))),
                   trailing: Text(
-                    "Rs: $price",
+                    "Rent : $price",
                     style: TextStyle(
                         fontSize: 15, color: Color.fromARGB(255, 21, 101, 93)),
                   ),
@@ -113,7 +115,8 @@ class Vendormaindetails extends StatelessWidget {
                             ),
                             SizedBox(width: 10),
                             Text(
-                              averageRating.toStringAsFixed(1), // Display average rating
+                              averageRating
+                                  .toStringAsFixed(1), // Display average rating
                               style: TextStyle(color: Colors.teal[700]),
                             ),
                             SizedBox(width: 10),
@@ -176,7 +179,8 @@ class Vendormaindetails extends StatelessWidget {
                           ],
                           labelColor: const Color.fromARGB(255, 27, 95, 58),
                           unselectedLabelColor: Colors.grey,
-                          indicatorColor: const Color.fromARGB(255, 212, 209, 51),
+                          indicatorColor:
+                              const Color.fromARGB(255, 212, 209, 51),
                         ),
                         // TabBarView
                         Expanded(
@@ -193,15 +197,23 @@ class Vendormaindetails extends StatelessWidget {
                                               top: 10, left: 10, right: 10),
                                           child: Text(
                                             vendordescription,
-                                            style:
-                                                TextStyle(color: Colors.teal[700]),
+                                            style: TextStyle(
+                                                color: Colors.teal[700]),
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
                                   ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Userbookingscreen(
+                                                    vendorId: id,
+                                                  )));
+                                    },
                                     child: Text(
                                       "Book Now",
                                       style: TextStyle(color: Colors.black),
@@ -211,7 +223,8 @@ class Vendormaindetails extends StatelessWidget {
                                             Color.fromARGB(255, 178, 215, 181),
                                         minimumSize: Size(double.infinity, 40),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         )),
                                   ),
                                 ],
@@ -220,7 +233,8 @@ class Vendormaindetails extends StatelessWidget {
                               Reviewwidget(vendorId: id),
                               // Slot Tab
                               Padding(
-                                padding: const EdgeInsets.only(left: 8, right: 8),
+                                padding:
+                                    const EdgeInsets.only(left: 8, right: 8),
                                 child: ListView.builder(
                                     itemCount: 5,
                                     itemBuilder: (context, index) {
