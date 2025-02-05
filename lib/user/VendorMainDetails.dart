@@ -210,7 +210,7 @@ class Vendormaindetails extends StatelessWidget {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  Userbookingscreen(
+                                                  UserBookingScreen(
                                                     vendorId: id,
                                                   )));
                                     },

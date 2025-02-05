@@ -2,23 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:wedweel/user/profile/bookings/BookingConfirmationScreen.dart';
+import 'BookingConfirmationScreen.dart';
 
-class Userbookingscreen extends StatefulWidget {
-  final String vendorId; // Accept vendor ID as a parameter
+class UserBookingScreen extends StatefulWidget {
+  final String vendorId;
 
-  const Userbookingscreen({super.key, required this.vendorId});
+  const UserBookingScreen({super.key, required this.vendorId});
 
   @override
-  State<Userbookingscreen> createState() => _UserbookingscreenState();
+  State<UserBookingScreen> createState() => _UserBookingScreenState();
 }
 
-class _UserbookingscreenState extends State<Userbookingscreen> {
+class _UserBookingScreenState extends State<UserBookingScreen> {
   DateTime? _startDate;
   DateTime? _endDate;
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
@@ -39,7 +39,6 @@ class _UserbookingscreenState extends State<Userbookingscreen> {
   }
 
   Future<void> _submitBooking() async {
-    // Get the currently logged-in user ID
     String? userId = FirebaseAuth.instance.currentUser?.uid;
     if (userId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -60,27 +59,39 @@ class _UserbookingscreenState extends State<Userbookingscreen> {
     }
 
     try {
-      await FirebaseFirestore.instance.collection("bookings").add({
+      // Format dates as "YYYY-MM-DD"
+      String formattedStartDate =
+          "${_startDate!.year}-${_startDate!.month.toString().padLeft(2, '0')}-${_startDate!.day.toString().padLeft(2, '0')}";
+      String formattedEndDate =
+          "${_endDate!.year}-${_endDate!.month.toString().padLeft(2, '0')}-${_endDate!.day.toString().padLeft(2, '0')}";
+
+      // Save booking to Firestore
+      DocumentReference bookingRef =
+          await FirebaseFirestore.instance.collection("bookings").add({
         "vendorId": widget.vendorId,
         "userId": userId,
         "name": nameController.text,
         "phone": phoneController.text,
-        "startDate": _startDate!.toIso8601String(),
-        "endDate": _endDate!.toIso8601String(),
+        "startDate": formattedStartDate, // Store date only
+        "endDate": formattedEndDate, // Store date only
         "address": addressController.text,
-        "timestamp": FieldValue.serverTimestamp(), // For sorting
+        "timestamp": FieldValue.serverTimestamp(),
       });
+
+      String bookingId = bookingRef.id; // Get the newly created booking ID
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Booking saved successfully!")),
       );
 
-      // Clear Fields After Saving
-      Navigator.push(
+      // Navigate to Booking Confirmation Screen
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) =>
-              BookingConfirmationScreen(vendorId: widget.vendorId),
+          builder: (context) => BookingConfirmationScreen(
+            vendorId: widget.vendorId,
+            bookingId: bookingId,
+          ),
         ),
       );
     } catch (e) {
@@ -90,59 +101,51 @@ class _UserbookingscreenState extends State<Userbookingscreen> {
     }
   }
 
-  Widget button({required String name, required bool isStartDate}) {
+  Widget buildDateButton({required String label, required bool isStartDate}) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: const Color.fromARGB(255, 188, 248, 218),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(7),
-          side: BorderSide(color: Colors.greenAccent),
-        ),
+        backgroundColor: Colors.teal[200],
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
       ),
       onPressed: () => _selectDate(context, isStartDate),
       child: Text(
         isStartDate
-            ? _startDate != null
+            ? (_startDate != null
                 ? "${_startDate!.toLocal()}".split(' ')[0]
-                : name
-            : _endDate != null
+                : label)
+            : (_endDate != null
                 ? "${_endDate!.toLocal()}".split(' ')[0]
-                : name,
+                : label),
         style: TextStyle(fontSize: 16, color: Colors.teal[700]),
       ),
     );
   }
 
-  Widget textField(
-      {required String name, required TextEditingController controller}) {
+  Widget buildTextField(
+      {required String label,
+      required TextEditingController controller,
+      int maxLines = 1}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          name,
-          style: TextStyle(fontSize: 18, color: Colors.teal[800]),
-        ),
-        Container(
-          height: 43.h,
-          margin: EdgeInsets.only(top: 13),
-          child: TextFormField(
-            controller: controller,
-            decoration: InputDecoration(
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(
-                  color: const Color.fromARGB(255, 124, 255, 91),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(4),
-                borderSide: BorderSide(
-                  color: const Color.fromARGB(255, 77, 182, 172),
-                ),
-              ),
-            ),
+        Text(label, style: TextStyle(fontSize: 18, color: Colors.teal[800])),
+        SizedBox(height: 8),
+        TextFormField(
+          controller: controller,
+          maxLines: maxLines,
+          maxLength:
+              maxLines == 3 ? 150 : null, // Limit character count for address
+          decoration: InputDecoration(
+            enabledBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: const Color.fromARGB(255, 2, 122, 108)),
+                borderRadius: BorderRadius.circular(6)),
+            focusedBorder: OutlineInputBorder(
+                borderSide:
+                    BorderSide(color: const Color.fromARGB(255, 101, 255, 181)),
+                borderRadius: BorderRadius.circular(6)),
           ),
-        )
+        ),
       ],
     );
   }
@@ -151,68 +154,41 @@ class _UserbookingscreenState extends State<Userbookingscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-      ),
-      body: Container(
-        padding: EdgeInsets.only(left: 30, right: 30),
+          surfaceTintColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          title: Text("Book a Service")),
+      body: Padding(
+        padding: EdgeInsets.all(30),
         child: ListView(
           children: [
-            SizedBox(height: 30.h),
-            textField(name: "Name", controller: nameController),
+            buildTextField(label: "Name", controller: nameController),
             SizedBox(height: 15.h),
-            textField(name: "Phone", controller: phoneController),
-            SizedBox(height: 19.h),
-            Padding(
-              padding: const EdgeInsets.only(left: 17),
-              child: Text(
-                "Select Date",
-                style: TextStyle(fontSize: 18.sp, color: Colors.teal[800]),
-              ),
-            ),
-            SizedBox(height: 10),
+            buildTextField(label: "Phone", controller: phoneController),
+            SizedBox(height: 15.h),
+            Text("Select Date",
+                style: TextStyle(fontSize: 18, color: Colors.teal[800])),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                button(name: "Start Date", isStartDate: true),
-                button(name: "End Date", isStartDate: false),
+                buildDateButton(label: "Start Date", isStartDate: true),
+                buildDateButton(label: "End Date", isStartDate: false),
               ],
             ),
             SizedBox(height: 30.h),
-            Text(
-              "Address",
-              style: TextStyle(fontSize: 18.sp, color: Colors.teal[800]),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 15, bottom: 30),
-              child: TextFormField(
-                controller: addressController,
-                maxLines: 3,
-                decoration: InputDecoration(
-                  enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide(color: Colors.teal)),
-                  focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(5),
-                      borderSide: BorderSide(
-                          color: const Color.fromARGB(255, 116, 255, 94))),
-                ),
-              ),
-            ),
+            buildTextField(
+                label: "Address", controller: addressController, maxLines: 3),
+            SizedBox(height: 30.h),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 188, 248, 218),
+                backgroundColor: const Color.fromARGB(255, 159, 255, 208),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(7),
-                  side: BorderSide(color: Colors.greenAccent),
-                ),
+                    side: BorderSide(color: Colors.greenAccent),
+                    borderRadius: BorderRadius.circular(7)),
               ),
               onPressed: _submitBooking,
-              child: Text(
-                "Submit",
-                style: TextStyle(fontSize: 16, color: Colors.teal[700]),
-              ),
-            )
+              child: Text("Submit",
+                  style: TextStyle(fontSize: 16, color: Colors.teal[800])),
+            ),
           ],
         ),
       ),
