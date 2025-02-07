@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/FirstScreen/FirstScreen.dart';
+import 'package:wedweel/admin/screen/adminHome.dart';
 import 'package:wedweel/firebase_options.dart';
 import 'package:wedweel/user/profile/bookings/UserBookingScreen.dart';
 
@@ -21,8 +22,8 @@ void main() async {
           fontFamily: 'Poppins',
         ),
         home:
-            Firstscreen(),
-         
+             Firstscreen(),
+        
       );
     },
   ));
