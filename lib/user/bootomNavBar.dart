@@ -12,7 +12,8 @@ class BottomNavBar extends StatefulWidget {
 }
 
 class _BottomNavBarState extends State<BottomNavBar> {
-  final PersistentTabController _controller = PersistentTabController(initialIndex: 0);
+  final PersistentTabController _controller =
+      PersistentTabController(initialIndex: 0);
 
   // List of screens for the bottom navigation bar
   List<Widget> _buildScreens() {
@@ -54,6 +55,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PersistentTabView(
+        backgroundColor: const Color.fromARGB(255, 239, 255, 250),
         context,
         controller: _controller,
         screens: _buildScreens(),
@@ -61,23 +63,22 @@ class _BottomNavBarState extends State<BottomNavBar> {
           PersistentBottomNavBarItem(
             icon: Icon(Icons.home),
             title: 'Home',
-            activeColorPrimary: Color.fromARGB(255, 21, 101, 93),
-            inactiveColorPrimary: Colors.black,
+            activeColorPrimary: const Color.fromARGB(255, 4, 148, 114),
+            inactiveColorPrimary: Color.fromARGB(255, 21, 101, 93),
           ),
           PersistentBottomNavBarItem(
             icon: Icon(Icons.storefront_outlined),
             title: 'Vendor',
-            activeColorPrimary: Color.fromARGB(255, 21, 101, 93),
-            inactiveColorPrimary: Colors.black,
+            activeColorPrimary: const Color.fromARGB(255, 4, 148, 114),
+            inactiveColorPrimary: Color.fromARGB(255, 21, 101, 93),
           ),
           PersistentBottomNavBarItem(
-            icon: Icon(Icons.person),
-            title: 'Profile',
-            activeColorPrimary: Color.fromARGB(255, 21, 101, 93),
-            inactiveColorPrimary: Colors.black,
-          ),
+              icon: Icon(Icons.person),
+              title: 'Profile',
+              activeColorPrimary: Color.fromARGB(255, 21, 101, 93),
+              inactiveColorPrimary: const Color.fromARGB(255, 4, 148, 114)),
         ],
-        navBarStyle: NavBarStyle.style1,
+        navBarStyle: NavBarStyle.style9,
       ),
     );
   }

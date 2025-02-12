@@ -99,47 +99,47 @@ class Vendormaininuser extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
 
-    return FutureBuilder<Map<String, dynamic>>(
-      future: getReviewData(vendorId), // Fetch review data
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        }
-
-        if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        }
-
-        final totalReviews = snapshot.data?['totalReviews'] ?? 0;
-        final averageRating = snapshot.data?['averageRating'] ?? 0.0;
-
-        return Container(
-          height: 310.h,
-          margin: EdgeInsets.only(
-            left: 27,
-            right: 27,
-            top: 20,
+    return Container(
+      height: 310.h,
+      margin: EdgeInsets.only(
+        left: 27,
+        right: 27,
+        top: 20,
+      ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Color.fromARGB(255, 178, 215, 181)),
+      child: Column(
+        children: [
+          Container(
+            margin: EdgeInsets.only(top: 10, left: 10, right: 10),
+            height: 150.h,
+            width: double.infinity,
+            child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(vendorimage, fit: BoxFit.cover)),
           ),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              color: Color.fromARGB(255, 178, 215, 181)),
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.only(top: 10, left: 10, right: 10),
-                height: 150.h,
-                width: double.infinity,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.network(vendorimage, fit: BoxFit.cover)),
-              ),
-              Container(
-                margin: EdgeInsets.only(left: 10, right: 10, top: 10),
-                height: 130.h,
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Column(children: [
+          Container(
+            margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+            height: 130.h,
+            decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20)),
+            child: FutureBuilder<Map<String, dynamic>>(
+              future: getReviewData(vendorId), // Fetch review data
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return Center(child: Text('Error: ${snapshot.error}'));
+                }
+
+                final totalReviews = snapshot.data?['totalReviews'] ?? 0;
+                final averageRating = snapshot.data?['averageRating'] ?? 0.0;
+
+                return Column(children: [
                   Padding(
                     padding: const EdgeInsets.all(15),
                     child: Row(
@@ -242,12 +242,12 @@ class Vendormaininuser extends StatelessWidget {
                       ],
                     ),
                   )
-                ]),
-              )
-            ],
-          ),
-        );
-      },
+                ]);
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }

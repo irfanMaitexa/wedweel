@@ -14,9 +14,15 @@ Future<String?> uploadImageToCloudinary(File imageFile) async {
       folder: 'WedwheelImages',
       resourceType: CloudinaryResourceType.image,
     );
+
+    final profileImage = result.secureUrl;
+    print(
+        '------------------------------------------------------------------------------------------------');
+    print(profileImage);
     return result.secureUrl;
   } catch (e) {
     print("Error uploading image: $e");
+
     return null;
   }
 }

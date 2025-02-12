@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/FirstScreen/FirstScreen.dart';
 import 'package:wedweel/admin/screen/adminHome.dart';
 import 'package:wedweel/firebase_options.dart';
-import 'package:wedweel/user/profile/bookings/UserBookingScreen.dart';
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,9 +22,9 @@ void main() async {
           fontFamily: 'Poppins',
         ),
         home:
-             Firstscreen(),
-        
+            Firstscreen(),
+      //  AdminHome(),
       );
     },
-  ));
+  )); 
 }

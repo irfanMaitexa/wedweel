@@ -63,11 +63,15 @@ class Detailpagevendor extends StatelessWidget {
                               bottomLeft: Radius.circular(30.r),
                               bottomRight: Radius.circular(30.r),
                             ),
-                            child: Image.network(
-                              data['image'],
-                              fit: BoxFit.cover,
-                              width: double.infinity,
-                            ),
+                            child:Image.network(
+  data['image'] ?? '', // Provide an empty string if data['image'] is null
+  fit: BoxFit.cover,
+  width: double.infinity,
+  errorBuilder: (context, error, stackTrace) {
+    // Handle image loading errors
+    return const Icon(Icons.error); 
+  },
+),
                           ),
                         ),
                         Container(

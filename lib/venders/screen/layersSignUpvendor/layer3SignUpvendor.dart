@@ -49,13 +49,13 @@ class _LayerThree extends State<Layer3signupvendor> {
       child: Form(
         key: _formKey,
         child: Container(
-          height: 684,
+          height: 684.h,
           width: MediaQuery.of(context).size.width,
           child: Stack(
             children: <Widget>[
               Positioned(
-                left: 59,
-                top: 149,
+                left: 59.w,
+                top: 149.h,
                 child: Text(
                   'Fullname',
                   style: TextStyle(
@@ -65,10 +65,10 @@ class _LayerThree extends State<Layer3signupvendor> {
                 ),
               ),
               Positioned(
-                  left: 59,
-                  top: 179,
+                  left: 59.w,
+                  top: 179.h,
                   child: Container(
-                    width: 310,
+                    width: 310.w,
                     child: TextField(
                       controller: fullname,
                       decoration: InputDecoration(
@@ -79,8 +79,8 @@ class _LayerThree extends State<Layer3signupvendor> {
                     ),
                   )),
               Positioned(
-                left: 59,
-                top: 252,
+                left: 59.w,
+                top: 252.h,
                 child: Text(
                   'Email',
                   style: TextStyle(
@@ -90,10 +90,10 @@ class _LayerThree extends State<Layer3signupvendor> {
                 ),
               ),
               Positioned(
-                  left: 59,
-                  top: 285,
+                  left: 59.w,
+                  top: 285.h,
                   child: Container(
-                    width: 310,
+                    width: 310.w,
                     child: TextFormField(
                       controller: email,
                       validator: (value) {
@@ -107,8 +107,8 @@ class _LayerThree extends State<Layer3signupvendor> {
                     ),
                   )),
               Positioned(
-                left: 59,
-                bottom: 265,
+                left: 59.w,
+                bottom: 265.h,
                 child: Text(
                   'Password',
                   style: TextStyle(
@@ -118,10 +118,10 @@ class _LayerThree extends State<Layer3signupvendor> {
                 ),
               ),
               Positioned(
-                  left: 59,
-                  bottom: 220,
+                  left: 59.r,
+                  bottom: 220.h,
                   child: Container(
-                    width: 310,
+                    width: 310.w,
                     child: TextFormField(
                       controller: password,
                       validator: (value) {
@@ -135,8 +135,8 @@ class _LayerThree extends State<Layer3signupvendor> {
                     ),
                   )),
               Positioned(
-                bottom: 160,
-                right: 33,
+                bottom: 160.h,
+                right: 33.w,
                 child: GestureDetector(
                   onTap: () async {
                     if (_formKey.currentState!.validate()) {

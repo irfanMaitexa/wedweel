@@ -11,7 +11,7 @@ import 'package:wedweel/user/profile/privacyPolicy/PrivacyPolicyUser.dart';
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key, required this.logout});
 
-   final Future<void> Function() logout; 
+  final Future<void> Function() logout;
 
   @override
   State<UserProfile> createState() => _UserProfileState();
@@ -21,7 +21,26 @@ class _UserProfileState extends State<UserProfile> {
   bool isLoading = false; // Loading state for logout
 
   // Helper function for consistent ListTile UI
-  Widget listContainer({required IconData iconleading, required String name, VoidCallback? onTap}) {
+
+  Widget buttonaction({required String name}) {
+    return ElevatedButton(
+      onPressed: () {},
+      child: Text(
+        name,
+        style: TextStyle(color: Colors.teal[900]),
+      ),
+      style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 244, 255, 249),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(5),
+              side: BorderSide(color: Colors.greenAccent))),
+    );
+  }
+
+  Widget listContainer(
+      {required IconData iconleading,
+      required String name,
+      VoidCallback? onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: ListTile(
@@ -97,7 +116,8 @@ class _UserProfileState extends State<UserProfile> {
                   child: CircleAvatar(
                     backgroundImage: image != null && image.isNotEmpty
                         ? NetworkImage(image)
-                        : const AssetImage('asset/wedlogo.jpg') as ImageProvider,
+                        : const AssetImage('asset/wedlogo.jpg')
+                            as ImageProvider,
                     radius: 30,
                   ),
                 ),
@@ -112,7 +132,7 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                 ),
                 SizedBox(height: 8.h),
-                
+
                 // Profile Options
                 Container(
                   height: 180.h,
@@ -144,7 +164,8 @@ class _UserProfileState extends State<UserProfile> {
                         name: 'Wishlist',
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => WishlistPage()),
+                          MaterialPageRoute(
+                              builder: (context) => WishlistPage()),
                         ),
                       ),
                       listContainer(
@@ -152,7 +173,8 @@ class _UserProfileState extends State<UserProfile> {
                         name: 'My Bookings',
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Userbooking()),
+                          MaterialPageRoute(
+                              builder: (context) => Userbooking()),
                         ),
                       ),
                     ],
@@ -169,16 +191,31 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                   child: Column(
                     children: [
-                      listContainer(iconleading: Icons.paid, name: 'Transactions'),
-                      listContainer(iconleading: Icons.info, name: 'Complaints'),
-                      listContainer(iconleading: Icons.rate_review, name: 'Share Feedback'),
+                      listContainer(
+                          iconleading: Icons.paid, name: 'Transactions'),
+                      GestureDetector(
+                        onTap: () {
+                          _showComplientDialog();
+                        },
+                        child: listContainer(
+                            iconleading: Icons.info, name: 'Complaints'),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _showfeedbackDialog();
+                        },
+                        child: listContainer(
+                            iconleading: Icons.rate_review,
+                            name: 'Share Feedback'),
+                      ),
                     ],
                   ),
                 ),
 
                 // Privacy and Logout
                 Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
+                  margin: const EdgeInsets.only(left: 20, right: 20, top: 12),
+                  // margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 249, 255, 251),
                     borderRadius: BorderRadius.circular(20),
@@ -190,7 +227,8 @@ class _UserProfileState extends State<UserProfile> {
                         name: 'Privacy Policy',
                         onTap: () => Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Privacypolicyuser()),
+                          MaterialPageRoute(
+                              builder: (context) => Privacypolicyuser()),
                         ),
                       ),
                       listContainer(
@@ -222,5 +260,55 @@ class _UserProfileState extends State<UserProfile> {
         ),
       ),
     );
+  }
+
+  void _showComplientDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: const Color.fromARGB(255, 225, 255, 237),
+            content: Container(
+              height: 120,
+              child: TextFormField(
+                  maxLines: 3,
+                  decoration: InputDecoration(
+                      labelText: "Give your Complient",
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.teal)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 14, 86, 0))))),
+            ),
+            actions: [buttonaction(name: "cancel"), buttonaction(name: "Add")],
+          );
+        });
+  }
+
+  void _showfeedbackDialog() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            backgroundColor: const Color.fromARGB(255, 225, 255, 237),
+            content: Container(
+              height: 120,
+              child: TextFormField(
+                  maxLines: 4,
+                  decoration: InputDecoration(
+                      hintText: "give your feedback",
+                      enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.teal)),
+                      focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 14, 86, 0))))),
+            ),
+            actions: [buttonaction(name: "Submit")],
+          );
+        });
   }
 }
