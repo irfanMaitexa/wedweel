@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
 
 class TodosHome extends StatefulWidget {
   const TodosHome({super.key});
@@ -17,12 +18,17 @@ class _TodoshomeState extends State<TodosHome> {
   // Add task to Firestore
   Future<void> _addTask() async {
     if (addController.text.isNotEmpty) {
-      await _todosCollection.add({
-        'title': addController.text,
-        'isCompleted': false,
-        'createdAt': Timestamp.now(),
-      });
-      addController.clear();
+      final userId = FirebaseAuth.instance.currentUser?.uid;
+
+      if (userId != null) {
+        await _todosCollection.add({
+          'title': addController.text,
+          'isCompleted': false,
+          'createdAt': Timestamp.now(),
+          'userId': userId, // Add the userId field
+        });
+        addController.clear();
+      }
     }
   }
 
@@ -61,8 +67,10 @@ class _TodoshomeState extends State<TodosHome> {
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream:
-            _todosCollection.orderBy('createdAt', descending: true).snapshots(),
+        stream: _todosCollection
+            .where('userId', isEqualTo: FirebaseAuth.instance.currentUser?.uid) // Filter by userId
+            .orderBy('createdAt', descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -81,7 +89,7 @@ class _TodoshomeState extends State<TodosHome> {
                 title: todo['title'],
                 isComplete: todo['isCompleted'],
                 onChanged: (value) => _toggleComplete(todo.id, value!),
-                onTap: () => _editDialog(todo.id, todo['title']), // Add onTap for edit
+                onTap: () => _editDialog(todo.id, todo['title']),
               );
             },
           );
@@ -192,7 +200,7 @@ class _TodoshomeState extends State<TodosHome> {
     required String title,
     required bool isComplete,
     required Function(bool?) onChanged,
-    required VoidCallback onTap, // Add onTap for edit
+    required VoidCallback onTap,
   }) {
     return Padding(
       padding: const EdgeInsets.all(16),
@@ -209,7 +217,7 @@ class _TodoshomeState extends State<TodosHome> {
           ],
         ),
         child: GestureDetector(
-          onTap: onTap, // Trigger edit dialog on tap
+          onTap: onTap,
           child: Container(
             padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
