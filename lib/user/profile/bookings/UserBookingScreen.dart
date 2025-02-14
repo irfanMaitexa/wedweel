@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
+import 'package:flutter_slidable/flutter_slidable.dart'; // Add this import
 import 'BookingConfirmationScreen.dart';
 
 class UserBookingScreen extends StatefulWidget {
@@ -19,6 +21,77 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  late Razorpay _razorpay;
+
+  @override
+  void initState() {
+    super.initState();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlePaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlePaymentError);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
+  }
+
+  @override
+  void dispose() {
+    _razorpay.clear();
+    super.dispose();
+  }
+
+  void _handlePaymentSuccess(PaymentSuccessResponse response) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(255, 237, 255, 246),
+          title: Text("Payment Successful"),
+          actions: [
+            TextButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            )
+          ],
+        );
+      },
+    );
+    await _submitBooking(); // Proceed with booking after successful payment
+  }
+
+  void _handlePaymentError(PaymentFailureResponse response) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text("Payment Failed: ${response.message}")),
+    );
+  }
+
+  void _handleExternalWallet(ExternalWalletResponse response) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+          content: Text("External Wallet Selected: ${response.walletName}")),
+    );
+  }
+
+  void _openRazorpayCheckout() {
+    var options = {
+      'key': 'rzp_test_a66YOERQYDJCVb', // Replace with your Razorpay API key
+      'amount': 100 * 100, // Amount in paise (e.g., 100 INR = 10000 paise)
+      'name': 'Booking Payment',
+      'description': 'Payment for booking service',
+      'prefill': {
+        'contact': phoneController.text,
+      },
+      'external': {
+        'wallets': ['paytm']
+      }
+    };
+
+    try {
+      _razorpay.open(options);
+    } catch (e) {
+      debugPrint('Error: $e');
+    }
+  }
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
     final DateTime? picked = await showDatePicker(
@@ -59,32 +132,29 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
     }
 
     try {
-      // Format dates as "YYYY-MM-DD"
       String formattedStartDate =
           "${_startDate!.year}-${_startDate!.month.toString().padLeft(2, '0')}-${_startDate!.day.toString().padLeft(2, '0')}";
       String formattedEndDate =
           "${_endDate!.year}-${_endDate!.month.toString().padLeft(2, '0')}-${_endDate!.day.toString().padLeft(2, '0')}";
 
-      // Save booking to Firestore
       DocumentReference bookingRef =
           await FirebaseFirestore.instance.collection("bookings").add({
         "vendorId": widget.vendorId,
         "userId": userId,
         "name": nameController.text,
         "phone": phoneController.text,
-        "startDate": formattedStartDate, // Store date only
-        "endDate": formattedEndDate, // Store date only
+        "startDate": formattedStartDate,
+        "endDate": formattedEndDate,
         "address": addressController.text,
         "timestamp": FieldValue.serverTimestamp(),
       });
 
-      String bookingId = bookingRef.id; // Get the newly created booking ID
+      String bookingId = bookingRef.id;
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Booking saved successfully!")),
       );
 
-      // Navigate to Booking Confirmation Screen
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -133,8 +203,7 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
         TextFormField(
           controller: controller,
           maxLines: maxLines,
-          maxLength:
-              maxLines == 3 ? 150 : null, // Limit character count for address
+          maxLength: maxLines == 3 ? 150 : null,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
                 borderSide:
@@ -156,7 +225,10 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
       appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
-          title: Text("Book a Service")),
+          title: Text(
+            "Book a Service",
+            style: TextStyle(color: Colors.teal[800]),
+          )),
       body: Padding(
         padding: EdgeInsets.all(30),
         child: ListView(
@@ -178,16 +250,42 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
             buildTextField(
                 label: "Address", controller: addressController, maxLines: 3),
             SizedBox(height: 30.h),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(255, 159, 255, 208),
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Colors.greenAccent),
-                    borderRadius: BorderRadius.circular(7)),
+            // Slide-to-Confirm using flutter_slidable
+            Slidable(
+              key: const ValueKey(0),
+              startActionPane: ActionPane(
+                motion: const DrawerMotion(),
+                dismissible: DismissiblePane(onDismissed: () {
+                  _openRazorpayCheckout(); // Trigger payment when dismissed
+                }),
+                children: [
+                  SlidableAction(
+                    onPressed: (context) {
+                      _openRazorpayCheckout(); // Trigger payment when action is pressed
+                    },
+                    backgroundColor: const Color.fromARGB(255, 90, 198, 151),
+                    foregroundColor: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                    label: 'Pay',
+                  ),
+                ],
               ),
-              onPressed: _submitBooking,
-              child: Text("Submit",
-                  style: TextStyle(fontSize: 16, color: Colors.teal[800])),
+              child: Container(
+                height: 60,
+                decoration: BoxDecoration(
+                  color: Colors.greenAccent,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Center(
+                  child: Text(
+                    "Swipe to Confirm Payment",
+                    style: TextStyle(
+                      color: Colors.teal[800],
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

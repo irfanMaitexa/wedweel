@@ -24,7 +24,7 @@ void main() async {
         home:
             Firstscreen(),
       //  AdminHome(),
-      );
+      ); 
     },
   )); 
 }

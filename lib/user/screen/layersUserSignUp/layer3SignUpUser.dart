@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart'; // Add this import
 import 'package:wedweel/config.dart';
 import 'package:wedweel/user/loginmain.dart/loginpage.dart';
 
@@ -16,7 +17,7 @@ class _LayerThree extends State<Layer3signupuser> {
   final _formKey = GlobalKey<FormState>();
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  TextEditingController fullName = TextEditingController(); // Add full name controller
+  TextEditingController fullName = TextEditingController();
   bool isLoad = false;
 
   String? validateEmail(String email) {
@@ -132,7 +133,7 @@ class _LayerThree extends State<Layer3signupuser> {
                 child: Container(
                   width: 310.w,
                   child: TextFormField(
-                    controller: fullName, // Use fullName controller
+                    controller: fullName,
                     decoration: InputDecoration(
                       border: UnderlineInputBorder(),
                       hintText: 'Enter your full name',
@@ -142,7 +143,7 @@ class _LayerThree extends State<Layer3signupuser> {
                 ),
               ),
               Positioned(
-                bottom: 130.h,
+                bottom: 150.h,
                 right: 26.w,
                 child: GestureDetector(
                   onTap: () async {
@@ -214,6 +215,56 @@ class _LayerThree extends State<Layer3signupuser> {
                   ],
                 ),
               ),
+              Positioned(
+                bottom: 50.h,
+                left: 120.w,
+                right: 120.w,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: () async {
+                        await _signInWithGoogle(context);
+                      },
+                      child: Container(
+                        width: 59.w,
+                        height: 58.h,
+                        decoration: BoxDecoration(
+                            border: Border.all(color: signInBox),
+                            borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.r),
+                                bottomRight: Radius.circular(20.r))),
+                        child: Image.asset(
+                          'asset/icon_google.png',
+                          width: 20.w,
+                          height: 21.h,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      'or',
+                      style: TextStyle(
+                          fontSize: 18.sp,
+                          fontFamily: 'Poppins-Regular',
+                          color: hintText),
+                    ),
+                    Container(
+                      width: 59.w,
+                      height: 58.h,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: signInBox),
+                          borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(20.r),
+                              bottomRight: Radius.circular(20.r))),
+                      child: Image.asset(
+                        'asset/icon_apple.png',
+                        width: 20.w,
+                        height: 21.h,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -221,17 +272,15 @@ class _LayerThree extends State<Layer3signupuser> {
     );
   }
 
-  Future<void> _registerUser(
-      BuildContext context, String email, String password, String fullName) async {
+  Future<void> _registerUser(BuildContext context, String email,
+      String password, String fullName) async {
     try {
-      // Register the user with Firebase Authentication
       final UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Save additional user details to Firestore
       await FirebaseFirestore.instance
           .collection('user')
           .doc(userCredential.user?.uid)
@@ -241,19 +290,12 @@ class _LayerThree extends State<Layer3signupuser> {
         'uid': userCredential.user?.uid,
       });
 
-      // Navigate to the CompleteProfilePage
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => CompleteProfilePage(userId: userCredential.user!.uid),
-      //   ),
-      // );
-       Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoginUserPage(),
-      ),
-    );
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginUserPage(),
+        ),
+      );
     } catch (e) {
       showDialog(
         context: context,
@@ -274,5 +316,62 @@ class _LayerThree extends State<Layer3signupuser> {
       );
     }
   }
-}
 
+  // Google Sign-In
+  Future<void> _signInWithGoogle(BuildContext context) async {
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn();
+      final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
+
+      if (googleUser == null) {
+        return; // User canceled the sign-in process
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+
+      final OAuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+
+      // Save user details to Firestore
+      await FirebaseFirestore.instance
+          .collection('user')
+          .doc(userCredential.user?.uid)
+          .set({
+        'email': googleUser.email,
+        'fullName': googleUser.displayName,
+        'uid': userCredential.user?.uid,
+      });
+
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginUserPage(),
+        ),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Failed to sign in with Google: $e'),
+            actions: [
+              ElevatedButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+} 

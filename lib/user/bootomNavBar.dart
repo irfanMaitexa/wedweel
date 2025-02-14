@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:wedweel/user/TodoUser/TodoUser.dart';
 import 'package:wedweel/user/UserFirst.dart';
 import 'package:wedweel/user/UserHome/VendoritemsUser.dart';
 import 'package:wedweel/user/profile/UserProfile.dart';
@@ -20,7 +21,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
     return [
       Userfirst(check: true),
       Vendoritemsuser(),
-      UserProfile(logout: _handleLogout), // Pass logout function
+      TodosHome(),
+      UserProfile(logout: _handleLogout),
+      // Pass logout function
     ];
   }
 
@@ -69,6 +72,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
           PersistentBottomNavBarItem(
             icon: Icon(Icons.storefront_outlined),
             title: 'Vendor',
+            activeColorPrimary: const Color.fromARGB(255, 4, 148, 114),
+            inactiveColorPrimary: Color.fromARGB(255, 21, 101, 93),
+          ),
+          PersistentBottomNavBarItem(
+            icon: Icon(Icons.list_alt_outlined),
+            title: 'To-Do',
             activeColorPrimary: const Color.fromARGB(255, 4, 148, 114),
             inactiveColorPrimary: Color.fromARGB(255, 21, 101, 93),
           ),

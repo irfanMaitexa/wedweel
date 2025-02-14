@@ -216,12 +216,11 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                             ),
                             ElevatedButton(
                               onPressed: () {
-                                Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BottomNavBar(),
-                                  ),
-                                );
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => BottomNavBar()),
+                                    (route) => false);
                               },
                               child: Text(
                                 "Book Again",
