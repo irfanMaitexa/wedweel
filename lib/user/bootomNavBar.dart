@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wedweel/user/TodoUser/TodoUser.dart';
 import 'package:wedweel/user/UserFirst.dart';
 import 'package:wedweel/user/UserHome/VendoritemsUser.dart';
@@ -31,6 +32,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Future<void> _handleLogout() async {
     try {
       await FirebaseAuth.instance.signOut();
+
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      ;
+      await prefs.remove('email');
+      await prefs.remove('password');
 
       // Ensure the widget is still mounted before navigating
       if (!mounted) return;

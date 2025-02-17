@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/config.dart';
 import 'package:wedweel/user/bootomNavBar.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
+import 'package:wedweel/user/screen/forgetpassword/ForgotPasswordScreen.dart';
 import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
 
 class LayerThree extends StatefulWidget {
@@ -19,6 +21,7 @@ class _LayerThree extends State<LayerThree> {
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
   bool isLoad = false;
+  bool isChecked = false;
 
   String? validateEmail(String email) {
     final RegExp emailRegExp = RegExp(
@@ -36,10 +39,42 @@ class _LayerThree extends State<LayerThree> {
         : 'Password must be at least 8 characters, include an uppercase letter, a number, and a special character.';
   }
 
+  Future<void> saveCredentials(String email, String password) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('email', email);
+    await prefs.setString('password', password);
+  }
+
+  Future<Map<String, String?>> getCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return {
+      'email': prefs.getString('email'),
+      'password': prefs.getString('password'),
+    };
+  }
+
+  Future<void> clearCredentials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('email');
+    await prefs.remove('password');
+  }
+
+  Future<void> autoLogin(BuildContext context) async {
+    final credentials = await getCredentials();
+    if (credentials['email'] != null && credentials['password'] != null) {
+      await _checkVerificationStatus(
+          context, credentials['email']!, credentials['password']!);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    autoLogin(context);
+  }
+
   @override
   Widget build(BuildContext context) {
-    bool isChecked = false;
-
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -118,13 +153,21 @@ class _LayerThree extends State<LayerThree> {
               Positioned(
                 right: 30.w,
                 top: 360.h,
-                child: Text(
-                  'Forgot Password',
-                  style: TextStyle(
-                    color: forgotPasswordText,
-                    fontSize: 16.sp,
-                    fontFamily: 'Poppins-Medium',
-                    fontWeight: FontWeight.w600,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
+                    );
+                  },
+                  child: Text(
+                    'Forgot Password',
+                    style: TextStyle(
+                      color: forgotPasswordText,
+                      fontSize: 16.sp,
+                      fontFamily: 'Poppins-Medium',
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
                 ),
               ),
@@ -137,10 +180,15 @@ class _LayerThree extends State<LayerThree> {
                       checkColor: Colors.black,
                       activeColor: checkbox,
                       value: isChecked,
-                      onChanged: (bool? value) {
+                      onChanged: (bool? value) async {
                         setState(() {
                           isChecked = value!;
                         });
+                        if (isChecked) {
+                          await saveCredentials(email.text.trim(), password.text.trim());
+                        } else {
+                          await clearCredentials();
+                        }
                       },
                     ),
                     Text(
@@ -343,4 +391,4 @@ Future<void> _checkVerificationStatus(
       },
     );
   }
-}
+}  

@@ -108,6 +108,7 @@ class _UserProfileState extends State<UserProfile> {
             final phone = data['phone'] ?? 'Phone Number';
             final address = data['address'] ?? 'Address';
             final image = data['image'];
+             final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
             return Column(
               children: [
@@ -174,7 +175,11 @@ class _UserProfileState extends State<UserProfile> {
                         onTap: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => Userbooking()),
+                              builder: (context) => UserBookingsScreen(
+                              userId: userId,
+                              )
+
+                          ),
                         ),
                       ),
                     ],

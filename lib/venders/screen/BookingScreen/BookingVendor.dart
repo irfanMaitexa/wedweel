@@ -1,159 +1,208 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class Bookingvendor extends StatelessWidget {
+class VendorBookingScreen extends StatefulWidget {
+  @override
+  _VendorBookingScreenState createState() => _VendorBookingScreenState();
+}
+
+class _VendorBookingScreenState extends State<VendorBookingScreen> {
+  String? vendorId;
+
+  @override
+  void initState() {
+    super.initState();
+    vendorId = FirebaseAuth.instance.currentUser?.uid;
+  }
+
+  Future<void> _updateBookingStatus(String bookingId, String newStatus) async {
+    await FirebaseFirestore.instance
+        .collection("bookings")
+        .doc(bookingId)
+        .update({"status": newStatus});
+  }
+
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        backgroundColor: Color.fromARGB(255, 237, 250, 244),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          title: Center(
-            child: Text(
-              "Booking Details",
-              style: TextStyle(
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 23,
-                  color: Color.fromARGB(255, 21, 101, 93),
-                  fontWeight: FontWeight.w500),
-            ),
-          ),
-        ),
-        body: Column(
-          children: [
-            TabBar(
-                labelColor: Color.fromARGB(255, 21, 101, 93),
-                indicatorColor: Color.fromARGB(255, 21, 101, 93),
-                tabs: [
-                  Tab(
-                    text: "Pending",
-                  ),
-                  Tab(
-                    text: "Approved",
-                  )
-                ]),
-            Expanded(
-              child: TabBarView(children: [
-                ListView.builder(
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      margin: EdgeInsets.all(15),
-                      child: Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Column(children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: AssetImage(
-                                      "asset/rb_859.png",
-                                    )),
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Ajay krishna'),
-                                    Text('calicut,\n+91786547211')
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          Divider(
-                            height: 30,
-                            color: Colors.grey[350],
-                          ),
-                          Row(children: [
-                            Expanded(
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    side: BorderSide(color: Colors.green)),
-                                onPressed: () {},
-                                child: Text(
-                                  'Accept',
-                                  style: TextStyle(color: Colors.green),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Expanded(
-                              child: OutlinedButton(
-                                style: OutlinedButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(5),
-                                    ),
-                                    side: BorderSide(color: Colors.red)),
-                                onPressed: () {},
-                                child: Text(
-                                  'Reject',
-                                  style: TextStyle(color: Colors.red),
-                                ),
-                              ),
-                            ),
-                          ])
-                        ]),
-                      ),
-                    );
-                  },
+    if (vendorId == null) {
+      return Scaffold(
+        appBar: AppBar(title: Text("Vendor Bookings")),
+        body: Center(child: Text("Please log in to view bookings.")),
+      );
+    }
+
+    return Scaffold(
+      appBar: AppBar(
+        title:
+            Text("Vendor Bookings", style: TextStyle(color: Colors.teal[800])),
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+      ),
+      body: StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection("bookings")
+            .where("vendorId", isEqualTo: vendorId)
+            .orderBy("timestamp", descending: true)
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            return Center(child: Text("No bookings yet."));
+          }
+
+          return ListView(
+            padding: EdgeInsets.only(top: 20, left: 15, right: 15),
+            children: snapshot.data!.docs.map((doc) {
+              var data = doc.data() as Map<String, dynamic>;
+              return Card(
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                
-                ListView.builder(
-                  itemCount: 10,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      color: Colors.white,
-                      margin: EdgeInsets.all(15),
-                      child: Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Column(children: [
+                color: const Color.fromARGB(255, 223, 255, 242),
+                margin: EdgeInsets.symmetric(vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    ListTile(
+                      title: Text(
+                        "${data["name"]}",
+                        style: TextStyle(
+                          color: Colors.teal[800],
+                          fontSize: 18,
+                        ),
+                      ),
+                      trailing: PopupMenuButton<String>(
+                        color: const Color.fromARGB(255, 223, 255, 242),
+                        onSelected: (String value) {
+                          _updateBookingStatus(doc.id, value);
+                        },
+                        itemBuilder: (BuildContext context) => [
+                          PopupMenuItem(
+                            value: "confirmed",
+                            child: Text(
+                              "Confirmed",
+                              style: TextStyle(
+                                color: Colors.teal[800],
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: "completed",
+                            child: Text(
+                              "Completed",
+                              style: TextStyle(
+                                color: Colors.teal[800],
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                          PopupMenuItem(
+                            value: "canceled",
+                            child: Text(
+                              "Canceled",
+                              style: TextStyle(
+                                color: Colors.red,
+                                fontSize: 15,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 15),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Expanded(
-                                child: CircleAvatar(
-                                    radius: 30,
-                                    backgroundImage: AssetImage(
-                                      "asset/rb_859.png",
-                                    )),
+                              Text(
+                                "Start Date ",
+                                style: TextStyle(
+                                  color: Colors.teal[800],
+                                  fontSize: 16,
+                                ),
                               ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Expanded(
-                                flex: 2,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text('Ajay krishna'),
-                                    Text('calicut,\n+91786547211')
-                                  ],
+                              Text(
+                                "End Date ",
+                                style: TextStyle(
+                                  color: Colors.teal[800],
+                                  fontSize: 16,
                                 ),
                               ),
                             ],
                           ),
-                        ]),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                data["startDate"],
+                                style: TextStyle(
+                                  color: Colors.teal[800],
+                                  fontSize: 15,
+                                ),
+                              ),
+                              Text(
+                                data["endDate"],
+                                style: TextStyle(
+                                  color: Colors.teal[800],
+                                  fontSize: 15,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Phone : ${data["phone"]}",
+                            style: TextStyle(
+                              color: Colors.teal[800],
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Address: ${data["address"]}",
+                            style: TextStyle(
+                              color: const Color.fromRGBO(0, 105, 92, 1),
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Status :  ${data["status"]}",
+                            style: TextStyle(
+                              color: Colors.teal[800],
+                              fontSize: 15,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                        ],
                       ),
-                    );
-                  },
-                )
-              ]),
-            )
-          ],
-        ),
+                    )
+                  ],
+                ),
+              );
+            }).toList(),
+          );
+        },
       ),
     );
   }

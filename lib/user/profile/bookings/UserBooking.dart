@@ -1,189 +1,232 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:wedweel/imageVendor.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:wedweel/user/bootomNavBar.dart';
 
-class Userbooking extends StatelessWidget {
-  String formatDate(DateTime date) {
-    final DateFormat formatter = DateFormat('dd - MM - yyyy');
-    return formatter.format(date);
+class UserBookingsScreen extends StatefulWidget {
+  final String userId;
+
+  const UserBookingsScreen({
+    Key? key,
+    required this.userId,
+  }) : super(key: key);
+
+  @override
+  _UserBookingsScreenState createState() => _UserBookingsScreenState();
+}
+
+class _UserBookingsScreenState extends State<UserBookingsScreen> {
+  List<Map<String, dynamic>> _bookings = [];
+  bool _isLoading = true;
+  String _errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserBookings();
   }
 
-  Widget listContainer({required String vendorname}) {
-    return Container(
-      height: 50,
-      margin: EdgeInsets.only(left: 10, right: 10, top: 20),
-      decoration: BoxDecoration(
-          color: Color.fromARGB(255, 249, 255, 251),
-          borderRadius: BorderRadius.circular(10)),
-      child: ListTile(
-        leading: Text(vendorname),
-        trailing: Text("View details"),
-      ),
-    );
+  Future<void> _fetchUserBookings() async {
+    try {
+      // Fetch all bookings for the user
+      QuerySnapshot bookingsSnapshot = await FirebaseFirestore.instance
+          .collection('bookings')
+          .where('userId', isEqualTo: widget.userId)
+          .get();
+
+      if (bookingsSnapshot.docs.isNotEmpty) {
+        // Fetch vendor details for each booking
+        List<Map<String, dynamic>> bookingsWithVendorDetails = [];
+        for (var bookingDoc in bookingsSnapshot.docs) {
+          Map<String, dynamic> bookingData =
+              bookingDoc.data() as Map<String, dynamic>;
+
+          // Fetch vendor details from the 'services' collection
+          QuerySnapshot vendorSnapshot = await FirebaseFirestore.instance
+              .collection('services')
+              .where('vendor_id', isEqualTo: bookingData['vendorId'])
+              .get();
+
+          if (vendorSnapshot.docs.isNotEmpty) {
+            Map<String, dynamic> vendorData =
+                vendorSnapshot.docs.first.data() as Map<String, dynamic>;
+
+            // Combine booking and vendor data
+            bookingsWithVendorDetails.add({
+              ...bookingData,
+              'vendorName': vendorData['name'],
+              'vendorImage': vendorData['image'],
+              'vendorLocation': vendorData['location'], // Fetch vendor location
+              'vendorPrice': vendorData['price'], // Fetch vendor price
+            });
+          } else {
+            // If vendor details are not found, add booking data without vendor details
+            bookingsWithVendorDetails.add({
+              ...bookingData,
+              'vendorName': 'Unknown Vendor',
+              'vendorImage': '',
+              'vendorLocation': 'N/A', // Default location
+              'vendorPrice': 'N/A', // Default price
+            });
+          }
+        }
+
+        setState(() {
+          _bookings = bookingsWithVendorDetails;
+          _isLoading = false;
+        });
+      } else {
+        setState(() {
+          _errorMessage = "No bookings found for this user.";
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = "Error fetching bookings: $e";
+        _isLoading = false;
+      });
+      print("Error: $e");
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    DateTime startDate = DateTime(2024, 12, 18);
-    DateTime endDate = DateTime(2025, 6, 1);
     return Scaffold(
       appBar: AppBar(
-        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.transparent,
-        centerTitle: true,
+        surfaceTintColor: Colors.transparent,
         title: Text(
-          'My Bookings',
-          style: TextStyle(
-            fontSize: 19,
-            fontFamily: 'Poppins-Medium',
-            fontWeight: FontWeight.w500,
-            color: Color.fromARGB(255, 21, 101, 93),
-          ),
+          "My Bookings",
+          style: TextStyle(color: Colors.teal[700]),
         ),
       ),
-      backgroundColor: Color.fromARGB(255, 237, 250, 244),
-      body: Container(
-        margin: EdgeInsets.only(left: 20, right: 10, top: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Wedding Date",
-              style: TextStyle(
-                fontFamily: 'Poppins-Medium',
-                fontWeight: FontWeight.w500,
-                color: Color.fromARGB(255, 21, 101, 93),
-                fontSize: 15,
-              ),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [Text("From "), Text("To")],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Container(
-                  height: 35,
-                  padding: EdgeInsets.only(left: 10, top: 10, right: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 249, 255, 251)),
-                  child: Text(
-                    formatDate(startDate),
-                    style: TextStyle(
-                        fontSize: 12, color: Color.fromARGB(255, 42, 35, 35)),
-                  ),
-                ),
-                Container(
-                  height: 35,
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Color.fromARGB(255, 249, 255, 251)),
-                  child: Text(
-                    formatDate(endDate),
-                    style: TextStyle(
-                        fontSize: 12,
-                        color: const Color.fromARGB(255, 42, 35, 35)),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-                margin: EdgeInsets.only(bottom: 20),
-                child: Text(
-                  "Wedding Venue",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: 'Poppins-Medium',
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(255, 21, 101, 93)),
-                )),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                    child: Container(
-                  margin: EdgeInsets.only(right: 10, left: 10),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      hall1,
-                      fit: BoxFit.cover,
-                      height: 95,
-                    ),
-                  ),
-                )),
-                Expanded(
-                    child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        height: 10,
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : _errorMessage.isNotEmpty
+              ? Center(child: Text(_errorMessage))
+              : ListView.builder(
+                  padding: EdgeInsets.all(16),
+                  itemCount: _bookings.length,
+                  itemBuilder: (context, index) {
+                    final booking = _bookings[index];
+                    return Card(
+                      color: const Color.fromARGB(255, 232, 255, 250),
+                      margin: EdgeInsets.only(bottom: 16),
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      Text("Grand Hall"),
-                      SizedBox(
-                        height: 5,
+                      child: Padding(
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Vendor Image and Name
+                            Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child: Image.network(
+                                    booking['vendorImage'] ?? '',
+                                    height: 80,
+                                    width: 80,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            Icon(Icons.broken_image, size: 80),
+                                  ),
+                                ),
+                                SizedBox(width: 20),
+                                Column(
+                                  children: [
+                                    Text(
+                                      booking['vendorName'] ?? 'Unknown Vendor',
+                                      style: TextStyle(
+                                        color: Colors.teal[700],
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.location_on,
+                                          color: Colors.teal[700],
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          booking['vendorLocation'] ?? 'N/A',
+                                          style: TextStyle(
+                                              color: Colors.teal[700]),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.attach_money,
+                                          color: Colors.teal[700],
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Text(
+                                          booking['vendorPrice'] ?? 'N/A',
+                                          style: TextStyle(
+                                              color: Colors.teal[700]),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16),
+                            // Booking Details
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  "startDate",
+                                  style: TextStyle(color: Colors.teal[700]),
+                                ),
+                                Text(
+                                  "endDate",
+                                  style: TextStyle(color: Colors.teal[700]),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 18),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  "${booking['startDate'] ?? 'N/A'}",
+                                  style: TextStyle(color: Colors.teal[700]),
+                                ),
+                                Text(
+                                  " ${booking['endDate'] ?? 'N/A'}",
+                                  style: TextStyle(color: Colors.teal[700]),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 8),
+
+                            Row(
+                              children: [],
+                            ),
+                          ],
+                        ),
                       ),
-                      Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: Color.fromARGB(255, 21, 101, 93),
-                            size: 15,
-                          ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text("calicut"),
-                        ],
-                      ),
-                    ],
-                  ),
-                ))
-              ],
-            ),
-            Container(
-                margin: EdgeInsets.only(
-                  top: 20,
+                    );
+                  },
                 ),
-                child: Text(
-                  "Vendors",
-                  style: TextStyle(
-                      fontSize: 15,
-                      fontFamily: 'Poppins-Medium',
-                      fontWeight: FontWeight.w500,
-                      color: Color.fromARGB(255, 21, 101, 93)),
-                )),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(right: 10, left: 10),
-                child: ListView(
-                  children: [
-                    listContainer(vendorname: "photography"),
-                    listContainer(vendorname: "Make Up"),
-                    listContainer(vendorname: "Flowers"),
-                    listContainer(vendorname: "food"),
-                    listContainer(vendorname: "Decoration"),
-                    listContainer(vendorname: "Cake")
-                  ],
-                ),
-              ),
-            )
-          ],
-        ),
-      ),
     );
   }
 }

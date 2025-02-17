@@ -33,7 +33,10 @@ class Userfirst extends StatelessWidget {
           stream: FirebaseFirestore.instance.collection('blog').snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator(
+                backgroundColor: Colors.teal,
+                color: Colors.tealAccent,
+              ));
             } else if (snapshot.hasError) {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {

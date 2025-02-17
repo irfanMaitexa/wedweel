@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:flutter_slidable/flutter_slidable.dart'; // Add this import
+import 'package:slide_to_act/slide_to_act.dart';
 import 'BookingConfirmationScreen.dart';
 
 class UserBookingScreen extends StatefulWidget {
@@ -147,6 +148,7 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
         "endDate": formattedEndDate,
         "address": addressController.text,
         "timestamp": FieldValue.serverTimestamp(),
+        "status": "pending",
       });
 
       String bookingId = bookingRef.id;
@@ -250,42 +252,32 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
             buildTextField(
                 label: "Address", controller: addressController, maxLines: 3),
             SizedBox(height: 30.h),
-            // Slide-to-Confirm using flutter_slidable
-            Slidable(
-              key: const ValueKey(0),
-              startActionPane: ActionPane(
-                motion: const DrawerMotion(),
-                dismissible: DismissiblePane(onDismissed: () {
-                  _openRazorpayCheckout(); // Trigger payment when dismissed
-                }),
-                children: [
-                  SlidableAction(
-                    onPressed: (context) {
-                      _openRazorpayCheckout(); // Trigger payment when action is pressed
-                    },
-                    backgroundColor: const Color.fromARGB(255, 90, 198, 151),
-                    foregroundColor: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    label: 'Pay',
-                  ),
-                ],
+            // Slide-to-Confirm using SlideAction
+            SlideAction(
+              onSubmit: () {
+                _openRazorpayCheckout(); // Trigger payment when slid
+              },
+              // height: 60,
+              sliderButtonIconPadding: 10,
+
+              sliderRotate: false,
+              borderRadius: 12,
+              sliderButtonIcon: Icon(
+                Icons.lock_open,
+                color: Colors.white,
+                size: 25,
               ),
-              child: Container(
-                height: 60,
-                decoration: BoxDecoration(
-                  color: Colors.greenAccent,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Center(
-                  child: Text(
-                    "Swipe to Confirm Payment",
-                    style: TextStyle(
-                      color: Colors.teal[800],
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
+              outerColor: Colors.teal[200],
+              innerColor: const Color.fromARGB(255, 10, 103, 92),
+              text: "Slide to pay      ",
+              textStyle: TextStyle(
+                fontSize: 18,
+                color: Colors.teal[900],
               ),
+              elevation: 0,
+
+              submittedIcon: Icon(Icons.check, color: Colors.white),
+              alignment: Alignment.centerRight,
             ),
           ],
         ),

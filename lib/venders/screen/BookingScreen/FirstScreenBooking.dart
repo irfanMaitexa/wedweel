@@ -50,7 +50,7 @@ class FirstScreenBooking extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Bookingvendor()));
+                    MaterialPageRoute(builder: (context) => VendorBookingScreen()));
               },
               child: screen(
                 name: "Booking",

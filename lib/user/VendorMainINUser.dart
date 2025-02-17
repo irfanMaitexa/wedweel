@@ -123,13 +123,16 @@ class Vendormaininuser extends StatelessWidget {
             margin: EdgeInsets.only(left: 10, right: 10, top: 10),
             height: 130.h,
             decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20)),
+                color: Colors.white, borderRadius: BorderRadius.circular(20)),
             child: FutureBuilder<Map<String, dynamic>>(
               future: getReviewData(vendorId), // Fetch review data
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return Center(
+                      child: CircularProgressIndicator(
+                    backgroundColor: Color.fromARGB(255, 113, 255, 161),
+                    color: Color.fromARGB(255, 210, 255, 225),
+                  ));
                 }
 
                 if (snapshot.hasError) {
