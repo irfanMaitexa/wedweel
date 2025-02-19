@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import 'package:flutter_slidable/flutter_slidable.dart'; // Add this import
 import 'package:slide_to_act/slide_to_act.dart';
 import 'BookingConfirmationScreen.dart';
 
@@ -68,8 +67,7 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
 
   void _handleExternalWallet(ExternalWalletResponse response) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text("External Wallet Selected: ${response.walletName}")),
+      SnackBar(content: Text("External Wallet Selected: ${response.walletName}")),
     );
   }
 
@@ -132,12 +130,42 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
       return;
     }
 
-    try {
-      String formattedStartDate =
-          "${_startDate!.year}-${_startDate!.month.toString().padLeft(2, '0')}-${_startDate!.day.toString().padLeft(2, '0')}";
-      String formattedEndDate =
-          "${_endDate!.year}-${_endDate!.month.toString().padLeft(2, '0')}-${_endDate!.day.toString().padLeft(2, '0')}";
+    // Format dates for comparison
+    String formattedStartDate =
+        "${_startDate!.year}-${_startDate!.month.toString().padLeft(2, '0')}-${_startDate!.day.toString().padLeft(2, '0')}";
+    String formattedEndDate =
+        "${_endDate!.year}-${_endDate!.month.toString().padLeft(2, '0')}-${_endDate!.day.toString().padLeft(2, '0')}";
 
+    // Check for overlapping bookings
+    try {
+      QuerySnapshot overlappingBookings = await FirebaseFirestore.instance
+          .collection("bookings")
+          .where("vendorId", isEqualTo: widget.vendorId)
+          .where("status", isEqualTo: "pending") // Only check pending bookings
+          .get();
+
+      bool isDateRangeAvailable = true;
+
+      for (var doc in overlappingBookings.docs) {
+        String existingStartDate = doc["startDate"];
+        String existingEndDate = doc["endDate"];
+
+        // Check if the selected date range overlaps with any existing booking
+        if ((formattedStartDate.compareTo(existingEndDate) <= 0 &&
+                formattedEndDate.compareTo(existingStartDate) >= 0)) {
+          isDateRangeAvailable = false;
+          break;
+        }
+      }
+
+      if (!isDateRangeAvailable) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Selected date range is already booked.")),
+        );
+        return;
+      }
+
+      // If the date range is available, proceed with booking
       DocumentReference bookingRef =
           await FirebaseFirestore.instance.collection("bookings").add({
         "vendorId": widget.vendorId,
@@ -257,9 +285,7 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
               onSubmit: () {
                 _openRazorpayCheckout(); // Trigger payment when slid
               },
-              // height: 60,
               sliderButtonIconPadding: 10,
-
               sliderRotate: false,
               borderRadius: 12,
               sliderButtonIcon: Icon(
@@ -275,7 +301,6 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
                 color: Colors.teal[900],
               ),
               elevation: 0,
-
               submittedIcon: Icon(Icons.check, color: Colors.white),
               alignment: Alignment.centerRight,
             ),
