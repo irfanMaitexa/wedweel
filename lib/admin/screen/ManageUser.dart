@@ -8,15 +8,13 @@ class Manageuser extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Center(
-          child: Text(
-            "Manage User",
-            style: TextStyle(
-                fontFamily: 'Poppins-Regular',
-                fontSize: 23,
-                color: Color.fromARGB(255, 21, 101, 93),
-                fontWeight: FontWeight.w500),
-          ),
+        title: Text(
+          "Manage User",
+          style: TextStyle(
+              fontFamily: 'Poppins-Regular',
+              fontSize: 23,
+              color: Color.fromARGB(255, 21, 101, 93),
+              fontWeight: FontWeight.w500),
         ),
       ),
       body: StreamBuilder<QuerySnapshot>(
@@ -35,7 +33,7 @@ class Manageuser extends StatelessWidget {
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
                   final String fullname = data[index]['fullName'];
-                  final String  email = data[index]['email'];
+                  final String email = data[index]['email'];
 
                   return Card(
                     shape: RoundedRectangleBorder(
@@ -68,8 +66,7 @@ class Manageuser extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              Text(
-                                email,
+                              Text(email,
                                   style: TextStyle(
                                       fontFamily: 'Poppins-Medium',
                                       fontSize: 18)),

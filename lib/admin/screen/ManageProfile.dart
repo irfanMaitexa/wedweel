@@ -21,6 +21,7 @@ class Manageprofile extends StatelessWidget {
           ),
           Center(
             child: CircleAvatar(
+              backgroundImage: AssetImage('asset/wedlogo.jpg'),
               radius: 55,
             ),
           ),
@@ -30,7 +31,7 @@ class Manageprofile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("Mufeeda",
+              Text("Admin",
                   style: TextStyle(
                       fontFamily: 'Poppins-Regular',
                       fontSize: 25,
@@ -56,6 +57,7 @@ class Manageprofile extends StatelessWidget {
             ],
           ),
           Card(
+              elevation: 3,
               color: Color.fromARGB(255, 238, 255, 247),
               margin: EdgeInsets.all(20),
               child: Padding(
@@ -81,56 +83,10 @@ class Manageprofile extends StatelessWidget {
                         ),
                         Spacer(),
                         Text(
-                          "aju@gmail.com",
+                          "admin@gmail.com",
                           style: TextStyle(
                             fontSize: 15,
                           ),
-                        )
-                      ],
-                    ),
-                    Divider(
-                      height: 38,
-                      color: Color.fromARGB(255, 137, 137, 137),
-                    ),
-                    Row(
-                      children: [
-                        Icon(Icons.phone),
-                        SizedBox(
-                          width: 7,
-                        ),
-                        Text(
-                          "Phone",
-                          style: TextStyle(
-                              fontFamily: 'Poppins-medium',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Spacer(),
-                        Text("+91 9876543213")
-                      ],
-                    ),
-                    Divider(
-                      height: 38,
-                      color: Color.fromARGB(255, 137, 137, 137),
-                    ),
-                    Row(
-                      children: [
-                        Icon(Icons.logout),
-                        SizedBox(
-                          width: 9,
-                        ),
-                        Text(
-                          "LogOut",
-                          style: TextStyle(
-                              fontFamily: 'Poppins-medium',
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500),
-                        ),
-                        Spacer(),
-                        Icon(
-                          Icons.arrow_right_sharp,
-                          size: 36,
-                          color: Color.fromARGB(255, 0, 0, 0),
                         )
                       ],
                     ),

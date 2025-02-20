@@ -21,26 +21,28 @@ class _UserProfileState extends State<UserProfile> {
   bool isLoading = false; // Loading state for logout
 
   // Helper function for consistent ListTile UI
-
-  Widget buttonaction({required String name}) {
+  Widget buttonaction({required String name, VoidCallback? onPressed}) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Text(
         name,
         style: TextStyle(color: Colors.teal[900]),
       ),
       style: ElevatedButton.styleFrom(
-          backgroundColor: const Color.fromARGB(255, 244, 255, 249),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(5),
-              side: BorderSide(color: Colors.greenAccent))),
+        backgroundColor: const Color.fromARGB(255, 244, 255, 249),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+          side: BorderSide(color: Colors.greenAccent),
+        ),
+      ),
     );
   }
 
-  Widget listContainer(
-      {required IconData iconleading,
-      required String name,
-      VoidCallback? onTap}) {
+  Widget listContainer({
+    required IconData iconleading,
+    required String name,
+    VoidCallback? onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: ListTile(
@@ -71,6 +73,7 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.transparent,
@@ -108,7 +111,7 @@ class _UserProfileState extends State<UserProfile> {
             final phone = data['phone'] ?? 'Phone Number';
             final address = data['address'] ?? 'Address';
             final image = data['image'];
-             final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
+            final userId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
             return Column(
               children: [
@@ -176,10 +179,8 @@ class _UserProfileState extends State<UserProfile> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => UserBookingsScreen(
-                              userId: userId,
-                              )
-
-                          ),
+                                    userId: userId,
+                                  )),
                         ),
                       ),
                     ],
@@ -200,14 +201,16 @@ class _UserProfileState extends State<UserProfile> {
                           iconleading: Icons.paid, name: 'Transactions'),
                       GestureDetector(
                         onTap: () {
-                          _showComplientDialog();
+                          _showComplientDialog(
+                              userId: userId, userName: data['fullName']);
                         },
                         child: listContainer(
                             iconleading: Icons.info, name: 'Complaints'),
                       ),
                       GestureDetector(
                         onTap: () {
-                          _showfeedbackDialog();
+                          _showfeedbackDialog(
+                              userId: userId, userName: data['fullName']);
                         },
                         child: listContainer(
                             iconleading: Icons.rate_review,
@@ -220,7 +223,6 @@ class _UserProfileState extends State<UserProfile> {
                 // Privacy and Logout
                 Container(
                   margin: const EdgeInsets.only(left: 20, right: 20, top: 12),
-                  // margin: const EdgeInsets.symmetric(horizontal: 20),
                   decoration: BoxDecoration(
                     color: const Color.fromARGB(255, 249, 255, 251),
                     borderRadius: BorderRadius.circular(20),
@@ -267,53 +269,116 @@ class _UserProfileState extends State<UserProfile> {
     );
   }
 
-  void _showComplientDialog() {
+  void _showComplientDialog(
+      {required String userId, required String userName}) {
+    final TextEditingController _complaintController = TextEditingController();
+
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: const Color.fromARGB(255, 225, 255, 237),
-            content: Container(
-              height: 120,
-              child: TextFormField(
-                  maxLines: 3,
-                  decoration: InputDecoration(
-                      labelText: "Give your Complient",
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.teal)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                              color: const Color.fromARGB(255, 14, 86, 0))))),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(255, 225, 255, 237),
+          content: Container(
+            height: 120,
+            child: TextFormField(
+              controller: _complaintController,
+              maxLines: 3,
+              decoration: InputDecoration(
+                labelText: "Give your Complaint",
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.teal),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide:
+                      BorderSide(color: const Color.fromARGB(255, 14, 86, 0)),
+                ),
+              ),
             ),
-            actions: [buttonaction(name: "cancel"), buttonaction(name: "Add")],
-          );
-        });
+          ),
+          actions: [
+            buttonaction(
+              name: "Cancel",
+              onPressed: () => Navigator.pop(context),
+            ),
+            buttonaction(
+              name: "Add",
+              onPressed: () async {
+                final complaint = _complaintController.text.trim();
+                if (complaint.isNotEmpty) {
+                  final user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    await FirebaseFirestore.instance
+                        .collection('complaints')
+                        .add({
+                      'userId': userId,
+                      'userName': userName,
+                      'complaint': complaint,
+                      'timestamp': FieldValue.serverTimestamp(),
+                    });
+                    Navigator.pop(context);
+                  }
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
-  void _showfeedbackDialog() {
+  void _showfeedbackDialog({required String userId, required String userName}) {
+    final TextEditingController _feedbackController = TextEditingController();
+
     showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            backgroundColor: const Color.fromARGB(255, 225, 255, 237),
-            content: Container(
-              height: 120,
-              child: TextFormField(
-                  maxLines: 4,
-                  decoration: InputDecoration(
-                      hintText: "give your feedback",
-                      enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.teal)),
-                      focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(
-                              color: const Color.fromARGB(255, 14, 86, 0))))),
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: const Color.fromARGB(255, 225, 255, 237),
+          content: Container(
+            height: 120,
+            child: TextFormField(
+              controller: _feedbackController,
+              maxLines: 4,
+              decoration: InputDecoration(
+                hintText: "Give your feedback",
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide: BorderSide(color: Colors.teal),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
+                  borderSide:
+                      BorderSide(color: const Color.fromARGB(255, 14, 86, 0)),
+                ),
+              ),
             ),
-            actions: [buttonaction(name: "Submit")],
-          );
-        });
+          ),
+          actions: [
+            buttonaction(
+              name: "Submit",
+              onPressed: () async {
+                final feedback = _feedbackController.text.trim();
+                if (feedback.isNotEmpty) {
+                  final user = FirebaseAuth.instance.currentUser;
+                  if (user != null) {
+                    await FirebaseFirestore.instance
+                        .collection('feedback')
+                        .add({
+                      'userId': userId ?? user.uid,
+                      'userName': userName ?? 'Anonymous',
+                      'feedback': feedback,
+                      'timestamp': FieldValue.serverTimestamp(),
+                    });
+                    Navigator.pop(context);
+                  }
+                }
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

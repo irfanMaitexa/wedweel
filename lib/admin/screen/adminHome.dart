@@ -56,7 +56,7 @@ class AdminHome extends StatelessWidget {
           mainAxisSpacing: 13,
           crossAxisSpacing: 14,
           childAspectRatio: .8,
-          padding: const EdgeInsets.all(12),
+          padding: const EdgeInsets.only(left: 15, right: 15, top: 30),
           children: [
             contain(
                 name: 'Manage Profile',
@@ -82,8 +82,10 @@ class AdminHome extends StatelessWidget {
             contain(
                 name: "View Review",
                 pagename: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Managereview()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => VendorReviewsPage()));
                 }),
             contain(
                 name: "Manage blogs",
@@ -99,7 +101,7 @@ class AdminHome extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => Managecompliant()));
+                          builder: (context) => AdminComplaintsPage()));
                 })
           ],
         ),

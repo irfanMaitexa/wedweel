@@ -22,8 +22,8 @@ void main() async {
           fontFamily: 'Poppins',
         ),
         home: 
-            Firstscreen(),
-      //  AdminHome(),
+           // Firstscreen(),
+        AdminHome(),
       ); 
     },
   )); 
