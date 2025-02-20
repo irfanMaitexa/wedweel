@@ -36,9 +36,10 @@ class _SearchPageState extends State<Searchpage> {
       try {
         final snapshot = await FirebaseFirestore.instance
             .collection('services')
+            .orderBy('name')
             .where('name', isGreaterThanOrEqualTo: query)
             .where('name', isLessThan: '$query\uf8ff')
-            .limit(5) // Get only a few suggestions
+            .limit(5)
             .get();
 
         setState(() {
@@ -69,13 +70,17 @@ class _SearchPageState extends State<Searchpage> {
     try {
       final snapshot = await FirebaseFirestore.instance
           .collection('services')
+          .orderBy('name')
           .where('name', isGreaterThanOrEqualTo: query)
           .where('name', isLessThan: '$query\uf8ff')
           .get();
 
       setState(() {
         _searchResults = snapshot.docs
-            .map((doc) => doc.data() as Map<String, dynamic>)
+            .map((doc) => {
+                  'id': doc.id, // Ensure ID is included
+                  ...doc.data(),
+                })
             .toList();
         _isLoading = false;
       });
@@ -131,7 +136,7 @@ class _SearchPageState extends State<Searchpage> {
               child: _isLoading
                   ? Center(child: CircularProgressIndicator())
                   : _searchResults.isEmpty
-                      ? Center(child: Text('Search for a vendor'))
+                      ? Center(child: Text('No vendors found'))
                       : ListView.builder(
                           itemCount: _searchResults.length,
                           itemBuilder: (context, index) {
@@ -139,10 +144,11 @@ class _SearchPageState extends State<Searchpage> {
                             final category =
                                 service['category'] ?? 'Unknown Category';
                             final guestcount =
-                                service['number_of_guests'] ?? 'N/A';
+                                service['number_of_guests']?.toString() ?? 'N/A';
 
                             return ListTile(
-                              leading: service['image'] != null
+                              leading: service['image'] != null &&
+                                      service['image'].isNotEmpty
                                   ? ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
                                       child: Image.network(
@@ -150,6 +156,10 @@ class _SearchPageState extends State<Searchpage> {
                                         width: 70.w,
                                         height: 70.h,
                                         fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                Icon(Icons.broken_image,
+                                                    size: 50.w),
                                       ),
                                     )
                                   : Icon(Icons.image, size: 50.w),
@@ -171,16 +181,14 @@ class _SearchPageState extends State<Searchpage> {
                                           ? guestcount
                                           : 'N/A',
                                       id: service['id'] ?? '',
-                                      isVenueVendor: category ==
-                                          'venue', // Pass whether it's a venue vendor
+                                      isVenueVendor: category == 'venue',
                                       location:
                                           service['location'] ?? 'No location',
                                       price: service['price'] ?? 0,
                                       vendordescription:
-                                          service['description'] ??
-                                              'No description',
+                                          service['description'] ?? '',
                                       vendorimage: service['image'] ?? '',
-                                      vendorname: service['name'] ?? 'No name',
+                                      vendorname: service['name'] ?? '',
                                       phonenumber:
                                           service['phone'] ?? 'No phone number',
                                     ),

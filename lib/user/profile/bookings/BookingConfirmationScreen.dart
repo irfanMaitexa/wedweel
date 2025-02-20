@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 import 'package:wedweel/user/bootomNavBar.dart';
 
 class BookingConfirmationScreen extends StatefulWidget {
   final String vendorId;
-  final String bookingId; // Added bookingId to fetch user details
+  final String bookingId;
 
   const BookingConfirmationScreen({
     Key? key,
     required this.vendorId,
-    required this.bookingId, // Requires bookingId for user details
+    required this.bookingId,
   }) : super(key: key);
 
   @override
@@ -37,7 +38,7 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
           .where('vendor_id', isEqualTo: widget.vendorId)
           .get();
 
-      // Fetch booking details (Assuming 'bookings' collection exists)
+      // Fetch booking details
       DocumentSnapshot bookingSnapshot = await FirebaseFirestore.instance
           .collection('bookings')
           .doc(widget.bookingId)
@@ -64,16 +65,25 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
     }
   }
 
+  // Function to format Firestore timestamps to readable dates
+  String formatDate(dynamic timestamp) {
+    if (timestamp is Timestamp) {
+      return DateFormat('dd - MM - yyyy').format(timestamp.toDate());
+    }
+    return "N/A";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          surfaceTintColor: Colors.transparent,
-          title: Text(
-            "Booking Confirmed",
-            style: TextStyle(color: Colors.teal[700]),
-          )),
+        backgroundColor: Colors.transparent,
+        surfaceTintColor: Colors.transparent,
+        title: Text(
+          "Booking Confirmed",
+          style: TextStyle(color: Colors.teal[700]),
+        ),
+      ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : _errorMessage.isNotEmpty
@@ -84,7 +94,6 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        height: 400,
                         padding: EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.white,
@@ -102,20 +111,21 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                             Text(
                               "Booking Details",
                               style: TextStyle(
-                                  color: Colors.teal[700],
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold),
+                                color: Colors.teal[700],
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             SizedBox(height: 10),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
-                                  "${bookingData?['startDate'] ?? 'N/A'}",
+                                  "Start Date: ${formatDate(bookingData?['startDate'])}",
                                   style: TextStyle(color: Colors.teal[700]),
                                 ),
                                 Text(
-                                  "${bookingData?['endDate'] ?? 'N/A'}",
+                                  "End Date: ${formatDate(bookingData?['endDate'])}",
                                   style: TextStyle(color: Colors.teal[700]),
                                 ),
                               ],
@@ -131,9 +141,10 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                                       Text(
                                         vendorData?['name'] ?? "Unknown Vendor",
                                         style: TextStyle(
-                                            color: Colors.teal[700],
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.bold),
+                                          color: Colors.teal[700],
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
                                       SizedBox(height: 50),
                                     ],
@@ -147,9 +158,8 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                                     height: 80,
                                     width: 80,
                                     fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            Icon(Icons.broken_image, size: 80),
+                                    errorBuilder: (context, error, stackTrace) =>
+                                        Icon(Icons.broken_image, size: 80),
                                   ),
                                 ),
                               ],
@@ -158,28 +168,32 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  decoration: BoxDecoration(
-                                    color: Colors.teal[300],
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      Text(
-                                        "Guests",
-                                        style: TextStyle(
+                                if (vendorData?['category'] == 'venue') ...[
+                                  Container(
+                                    padding: EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                      color: Colors.teal[300],
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                          "Guests",
+                                          style: TextStyle(
                                             fontWeight: FontWeight.bold,
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                          vendorData?['number_of_guests'] ??
+                                            color: Colors.white,
+                                          ),
+                                        ),
+                                        Text(
+                                          vendorData?['number_of_guests']
+                                                  ?.toString() ??
                                               'N/A',
-                                          style:
-                                              TextStyle(color: Colors.white)),
-                                    ],
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
+                                ],
                                 Container(
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
@@ -191,12 +205,15 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                                       Text(
                                         "Price",
                                         style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white),
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                      Text(vendorData?['price'] ?? 'N/A',
-                                          style:
-                                              TextStyle(color: Colors.white)),
+                                      Text(
+                                        vendorData?['price']?.toString() ??
+                                            'N/A',
+                                        style: TextStyle(color: Colors.white),
+                                      ),
                                     ],
                                   ),
                                 ),
@@ -217,21 +234,24 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                             ElevatedButton(
                               onPressed: () {
                                 Navigator.pushAndRemoveUntil(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BottomNavBar()),
-                                    (route) => false);
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BottomNavBar(),
+                                  ),
+                                  (route) => false,
+                                );
                               },
                               child: Text(
                                 "Book Again",
                                 style: TextStyle(color: Colors.teal[800]),
                               ),
                               style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6)),
-                                  backgroundColor:
-                                      const Color.fromARGB(255, 175, 255, 216)),
-                            )
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                backgroundColor: Color.fromARGB(255, 175, 255, 216),
+                              ),
+                            ),
                           ],
                         ),
                       ),

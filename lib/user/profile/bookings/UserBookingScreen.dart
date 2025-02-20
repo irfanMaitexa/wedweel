@@ -71,7 +71,16 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
     );
   }
 
-  void _openRazorpayCheckout() {
+  void _openRazorpayCheckout() async {
+    // Check if the date range is available before proceeding with payment
+    bool isDateRangeAvailable = await _checkDateRangeAvailability();
+    if (!isDateRangeAvailable) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Selected date range is already booked.")),
+      );
+      return;
+    }
+
     var options = {
       'key': 'rzp_test_a66YOERQYDJCVb', // Replace with your Razorpay API key
       'amount': 100 * 100, // Amount in paise (e.g., 100 INR = 10000 paise)
@@ -90,6 +99,46 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
     } catch (e) {
       debugPrint('Error: $e');
     }
+  }
+
+  Future<bool> _checkDateRangeAvailability() async {
+    if (_startDate == null || _endDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please select both start and end dates.")),
+      );
+      return false;
+    }
+
+    String formattedStartDate =
+        "${_startDate!.year}-${_startDate!.month.toString().padLeft(2, '0')}-${_startDate!.day.toString().padLeft(2, '0')}";
+    String formattedEndDate =
+        "${_endDate!.year}-${_endDate!.month.toString().padLeft(2, '0')}-${_endDate!.day.toString().padLeft(2, '0')}";
+
+    try {
+      QuerySnapshot overlappingBookings = await FirebaseFirestore.instance
+          .collection("bookings")
+          .where("vendorId", isEqualTo: widget.vendorId)
+          .where("status", isEqualTo: "pending") // Only check pending bookings
+          .get();
+
+      for (var doc in overlappingBookings.docs) {
+        String existingStartDate = doc["startDate"];
+        String existingEndDate = doc["endDate"];
+
+        // Check if the selected date range overlaps with any existing booking
+        if ((formattedStartDate.compareTo(existingEndDate) <= 0 &&
+                formattedEndDate.compareTo(existingStartDate) >= 0)) {
+          return false;
+        }
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Error checking date availability: $e")),
+      );
+      return false;
+    }
+
+    return true;
   }
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
