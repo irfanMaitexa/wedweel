@@ -7,6 +7,7 @@ import 'package:wedweel/user/profile/Wishlist/Wishlist.dart';
 import 'package:wedweel/user/profile/bookings/UserBooking.dart';
 import 'package:wedweel/user/profile/editProfile/EditUserProfile.dart';
 import 'package:wedweel/user/profile/privacyPolicy/PrivacyPolicyUser.dart';
+import 'package:wedweel/user/suii.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key, required this.logout});
@@ -197,8 +198,14 @@ class _UserProfileState extends State<UserProfile> {
                   ),
                   child: Column(
                     children: [
-                      listContainer(
-                          iconleading: Icons.paid, name: 'Transactions'),
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => AdminServicesPage()));
+                        },
+                        child: listContainer(
+                            iconleading: Icons.paid, name: 'Transactions'),
+                      ),
                       GestureDetector(
                         onTap: () {
                           _showComplientDialog(

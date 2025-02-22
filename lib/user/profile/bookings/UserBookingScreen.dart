@@ -127,7 +127,7 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
 
         // Check if the selected date range overlaps with any existing booking
         if ((formattedStartDate.compareTo(existingEndDate) <= 0 &&
-                formattedEndDate.compareTo(existingStartDate) >= 0)) {
+            formattedEndDate.compareTo(existingStartDate) >= 0)) {
           return false;
         }
       }
@@ -142,12 +142,66 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
   }
 
   Future<void> _selectDate(BuildContext context, bool isStartDate) async {
+    // Fetch all bookings for the vendor
+    QuerySnapshot bookings = await FirebaseFirestore.instance
+        .collection("bookings")
+        .where("vendorId", isEqualTo: widget.vendorId)
+        .where("status", isEqualTo: "pending")
+        .get();
+
+    // Extract booked dates
+    Set<DateTime> bookedDates = {};
+    for (var doc in bookings.docs) {
+      DateTime startDate = DateTime.parse(doc["startDate"]);
+      DateTime endDate = DateTime.parse(doc["endDate"]);
+      for (DateTime date = startDate;
+          date.isBefore(endDate) || date.isAtSameMomentAs(endDate);
+          date = date.add(Duration(days: 1))) {
+        bookedDates.add(date);
+      }
+    }
+
+    // Determine the initial date for the date picker
+    DateTime initialDate = DateTime.now();
+    if (isStartDate && _startDate != null && _isDateSelectable(_startDate!, bookedDates)) {
+      initialDate = _startDate!;
+    } else if (!isStartDate && _endDate != null && _isDateSelectable(_endDate!, bookedDates)) {
+      initialDate = _endDate!;
+    }
+
+    // Ensure the initial date is selectable
+    while (!_isDateSelectable(initialDate, bookedDates)) {
+      initialDate = initialDate.add(Duration(days: 1));
+    }
+
+    // Show date picker with selectableDayPredicate
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2000),
+      initialDate: initialDate,
+      firstDate: DateTime.now(),
       lastDate: DateTime(2101),
+      selectableDayPredicate: (DateTime date) {
+        // Disable dates that are already booked
+        return !bookedDates.any((bookedDate) =>
+            bookedDate.year == date.year &&
+            bookedDate.month == date.month &&
+            bookedDate.day == date.day);
+      },
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Colors.teal, // Header background color
+              onPrimary: Colors.white, // Header text color
+              onSurface: Colors.teal[800]!, // Body text color
+            ),
+            dialogBackgroundColor: Colors.white, // Background color of the dialog
+          ),
+          child: child!,
+        );
+      },
     );
+
     if (picked != null) {
       setState(() {
         if (isStartDate) {
@@ -157,6 +211,14 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
         }
       });
     }
+  }
+
+  // Helper method to check if a date is selectable
+  bool _isDateSelectable(DateTime date, Set<DateTime> bookedDates) {
+    return !bookedDates.any((bookedDate) =>
+        bookedDate.year == date.year &&
+        bookedDate.month == date.month &&
+        bookedDate.day == date.day);
   }
 
   Future<void> _submitBooking() async {
@@ -201,7 +263,7 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
 
         // Check if the selected date range overlaps with any existing booking
         if ((formattedStartDate.compareTo(existingEndDate) <= 0 &&
-                formattedEndDate.compareTo(existingStartDate) >= 0)) {
+            formattedEndDate.compareTo(existingStartDate) >= 0)) {
           isDateRangeAvailable = false;
           break;
         }
@@ -251,24 +313,86 @@ class _UserBookingScreenState extends State<UserBookingScreen> {
   }
 
   Widget buildDateButton({required String label, required bool isStartDate}) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.teal[200],
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
-      ),
-      onPressed: () => _selectDate(context, isStartDate),
-      child: Text(
-        isStartDate
-            ? (_startDate != null
-                ? "${_startDate!.toLocal()}".split(' ')[0]
-                : label)
-            : (_endDate != null
-                ? "${_endDate!.toLocal()}".split(' ')[0]
-                : label),
-        style: TextStyle(fontSize: 16, color: Colors.teal[700]),
-      ),
+    return FutureBuilder<bool>(
+      future: isStartDate
+          ? (_startDate != null ? _isDateAvailable(_startDate!) : Future.value(true))
+          : (_endDate != null ? _isDateAvailable(_endDate!) : Future.value(true)),
+      builder: (context, snapshot) {
+        // Show a loading button while checking availability
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return ElevatedButton(
+            onPressed: () => _selectDate(context, isStartDate),
+            child: Text(
+              isStartDate
+                  ? (_startDate != null
+                      ? "${_startDate!.toLocal()}".split(' ')[0]
+                      : label)
+                  : (_endDate != null
+                      ? "${_endDate!.toLocal()}".split(' ')[0]
+                      : label),
+              style: TextStyle(fontSize: 16, color: Colors.teal[700]),
+            ),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.teal[200],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(7),
+              ),
+            ),
+          );
+        }
+
+        // If the future is complete, check if the date is available
+        final isAvailable = snapshot.data ?? true;
+
+        return ElevatedButton(
+          onPressed: () => _selectDate(context, isStartDate),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                isStartDate
+                    ? (_startDate != null
+                        ? "${_startDate!.toLocal()}".split(' ')[0]
+                        : label)
+                    : (_endDate != null
+                        ? "${_endDate!.toLocal()}".split(' ')[0]
+                        : label),
+                style: TextStyle(fontSize: 16, color: Colors.teal[700]),
+              ),
+              if (!isAvailable)
+                Icon(Icons.close, color: Colors.red, size: 16),
+            ],
+          ),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.teal[200],
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(7),
+            ),
+          ),
+        );
+      },
     );
   }
+
+  Future<bool> _isDateAvailable(DateTime date) async {
+  QuerySnapshot bookings = await FirebaseFirestore.instance
+      .collection("bookings")
+      .where("vendorId", isEqualTo: widget.vendorId)
+      .where("status", isEqualTo: "pending")
+      .get();
+
+  for (var doc in bookings.docs) {
+    DateTime startDate = DateTime.parse(doc["startDate"]);
+    DateTime endDate = DateTime.parse(doc["endDate"]);
+
+    if (date.isAfter(startDate.subtract(Duration(days: 1))) &&
+        date.isBefore(endDate.add(Duration(days: 1)))) {
+      return false;
+    }
+  }
+  return true;
+}
+
 
   Widget buildTextField(
       {required String label,

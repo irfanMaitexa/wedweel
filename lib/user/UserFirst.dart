@@ -178,11 +178,8 @@ class Userfirst extends StatelessWidget {
                   ListTile(
                     leading: Text(
                       "Recent Events",
-                      style: TextStyle(fontSize: 18.sp),
-                    ),
-                    trailing: Text(
-                      "See All",
-                      style: TextStyle(fontSize: 16.sp),
+                      style:
+                          TextStyle(fontSize: 18.sp, color: Colors.teal[700]),
                     ),
                   ),
                   _buildRecentEvents(),
@@ -286,7 +283,6 @@ class Userfirst extends StatelessWidget {
           child: ListView.builder(
             itemCount: data.length,
             itemBuilder: (context, index) {
-              final blog = data[index];
               final blogname = data[index]['name'];
               final blogimage = data[index]['image'];
               final blogdate = data[index]['date'];

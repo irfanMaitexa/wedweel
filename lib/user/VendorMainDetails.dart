@@ -58,6 +58,17 @@ class Vendormaindetails extends StatelessWidget {
     };
   }
 
+  // Function to fetch booking data for the vendor
+  Future<List<Map<String, dynamic>>> getBookingData(String vendorId) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('bookings')
+        .where('vendorId', isEqualTo: vendorId)
+        .get();
+
+    final bookings = querySnapshot.docs.map((doc) => doc.data()).toList();
+    return bookings;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -232,17 +243,63 @@ class Vendormaindetails extends StatelessWidget {
                               // Review Tab
                               Reviewwidget(vendorId: id),
                               // Slot Tab
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 8, right: 8),
-                                child: ListView.builder(
-                                    itemCount: 5,
+                              FutureBuilder<List<Map<String, dynamic>>>(
+                                future: getBookingData(id),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
+                                  }
+
+                                  if (snapshot.hasError) {
+                                    return Center(
+                                        child: Text('Error: ${snapshot.error}'));
+                                  }
+
+                                  final bookings = snapshot.data ?? [];
+
+                                  // Create a list of all dates between start and end dates
+                                  final bookedDates = <DateTime>[];
+                                  for (final booking in bookings) {
+                                    final startDate =
+                                        DateTime.parse(booking['startDate']);
+                                    final endDate =
+                                        DateTime.parse(booking['endDate']);
+                                    for (var date = startDate;
+                                        date.isBefore(endDate) ||
+                                            date.isAtSameMomentAs(endDate);
+                                        date = date.add(Duration(days: 1))) {
+                                      bookedDates.add(date);
+                                    }
+                                  }
+
+                                  return ListView.builder(
+                                    itemCount: 30, // Display next 30 days
                                     itemBuilder: (context, index) {
+                                      final date = DateTime.now()
+                                          .add(Duration(days: index));
+                                      final isBooked = bookedDates.any(
+                                          (bookedDate) =>
+                                              bookedDate.year == date.year &&
+                                              bookedDate.month == date.month &&
+                                              bookedDate.day == date.day);
+
                                       return ListTile(
-                                        title: Text("date"),
-                                        subtitle: Text("time"),
+                                        title: Text(
+                                            "${date.day}/${date.month}/${date.year}"),
+                                        subtitle: Text(
+                                            isBooked ? "Booked" : "Available"),
+                                        trailing: Icon(
+                                          isBooked ? Icons.close : Icons.check,
+                                          color: isBooked
+                                              ? Colors.red
+                                              : Colors.green,
+                                        ),
                                       );
-                                    }),
+                                    },
+                                  );
+                                },
                               ),
                             ],
                           ),

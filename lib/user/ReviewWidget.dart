@@ -153,7 +153,11 @@ class _ReviewDialogState extends State<ReviewDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text("Add Review"),
+      backgroundColor: const Color.fromARGB(255, 244, 255, 253),
+      title: Text(
+        "Add Review",
+        style: TextStyle(color: Colors.teal[800]),
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -181,9 +185,19 @@ class _ReviewDialogState extends State<ReviewDialog> {
           TextField(
             controller: _reviewController,
             decoration: InputDecoration(
-              hintText: "Write your review...",
-              border: OutlineInputBorder(),
-            ),
+                hintText: "Write your review...",
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: Colors.teal,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: Colors.tealAccent,
+                  ),
+                )),
             maxLines: 3,
           ),
         ],
@@ -193,11 +207,21 @@ class _ReviewDialogState extends State<ReviewDialog> {
           onPressed: () {
             Navigator.of(context).pop(); // Close the dialog
           },
-          child: Text("Cancel"),
+          child: Text(
+            "Cancel",
+            style: TextStyle(
+              color: Colors.red,
+            ),
+          ),
         ),
         TextButton(
           onPressed: _saveReview,
-          child: Text("Submit"),
+          child: Text(
+            "Submit",
+            style: TextStyle(
+              color: Colors.teal[700],
+            ),
+          ),
         ),
       ],
     );
