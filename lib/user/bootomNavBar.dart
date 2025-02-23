@@ -20,7 +20,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
   // List of screens for the bottom navigation bar
   List<Widget> _buildScreens() {
     return [
-      Userfirst(check: true),
+      Userfirst(check: true,),
       Vendoritemsuser(),
       TodosHome(),
       UserProfile(logout: _handleLogout),

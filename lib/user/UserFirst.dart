@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/user/SearchPage.dart';
@@ -30,12 +31,18 @@ class Userfirst extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get the current user
+    final User? user = FirebaseAuth.instance.currentUser;
+    final String userId =
+        user?.uid ?? ''; // Get the user ID or an empty string if null
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Color.fromARGB(255, 237, 250, 244),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('bookings')
+              .where('userId', isEqualTo: userId) // Filter by current user's ID
               .where('status', whereIn: ['pending', 'confirmed'])
               .orderBy('startDate', descending: true) // Fetch latest booking
               .limit(1)
@@ -137,7 +144,6 @@ class Userfirst extends StatelessWidget {
                               color: Color.fromARGB(255, 21, 101, 93),
                             ),
                           ),
-                          // SizedBox(height: 20.h),
                           Padding(
                             padding: const EdgeInsets.only(
                                 right: 15, top: 15, bottom: 15),
@@ -146,7 +152,6 @@ class Userfirst extends StatelessWidget {
                               style: TextStyle(fontSize: 14.sp),
                             ),
                           ),
-                          // SizedBox(height: 25.h),
                           Container(
                             width: 150.w,
                             height: 35.h,
@@ -310,7 +315,9 @@ class Userfirst extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 7.h),
-                          Text(blogname, style: TextStyle(fontSize: 13.sp)),
+                          Text(blogname,
+                              style: TextStyle(
+                                  fontSize: 13.sp, color: Colors.teal[700])),
                           SizedBox(height: 5.h),
                           Text(blogdate, style: TextStyle(fontSize: 11.sp)),
                           SizedBox(height: 11.h),

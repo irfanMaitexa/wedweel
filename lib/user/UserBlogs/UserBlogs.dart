@@ -81,6 +81,7 @@ class Userblogs extends StatelessWidget {
                         style: TextStyle(
                           fontFamily: 'Poppins-Medium',
                           fontSize: 15.sp,
+                          color: Color.fromARGB(255, 21, 101, 93),
                         ),
                       ),
                     ],

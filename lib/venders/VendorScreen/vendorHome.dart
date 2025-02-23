@@ -103,7 +103,7 @@ class VendorHome extends StatelessWidget {
                               Text(
                                 name,
                                 style: TextStyle(
-                                  color: Color.fromARGB(255, 141, 247, 237),
+                                  color: Color.fromARGB(255, 47, 173, 161),
                                   fontSize: 19,
                                   fontFamily: 'Poppins-Bold',
                                   fontWeight: FontWeight.w900,
