@@ -1,12 +1,7 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:wedweel/config.dart';
-import 'package:wedweel/main.dart';
-import 'package:wedweel/user/loginmain.dart/loginpage.dart';
-import 'package:wedweel/user/servicesuser/AuthUserServices.dart';
 import 'package:wedweel/venders/screen/LoginVendor.dart';
 import 'package:wedweel/venders/screen/SignUpsecondPage.dart';
 
@@ -43,8 +38,6 @@ class _LayerThree extends State<Layer3signupvendor> {
   TextEditingController fullname = TextEditingController();
   bool isload = false;
   Widget build(BuildContext context) {
-    bool isChecked = false;
-
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -59,6 +52,7 @@ class _LayerThree extends State<Layer3signupvendor> {
                 child: Text(
                   'Fullname',
                   style: TextStyle(
+                      color: Color.fromARGB(255, 1, 108, 95),
                       fontFamily: 'Poppins-Medium',
                       fontSize: 24,
                       fontWeight: FontWeight.w500),
@@ -72,7 +66,14 @@ class _LayerThree extends State<Layer3signupvendor> {
                     child: TextField(
                       controller: fullname,
                       decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 1, 108, 95)),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 1, 108, 95)),
+                        ),
                         hintText: 'Enter Fullname',
                         hintStyle: TextStyle(color: hintText),
                       ),
@@ -86,7 +87,8 @@ class _LayerThree extends State<Layer3signupvendor> {
                   style: TextStyle(
                       fontFamily: 'Poppins-Medium',
                       fontSize: 24,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w500,
+                      color: Color.fromARGB(255, 1, 108, 95)),
                 ),
               ),
               Positioned(
@@ -100,7 +102,14 @@ class _LayerThree extends State<Layer3signupvendor> {
                         return validateEmail(value!);
                       },
                       decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 1, 108, 95)),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 1, 108, 95)),
+                        ),
                         hintText: 'Enter Email',
                         hintStyle: TextStyle(color: hintText),
                       ),
@@ -114,6 +123,7 @@ class _LayerThree extends State<Layer3signupvendor> {
                   style: TextStyle(
                       fontFamily: 'Poppins-Medium',
                       fontSize: 24,
+                      color: Color.fromARGB(255, 1, 108, 95),
                       fontWeight: FontWeight.w500),
                 ),
               ),
@@ -128,7 +138,14 @@ class _LayerThree extends State<Layer3signupvendor> {
                         return validatePassword(value!);
                       },
                       decoration: InputDecoration(
-                        border: UnderlineInputBorder(),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 1, 108, 95)),
+                        ),
+                        enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(
+                              color: const Color.fromARGB(255, 1, 108, 95)),
+                        ),
                         hintText: 'Enter Password',
                         hintStyle: TextStyle(color: hintText),
                       ),

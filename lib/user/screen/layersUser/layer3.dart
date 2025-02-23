@@ -7,7 +7,6 @@ import 'package:wedweel/config.dart';
 import 'package:wedweel/user/bootomNavBar.dart';
 import 'package:wedweel/user/loginmain.dart/signuppage.dart';
 import 'package:wedweel/user/screen/forgetpassword/ForgotPasswordScreen.dart';
-import 'package:wedweel/venders/VendorScreen/vendorHome.dart';
 
 class LayerThree extends StatefulWidget {
   LayerThree({super.key});
@@ -89,6 +88,7 @@ class _LayerThree extends State<LayerThree> {
                 child: Text(
                   'Username',
                   style: TextStyle(
+                    color: Colors.teal[700],
                     fontFamily: 'Poppins-Medium',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w500,
@@ -104,7 +104,14 @@ class _LayerThree extends State<LayerThree> {
                     controller: email,
                     validator: (value) => validateEmail(value!),
                     decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 1, 108, 95)),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 2, 104, 92)),
+                      ),
                       hintText: 'Enter User ID or Email',
                       hintStyle: TextStyle(color: hintText),
                     ),
@@ -117,6 +124,7 @@ class _LayerThree extends State<LayerThree> {
                 child: Text(
                   'Password',
                   style: TextStyle(
+                    color: Colors.teal[700],
                     fontFamily: 'Poppins-Medium',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w500,
@@ -143,7 +151,14 @@ class _LayerThree extends State<LayerThree> {
                           });
                         },
                       ),
-                      border: UnderlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 1, 108, 95)),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 2, 104, 92)),
+                      ),
                       hintText: 'Enter Password',
                       hintStyle: TextStyle(color: hintText),
                     ),
@@ -157,7 +172,8 @@ class _LayerThree extends State<LayerThree> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ForgotPasswordScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => ForgotPasswordScreen()),
                     );
                   },
                   child: Text(
@@ -185,7 +201,8 @@ class _LayerThree extends State<LayerThree> {
                           isChecked = value!;
                         });
                         if (isChecked) {
-                          await saveCredentials(email.text.trim(), password.text.trim());
+                          await saveCredentials(
+                              email.text.trim(), password.text.trim());
                         } else {
                           await clearCredentials();
                         }
@@ -391,4 +408,4 @@ Future<void> _checkVerificationStatus(
       },
     );
   }
-}  
+}

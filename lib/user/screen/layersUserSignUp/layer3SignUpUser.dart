@@ -38,8 +38,6 @@ class _LayerThree extends State<Layer3signupuser> {
 
   @override
   Widget build(BuildContext context) {
-    bool isChecked = false;
-
     return SafeArea(
       child: Form(
         key: _formKey,
@@ -54,6 +52,7 @@ class _LayerThree extends State<Layer3signupuser> {
                 child: Text(
                   'Email',
                   style: TextStyle(
+                    color: Colors.teal[700],
                     fontFamily: 'Poppins-Medium',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w500,
@@ -69,7 +68,14 @@ class _LayerThree extends State<Layer3signupuser> {
                     controller: email,
                     validator: (value) => validateEmail(value!),
                     decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 1, 108, 95)),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 0, 121, 107)),
+                      ),
                       hintText: 'Enter your Email',
                       hintStyle: TextStyle(color: hintText),
                     ),
@@ -82,6 +88,7 @@ class _LayerThree extends State<Layer3signupuser> {
                 child: Text(
                   'Password',
                   style: TextStyle(
+                    color: Colors.teal[700],
                     fontFamily: 'Poppins-Medium',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w500,
@@ -108,7 +115,14 @@ class _LayerThree extends State<Layer3signupuser> {
                           });
                         },
                       ),
-                      border: UnderlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 1, 108, 95)),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 0, 121, 107)),
+                      ),
                       hintText: 'Enter Password',
                       hintStyle: TextStyle(color: hintText),
                     ),
@@ -121,6 +135,7 @@ class _LayerThree extends State<Layer3signupuser> {
                 child: Text(
                   'Fullname',
                   style: TextStyle(
+                    color: Colors.teal[700],
                     fontFamily: 'Poppins-Medium',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w500,
@@ -135,7 +150,14 @@ class _LayerThree extends State<Layer3signupuser> {
                   child: TextFormField(
                     controller: fullName,
                     decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 1, 108, 95)),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 0, 121, 107)),
+                      ),
                       hintText: 'Enter your full name',
                       hintStyle: TextStyle(color: hintText),
                     ),
@@ -374,4 +396,4 @@ class _LayerThree extends State<Layer3signupuser> {
       );
     }
   }
-} 
+}

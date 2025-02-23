@@ -144,7 +144,8 @@ class _SearchPageState extends State<Searchpage> {
                             final category =
                                 service['category'] ?? 'Unknown Category';
                             final guestcount =
-                                service['number_of_guests']?.toString() ?? 'N/A';
+                                service['number_of_guests']?.toString() ??
+                                    'N/A';
 
                             return ListTile(
                               leading: service['image'] != null &&
@@ -180,7 +181,7 @@ class _SearchPageState extends State<Searchpage> {
                                       guestnumber: category == 'venue'
                                           ? guestcount
                                           : 'N/A',
-                                      id: service['id'] ?? '',
+                                      id: service['vendor_id'] ?? '',
                                       isVenueVendor: category == 'venue',
                                       location:
                                           service['location'] ?? 'No location',

@@ -65,7 +65,7 @@ class Makeupvendor extends StatelessWidget {
                               MaterialPageRoute(
                                 builder: (context) => Makeupdetails(
                                   isvenuevendor: isVenueVendor,
-                                  vendorid: documents[index].id,
+                                  vendorid: data['vendor_id'],
                                   number: data['phone'] ?? 'No Phone',
                                   name: data['name'] ?? 'No Name',
                                   vendorlocation: data['location'] ?? 'No Location',

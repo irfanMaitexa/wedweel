@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedweel/user/Transaction.dart';
 
 import 'package:wedweel/user/profile/Wishlist/Wishlist.dart';
 import 'package:wedweel/user/profile/bookings/UserBooking.dart';
 import 'package:wedweel/user/profile/editProfile/EditUserProfile.dart';
 import 'package:wedweel/user/profile/privacyPolicy/PrivacyPolicyUser.dart';
-import 'package:wedweel/user/suii.dart';
 
 class UserProfile extends StatefulWidget {
   const UserProfile({super.key, required this.logout});
@@ -56,7 +56,8 @@ class _UserProfileState extends State<UserProfile> {
           ),
           child: Icon(iconleading, size: 20),
         ),
-        title: Text(name),
+        title: Text(name,
+            style: const TextStyle(color: Color.fromARGB(255, 2, 118, 104))),
         trailing: Container(
           height: 30.h,
           width: 30.w,
@@ -97,11 +98,17 @@ class _UserProfileState extends State<UserProfile> {
               .snapshots(),
           builder: (context, snapshot) {
             if (isLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator(
+                color: Color.fromARGB(255, 54, 219, 142),
+                backgroundColor: Color.fromARGB(255, 89, 243, 207),
+              ));
             }
 
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator(
+                color: Color.fromARGB(255, 54, 219, 142),
+                backgroundColor: Color.fromARGB(255, 89, 243, 207),
+              ));
             } else if (snapshot.hasError) {
               return const Center(child: Text('Something went wrong'));
             } else if (!snapshot.hasData || !snapshot.data!.exists) {
@@ -199,9 +206,11 @@ class _UserProfileState extends State<UserProfile> {
                   child: Column(
                     children: [
                       GestureDetector(
-                        onTap: (){
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (context) => AdminServicesPage()));
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => TransactionScreen()));
                         },
                         child: listContainer(
                             iconleading: Icons.paid, name: 'Transactions'),
@@ -373,8 +382,8 @@ class _UserProfileState extends State<UserProfile> {
                     await FirebaseFirestore.instance
                         .collection('feedback')
                         .add({
-                      'userId': userId ?? user.uid,
-                      'userName': userName ?? 'Anonymous',
+                      'userId': userId,
+                      'userName': userName,
                       'feedback': feedback,
                       'timestamp': FieldValue.serverTimestamp(),
                     });

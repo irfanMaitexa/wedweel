@@ -103,6 +103,7 @@ class VendorHome extends StatelessWidget {
                               Text(
                                 name,
                                 style: TextStyle(
+                                  color: Color.fromARGB(255, 141, 247, 237),
                                   fontSize: 19,
                                   fontFamily: 'Poppins-Bold',
                                   fontWeight: FontWeight.w900,
@@ -137,11 +138,8 @@ class VendorHome extends StatelessWidget {
                             "Bookings",
                             FirstScreenBooking(),
                           ),
-                          buildCard(
-                            context,
-                            "asset/5348778.jpg",
-                            "Review",
-                            VendorReviewsPage() ),
+                          buildCard(context, "asset/5348778.jpg", "Review",
+                              VendorReviewsPage()),
                           buildCard(context, "asset/blog.jpg", "Blog",
                               Viewblogvendor()),
                           GestureDetector(

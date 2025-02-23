@@ -232,26 +232,24 @@ class _BookingConfirmationScreenState extends State<BookingConfirmationScreen> {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => BottomNavBar(),
-                                  ),
-                                  (route) => false,
-                                );
-                              },
-                              child: Text(
-                                "Book Again",
-                                style: TextStyle(color: Colors.teal[800]),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                backgroundColor: Color.fromARGB(255, 175, 255, 216),
-                              ),
-                            ),
+  onPressed: () {
+    // Pop all routes until the BottomNavBar is reached
+    Navigator.popUntil(context, (route) {
+      // Check if the current route is the BottomNavBar
+      return route.isFirst; // This ensures we go back to the first route (home screen)
+    });
+  },
+  child: Text(
+    "Book Again",
+    style: TextStyle(color: Colors.teal[800]),
+  ),
+  style: ElevatedButton.styleFrom(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(6),
+    ),
+    backgroundColor: Color.fromARGB(255, 175, 255, 216),
+  ),
+),
                           ],
                         ),
                       ),

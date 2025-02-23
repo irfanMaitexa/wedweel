@@ -54,6 +54,7 @@ class _LayerThree extends State<LayerThreeVendor> {
                 child: Text(
                   'Username',
                   style: TextStyle(
+                    color: Color.fromARGB(255, 1, 108, 95),
                     fontFamily: 'Poppins-Medium',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w500,
@@ -69,7 +70,14 @@ class _LayerThree extends State<LayerThreeVendor> {
                     controller: email,
                     validator: (value) => validateEmail(value!),
                     decoration: InputDecoration(
-                      border: UnderlineInputBorder(),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 2, 117, 103)),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 2, 117, 103)),
+                      ),
                       hintText: 'Enter Vendor ID or Email',
                       hintStyle: TextStyle(color: hintText),
                     ),
@@ -85,6 +93,7 @@ class _LayerThree extends State<LayerThreeVendor> {
                     fontFamily: 'Poppins-Medium',
                     fontSize: 24.sp,
                     fontWeight: FontWeight.w500,
+                    color: Color.fromARGB(255, 1, 108, 95),
                   ),
                 ),
               ),
@@ -108,7 +117,14 @@ class _LayerThree extends State<LayerThreeVendor> {
                           });
                         },
                       ),
-                      border: UnderlineInputBorder(),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 2, 117, 103)),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                            color: const Color.fromARGB(255, 2, 117, 103)),
+                      ),
                       hintText: 'Enter Password',
                       hintStyle: TextStyle(color: hintText),
                     ),

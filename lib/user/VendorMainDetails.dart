@@ -13,7 +13,7 @@ class Vendormaindetails extends StatelessWidget {
   final bool isVenueVendor;
   final String guestnumber;
   final String phonenumber;
-  final String id;
+  final String id; // vendorId
 
   Vendormaindetails({
     required this.id,
@@ -75,7 +75,7 @@ class Vendormaindetails extends StatelessWidget {
       length: 3, // Number of tabs
       child: Scaffold(
         body: FutureBuilder<Map<String, dynamic>>(
-          future: getReviewData(id), // Fetch review data
+          future: getReviewData(id), // Fetch review data using vendorId
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -222,12 +222,13 @@ class Vendormaindetails extends StatelessWidget {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   UserBookingScreen(
-                                                    vendorId: id,
+                                                    vendorId:
+                                                        id, // Pass vendorId
                                                   )));
                                     },
                                     child: Text(
                                       "Book Now",
-                                      style: TextStyle(color: Colors.black),
+                                      style: TextStyle(color: Colors.teal[700]),
                                     ),
                                     style: ElevatedButton.styleFrom(
                                         backgroundColor:
@@ -241,10 +242,11 @@ class Vendormaindetails extends StatelessWidget {
                                 ],
                               ),
                               // Review Tab
-                              Reviewwidget(vendorId: id),
+                              Reviewwidget(vendorId: id), // Pass vendorId
                               // Slot Tab
                               FutureBuilder<List<Map<String, dynamic>>>(
-                                future: getBookingData(id),
+                                future: getBookingData(
+                                    id), // Fetch bookings using vendorId
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
@@ -254,7 +256,8 @@ class Vendormaindetails extends StatelessWidget {
 
                                   if (snapshot.hasError) {
                                     return Center(
-                                        child: Text('Error: ${snapshot.error}'));
+                                        child:
+                                            Text('Error: ${snapshot.error}'));
                                   }
 
                                   final bookings = snapshot.data ?? [];
@@ -287,9 +290,17 @@ class Vendormaindetails extends StatelessWidget {
 
                                       return ListTile(
                                         title: Text(
-                                            "${date.day}/${date.month}/${date.year}"),
+                                            "${date.day}/${date.month}/${date.year}",
+                                            style: TextStyle(
+                                              color: Colors.teal[700],
+                                            )),
                                         subtitle: Text(
-                                            isBooked ? "Booked" : "Available"),
+                                            isBooked ? "Booked" : "Available",
+                                            style: TextStyle(
+                                              color: isBooked
+                                                  ? Colors.red
+                                                  : Colors.green,
+                                            )),
                                         trailing: Icon(
                                           isBooked ? Icons.close : Icons.check,
                                           color: isBooked

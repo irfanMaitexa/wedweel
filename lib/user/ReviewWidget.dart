@@ -27,7 +27,11 @@ class _ReviewwidgetState extends State<Reviewwidget> {
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                    child: CircularProgressIndicator(
+                  color: Color.fromARGB(255, 54, 219, 142),
+                  backgroundColor: const Color.fromARGB(255, 139, 255, 228),
+                ));
               }
 
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
@@ -49,12 +53,18 @@ class _ReviewwidgetState extends State<Reviewwidget> {
                             style: TextStyle(color: Colors.teal[700]),
                           ), // First letter of username
                         ),
-                        title: Text(review['username']), // Display username
+                        title: Text(
+                          review['username'],
+                          style: TextStyle(color: Colors.teal[800]),
+                        ), // Display username
                         subtitle: Text("Rating: ${review['rating']}"),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 16, right: 16),
-                        child: Text(review['review']),
+                        child: Text(
+                          review['review'],
+                          style: TextStyle(color: Colors.teal[700]),
+                        ),
                       ),
                       Divider(
                         height: 20.h,

@@ -34,7 +34,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
       await FirebaseAuth.instance.signOut();
 
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      ;
+      
       await prefs.remove('email');
       await prefs.remove('password');
 
