@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart'; // Import Firebase Auth
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:wedweel/custom_package_recomentation.dart';
 import 'package:wedweel/user/SearchPage.dart';
 import 'package:wedweel/user/UserBlogs/UserBlogs.dart';
 import 'package:intl/intl.dart';
@@ -152,24 +153,34 @@ class Userfirst extends StatelessWidget {
                               style: TextStyle(fontSize: 14.sp),
                             ),
                           ),
-                          Container(
-                            width: 150.w,
-                            height: 35.h,
-                            decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 21, 101, 93),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20.r),
-                                bottomRight: Radius.circular(20.r),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BestServiceScreen(),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              width: 150.w,
+                              height: 35.h,
+                              decoration: BoxDecoration(
+                                color: Color.fromARGB(255, 21, 101, 93),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20.r),
+                                  bottomRight: Radius.circular(20.r),
+                                ),
                               ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Custom Package',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16.sp,
-                                  fontFamily: 'Poppins-Medium',
-                                  fontWeight: FontWeight.w400,
+                              child: Center(
+                                child: Text(
+                                  'Custom Package',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.sp,
+                                    fontFamily: 'Poppins-Medium',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ),
